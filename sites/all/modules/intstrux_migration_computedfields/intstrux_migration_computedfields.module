@@ -1,0 +1,275 @@
+<?php
+
+/**
+ * init hook
+ */
+function intstrux_migration_computedfields_init() {
+}
+
+
+/*
+ * Implementation of hook_permission().
+ */
+function intstrux_migration_computedfields_permission() {
+  return array(
+  	
+  	'intstrux_migration_computedfields_admin' => array(
+      'title' => t('intstrux migration computed fields'),
+    ),
+    
+  );
+}
+
+function computed_field_field_mag_count_all_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
+	$entity_field[0]['value'] = count($entity->field_article["und"]);
+}
+
+function computed_field_field_mag_count_all_display($field, $entity_field_item, $entity_lang, $langcode) {
+	$display = $entity_field_item['value'];
+}
+
+function computed_field_field_mag_count_html_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
+		
+	$html = array();
+	
+	for($i=0; $i < count($entity->field_article); $i++){
+			
+			$subnode = node_load($entity->field_article["und"][$i]['nid']);	
+	
+		if($subnode->field_page_type["und"][0]['value'] =="page_html"){
+
+			$subnode = node_load($subnode->field_reference_html["und"][0]['nid']);
+
+			if(!empty($subnode->field_article_title["und"][0]['value'])){
+				
+				$html[] = $subnode;
+			}
+
+		}	
+
+	} 
+	
+	$entity_field[0]['value'] = count($html);
+}
+
+function computed_field_field_mag_count_html_display($field, $entity_field_item, $entity_lang, $langcode){
+	$display = $entity_field_item['value'];
+}
+
+function computed_field_field_magazine_downloadsize_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items){
+		
+	$size = 0;
+	
+	if(!empty($entity->field_image_portrait["und"][0])){
+		$size += $entity->field_image_portrait["und"][0]["filesize"];
+	}
+
+	for($i=0; $i < count($entity->field_article); $i++){
+		$subnode = node_load($entity->field_article["und"][$i]["nid"]);
+	
+		$size += $subnode->field_article_downloadsize["und"][0]["value"];
+	}
+
+	drupal_set_message("Size Calculated for Magazine: ".(round($size/(1024*1024)*10)/10)." MB  [".$size." Bytes]");
+	
+	$entity_field[0]['value'] = $size;
+
+}
+
+function computed_field_field_magazine_downloadsize_display($field, $entity_field_item, $entity_lang, $langcode) {
+	$display = (round($entity_field_item['value']/(1024*1024)*10)/10)." MB  [".$entity_field_item['value']." Bytes]";
+}
+
+function computed_field_field_article_downloadsize_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items){
+
+	$size = 0;
+
+if(!empty($entity->field_thumbnail["und"][0])){
+		$size += $entity->field_thumbnail["und"][0]["filesize"];
+}
+
+	for($i=0; $i < count($entity->feld_page_type["und"][0]); $i++){
+
+		if($entity->feld_page_type["und"][0]["value"] == "page_image"){
+		
+			if(!empty($entity->field_image_portrait["und"][$i])){
+				$size += $entity->field_image_portrait["und"][$i]["filesize"];
+			}
+			if(!empty($entity->field_image_horizontal["und"][$i])){
+				$size += $entity->field_image_horizontal["und"][$i]["filesize"];
+			}
+		
+		
+		}
+		
+		
+		else if($entity->feld_page_type["und"][$i]["value"] == "page_html"){
+			$subnode = node_load($entity->field_reference_html["und"][$i]["nid"]);
+	
+			$size += $subnode->field_htmlpage_downloadsize["und"][0]["value"];
+		}
+		
+		
+		else if($entity->field_page_type["und"][$i]["value"] == "page_interactive_html"){
+		
+			/*
+			$subnode = node_load($entity->field_reference_int_html[$i]["nid"]);
+	
+			$size += $subnode->field_int_html_downloadsize[0]["value"];
+			*/
+		}
+		else if($entity->field_page_type["und"][$i]["value"] == "page_interactive"){
+		
+			$subnode = node_load($entity->field_reference_interactive["und"][$i]["nid"]);
+	
+			$size += $subnode->field_interactive_downloadsize["und"][0]["value"];
+		
+		}
+		else if($entity->field_page_type["und"][$i]["value"] == "page_video"){
+		
+			$subnode = node_load($entity->field_reference_video["und"][$i]["nid"]);
+	
+			$size += $subnode->field_videopage_downloadsize["und"][0]["value"];
+		
+		}
+		else if($entity->field_page_type["und"][$i]["value"] == "page_mutablevideo"){
+			$subnode = node_load($entity->field_reference_mutablevideo["und"][$i]["nid"]);
+	
+			$size += $subnode->field_mvideo_downloadsize["und"][0]["value"];
+		}
+	
+	}
+	
+	
+	drupal_set_message("Size Calculated for Article: ".$size);
+	
+	$entity_field[0]['value'] = $size;
+}
+
+function computed_field_field_article_downloadsize_display($field, $entity_field_item, $entity_lang, $langcode){
+	$display = $entity_field['value'];
+}
+
+function computed_field_field_htmlpage_downloadsize_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items){
+	$size = 0;
+
+	drupal_set_message("Size Calculated for HTML Page: ".$size);
+	
+	$entity_field[0]['value'] = $size;
+}
+
+function computed_field_field_htmlpage_downloadsize_display($field, $entity_field_item, $entity_lang, $langcode){
+	$display = $entity_field_item['value'];
+}
+
+function computed_field_field_videoasset_downloadsize_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items){
+	$size = 0;
+
+	//Add video only if offline
+	/*if($entity->field_video_isremote["und"][0]["value"] == 0)
+		$size += $entity->field_video_localvideo["und"][0]["filesize"];*/
+	
+	//$size += $entity->field_video_thumbimage['und'][0]['filesize'];
+	
+	
+	drupal_set_message("Size Calculated for Video Asset: ".$size);
+	
+	$entity_field[0]['value'] = $size;
+}
+
+function computed_field_field_videoasset_downloadsize_display($field, $entity_field_item, $entity_lang, $langcode){
+	$display = $entity_field_item['value'];
+}
+
+function computed_field_field_asset_search_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items){
+	$entity_field[0]['value'] = 
+	$entity->field_video_speaker[0]['value']." 
+	".$entity->field_video_title[0]['value'];
+	//$entity->field_audio_title["und"][0]['value'];
+	//$display = $entity_field_item['value'];
+	//$entity->content['body']['#value']." 
+	//$entity->nodewords['keywords']['value'];
+}
+
+function computed_field_field_asset_search_display($field, $entity_field_item, $entity_lang, $langcode){
+	$display = $entity_field_item['value'];
+}
+
+function computed_field_field_videopage_downloadsize_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
+	$size = 0;
+
+	//Add video only if offline
+	if(!empty($entity->field_reference_videopageasset["und"][0])){
+		$subnode = node_load($entity->field_reference_videopageasset["und"][0]["nid"]);
+	
+		$size += $subnode->field_videoasset_downloadsize["und"][0]["value"];
+	}
+	
+	if(!empty($entity->field_image_portrait["und"][0])){
+		$size += $entity->field_image_portrait["und"][0]["filesize"];
+	}
+	
+	if(!empty($entity->field_image_horizontal["und"][0])){
+		$size += $entity->field_image_horizontal["und"][0]["filesize"];
+	}
+	
+	if(!empty($entity->field_videofile["und"][0])){
+		$size += $entity->field_videofile["und"][0]["filesize"];
+	}
+	
+	
+	drupal_set_message("Size Calculated for Video Page: ".$size);
+	
+	$entity_field[0]['value'] = $size;
+	
+}
+
+function computed_field_field_videopage_downloadsize_display($field, $entity_field_item, $entity_lang, $langcode){
+	$display = $entity_field_item['value'];	
+}
+
+function computed_field_field_mvideo_downloadsize_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items){
+	$size = 0;
+
+	//Add videos only if offline
+	for($i=0; $i < count($entity->field_reference_videoasset); $i++){
+		$subnode = node_load($entity->field_reference_videoasset["und"][$i]["nid"]);
+	
+		$size += $subnode->field_videoasset_downloadsize["und"][0]["value"];
+	}
+	
+	if(!empty($entity->field_mutablevideo_bgimage["und"][0])){
+		$size += $entity->field_mutablevideo_bgimage["und"][0]["filesize"];
+	}
+	
+	if(!empty($entity->field_mutablevideo_bgimage["und"][0])){
+		$size += $entity->field_mutablevideo_bgimage["und"][0]["filesize"];
+	}
+	
+	
+	
+	drupal_set_message("Size Calculated for Mutable Video Page: ".$size);
+	
+	$entity_field[0]['value'] = $size;
+}
+
+function computed_field_field_mvideo_downloadsize_display($field, $entity_field_item, $entity_lang, $langcode){
+	$display = $entity_field_item['value'];		
+}
+
+function computed_field_field_reflection_downloadsize_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items){
+	$size = 0;
+	
+	if(!empty($entity->field_reflection_image["und"][0])){
+		$size += $entity->field_reflection_image["und"][0]["filesize"];
+	}
+	
+	
+	drupal_set_message("Size Calculated for Reflection: ".$size);
+	
+	$entity_field[0]['value'] = $size;
+}
+
+function omputed_field_field_reflection_downloadsize_display($field, $entity_field_item, $entity_lang, $langcode){
+	$display = $entity_field_item['value'];	
+}

@@ -1,0 +1,598 @@
+<?php
+
+
+/**
+ * init hook
+ */
+function intstrux_solr_support_init() {
+}
+
+
+/*
+ * Implementation of hook_permission().
+ */
+function intstrux_solr_support_permission() {
+  return array(
+  	
+  	'intstrux_solr_support_admin' => array(
+      'title' => t('Migrate the content to conform to SOLR'),
+    ),
+    
+  );
+}
+
+/*
+ * Implementation of hook_menu().
+ */
+function intstrux_solr_support_menu() {
+  $items = array();
+  
+  $items['admin/migrate/solr'] = array(
+    'title' => 'Make content SOLR conform', 
+    'page callback' => 'drupal_get_form',
+    'page arguments' =>  array('intstrux_solr_support_form'), 
+    'access arguments' => array('intstrux_solr_support'), 
+    'weight' => 10, 
+  );
+  
+  return $items;
+}
+
+
+function intstrux_solr_support_form() {
+  $form = array();
+  
+  $form['description'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p>' . t('Correct Titles') . '</p>',
+  );
+
+  $form['actions'] = array(
+    '#type' => 'actions'
+  );
+  
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Go'),
+  );
+  
+  return $form;
+}
+
+
+function intstrux_solr_support_form_submit($form, &$form_state) {
+
+  $batch = array(
+    'title' => t('Updating content'),
+    'operations' => array(
+      array('intstrux_solr_support_nodes_batch_start', array()),
+    ),
+    'finished' => 'intstrux_solr_support_batch_finish',
+    'init_message' => t('updating content is starting.'),
+    'error_message' => t('updating content has encountered an error.'),
+    'progress_message' => t('Percentage: @percentage% | Estimate: @estimate | Elapsed: @elapsed')
+  );
+
+  batch_set($batch);
+}
+
+
+
+function _intstrux_solr_support_truncate($string, $length, $stopanywhere=false) {
+    //truncates a string to a certain char length, stopping on a word if not specified otherwise.
+    if (strlen($string) > $length) {
+        //limit hit!
+        $string = substr($string,0,($length -3));
+        if ($stopanywhere) {
+            //stop anywhere
+            $string .= '...';
+        } else{
+            //stop on a word.
+            $string = substr($string,0,strrpos($string,' ')).'...';
+        }
+    }
+    return $string;
+}
+
+
+function intstrux_solr_support_nodes_batch_start(&$context){
+	
+	if (empty($context['sandbox'])) {
+    	$context['sandbox'] = array();
+    	$context['sandbox']['progress'] = 0;
+    	$context['sandbox']['current_pos'] = 0;
+    	
+		$context['sandbox']['max'] = db_select('node')
+		->fields('nid')
+		->condition('type', array('page_html', 'asset_video'), 'IN')
+		->orderBy('nid', 'ASC')
+		->countQuery()->execute()->fetchField();
+		
+  	}
+	
+	$results = db_select('node', 'n')
+		->fields('n', array("nid"))
+		->condition('type', array('page_html', 'asset_video'), 'IN')
+		->orderBy('n.nid', 'ASC')
+		->range($context['sandbox']['current_pos'] , 2)
+		->execute();
+	
+	while ($result = $results->fetchAssoc()) {
+		$context['message'] = "Now processing: ".check_plain($result['nid']);
+		$context['sandbox']['progress']++;
+		
+		$node = node_load($result['nid']);
+		$lang = $node->language;
+		
+		$updated = FALSE;
+		
+		switch($node->type){
+			
+			case "page_html": 
+				
+				
+				if(!empty($node->field_article_title[$lang][0]['value'])){
+				
+					if($node->title != $node->field_article_title[$lang][0]['value']){
+						
+						$node->field_admin_title = array('und' => array(array('value' => $node->title)));
+					
+						$node->title = _intstrux_solr_support_truncate($node->field_article_title[$lang][0]['value'], 255);
+						
+						$updated = TRUE;
+					}
+					
+				}
+				else{
+					drupal_set_message("Warning: Article ".$node->nid." has no article title");
+				}			
+								
+				break;
+			
+			case "asset_video": 
+				
+				
+				if(!empty($node->field_video_title[$lang][0]['value'])){
+				
+					if($node->title != $node->field_video_title[$lang][0]['value']){
+						
+						$node->field_admin_title = array('und' => array(array('value' => $node->title)));
+					
+						$node->title = _intstrux_solr_support_truncate($node->field_video_title[$lang][0]['value'], 255);
+						
+						$updated = TRUE;
+					}
+					
+				}
+				else{
+					drupal_set_message("Warning: Video Asset ".$node->nid." has no real title");
+				}			
+								
+				break;
+				
+				
+				
+			
+		}
+		
+		if($updated)
+			node_save($node);
+		
+	}
+	
+	
+	
+	$context['sandbox']['current_pos'] += 2;
+	
+  
+	// Inform the batch engine that we are not finished,
+  	// and provide an estimation of the completion level we reached.
+  	if ($context['sandbox']['progress'] < $context['sandbox']['max']) {
+    	$context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  	}
+
+}
+
+function  intstrux_solr_support_batch_finish($success, $results, $operations) {
+	  if ($success) {
+	    drupal_set_message(t('Update these nodes: !updated', array('!updated' => print_r ($results, true))));
+	  } else {
+	    $error_operation = reset($operations);
+	    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
+	  }
+}
+
+
+
+function intstrux_solr_support_apachesolr_index_document_build(ApacheSolrDocument
+ $document, $entity, $entity_type, $env_id) {
+ 	
+ 	$lang = LANGUAGE_NONE;
+
+
+ 	if (in_array($entity->type, array("article"))) {
+
+ 		$fulltext = $entity->field_article_full[$lang][0]['value'];
+
+ 		$document->addField('ts_fulltext', $fulltext);	
+ 	}
+
+
+ 	if (in_array($entity->type, array("article", "page_html", "asset_video", "asset_image"))) {
+
+ 		$unified_sorting_date = $entity->field_unified_sorting_date[$lang][0]['value'];
+
+ 		//drupal_set_message($unified_sorting_date);
+
+ 		$document->addField('is_unified_sorting_date', $unified_sorting_date);	
+ 	}
+	
+	if ($entity->type == 'asset_video') {
+		//drupal_set_message("Custom Video Fields added!");
+		$speaker = $entity->field_video_speaker[$lang][0]['value'];
+		$abstract = $entity->body[$lang][0]['value']; 
+		$meeting_weight = taxonomy_term_load($entity->taxonomy_vocabulary_5[$lang][0]['tid']);
+		$bcid = !empty($entity->field_bcexport[$lang][0]['video_id']) ? $entity->field_bcexport[$lang][0]['video_id'] : 0;
+
+		if(empty($meeting_weight)){
+			$document->addField('is_bc_meeting_weight', 1000);
+		}else if($meeting_weight == 0){
+			$document->addField('is_bc_meeting_weight', 1);		
+		}else{
+			$document->addField('is_bc_meeting_weight', ($meeting_weight->weight)+1);
+		}
+
+		$document->addField('ss_bc_speaker', $speaker);
+		$document->addField('ss_bc_abstract', $abstract);
+		$document->addField('is_bc_id', $bcid);
+	}
+}
+
+function intstrux_solr_support_views_post_execute(&$view) {
+  if($view->name == "view_cancerportal_videohub"){
+  	drupal_static_reset('apachesolr_static_response_cache');
+  }
+}
+
+function intstrux_solr_support_block_info() {    
+  $blocks['video_asset_solr_search'] = array(
+    'info' => t('Video Asset Solr Search'),
+  );
+
+   $blocks['video_asset_solr_meeting'] = array(
+    'info' => t('Video Asset Solr Meeting Dropdown'),
+  );
+
+   $blocks['video_asset_solr_category'] = array(
+    'info' => t('Video Asset Solr Category Dropdown'),
+  );
+
+   $blocks['solr_related'] = array(
+    'info' => t('Related SOLR enteties'),
+  );
+
+  return $blocks;
+}
+
+function intstrux_solr_support_block_view($delta = '') {
+	$block = array();
+	  switch ($delta) {
+	    case 'video_asset_solr_search':
+	      $block['subject'] = '';
+	      $block['content'] = intstrux_solr_support_video_asset_solr_search();
+	      break;
+	    case 'video_asset_solr_meeting':
+	      $block['subject'] = '';
+	      $block['content'] = intstrux_solr_support_video_asset_solr_dropdown("meetings");
+	      break;
+	    case 'video_asset_solr_category':
+	      $block['subject'] = '';
+	      $block['content'] = intstrux_solr_support_video_asset_solr_dropdown("category");
+	      break;
+	    case 'solr_related':
+	      
+	      	if (($node = menu_get_object()) && (!arg(2) || arg(2) == 'view')) {
+
+
+		      	$docs = intstrux_solr_support_related($node);
+
+		      	$block['subject'] = '';
+	          	$block['content'] = array(
+	            	'#theme' => 'intstrux_solr_support_related_block',
+	            	'#docs' => $docs,
+	            	'#delta' => $delta
+	          );
+      		}
+
+	      break;
+	  }
+	  return $block;
+}
+
+function intstrux_solr_support_video_asset_solr_search() {
+  $output = '<script>
+
+			function submitSearch(criteria){
+				window.location.href = "/videohub-page/"+criteria+"/bundle/asset_video"
+				return false;
+			}
+
+			</script>
+
+			<form class="search-form" id="search-form" accept-charset="UTF-8" onSubmit="return submitSearch(this.searchcriteria.value)">
+				<input type="text" class="form-text" value="" id="edit-keys-header" name="searchcriteria" maxlength="255"/>
+				<input id="edit-submit" class="form-submit" type="submit" value="Search" />
+			</form>';
+  return $output;
+}
+
+function intstrux_solr_support_video_asset_solr_dropdown($criteria) {
+	$taxonomy = views_get_view_result('view_cancerportal_videohub_' . $criteria . '_taxonomy');
+
+	$options = "";
+	 
+	foreach($taxonomy as $value){
+		$label = $value->taxonomy_term_data_name;
+		$link = '/videohub-page/' . strtolower(preg_replace("/[\s_:,]/", "-", $label));
+		$options .= '<option value="'.$link.'">'.$label.'</option>';
+	}
+
+	if($criteria=="meetings"){
+		$output ='<div id="meeting-list-title">Meeting</div>
+			  <form>
+			  <select name="meeting" onchange="window.location.href=this.value">
+			  <option value="" disabled="disabled" selected="selected">--Choose--</option>'. $options .'</select></form>';	
+	}else{
+		$output ='<div id="category-list-title">Category</div>
+			  <form>
+			  <select name="category" onchange="window.location.href=this.value">
+			  <option value="" disabled="disabled" selected="selected">--Choose--</option>'. $options .'</select></form>';
+	}
+	return $output;
+}
+
+function intstrux_solr_support_apachesolr_query_alter($query) {
+	$query->addParam('fl', 'bundle');
+	$query->addParam('fl', 'bundle_name');
+	$query->addParam('fl', 'im_vid_7');
+	$query->addParam('fl', 'im_vid_10');
+	$query->addParam('fl', 'im_vid_11');
+	$query->addParam('fl', 'im_vid_12');
+	$query->addParam('fl', 'im_vid_13');
+	$query->addParam('fl', 'im_vid_15');
+	$query->addParam('fl', 'im_vid_22');
+	$query->addParam('fl', 'ss_bc_speaker');
+	$query->addParam('fl', 'ss_bc_abstract');
+	$query->addParam('fl', 'sm_vid_Meetings');
+	$query->addParam('fl', 'is_bc_id');
+	$query->addParam('fl', 'is_unified_sorting_date');
+
+	$query->addParam('qf', 'ts_fulltext^20');
+
+
+	//Default Edition
+	$edition = "US";
+
+	//User is stored in Session
+	if(isset($_SESSION['SOLR_USER'])){
+
+		$solruser = $_SESSION['SOLR_USER'];
+
+		//OLD USER v.5.0.0
+		if(!isset($solruser->e)){
+			$eu_edtion_array = array("AL", //Albania
+							"AD", //Andorra
+							"AT", //austria
+							"BY", //belarus
+							"BE", //belgium
+							"BA", //Bosnia
+							"BG", //Bulgaria
+							"HR", //Croatia
+							"CY", //Cyprus
+							"CZ", //Czeck REp
+							"DK", //denmark
+							"EE", //Estonia
+							"FO", //Faroe Island
+							"FI", //finland
+							"FR", //France
+							"DE", //Germany
+							"GI", //Gibraltar
+							"GR", //greece
+							"GL", //Greenland
+							"HU", //Hungary
+							"IS", //icleand
+							"IE", //Ireland
+							"IM", //isle of man
+							"IT", //italy
+							"KZ", //Kazakhstan
+							"LV", //Lativia
+							"LI", //lichtenstein
+							"LT", //Lithuania
+							"LU", //luxemburg
+							"MK", //Macedonia
+							"MT", //Malta
+							"MD", //Moldova
+							"MC", //Monaco
+							"ME", //Montenegro
+							"NL", //netherlands
+							"NO", //Norway
+							"PL", //poland
+							"PT", //portugal
+							"RO", //Romania
+							"RU", //Russia
+							"SM", //San Marino
+							"RS", //Serbia
+							"SK", //Slovakia
+							"SI", //Slovenia
+							"ES", //Spain
+							"SE", //sweden
+							"CH", //switzerland
+							"TR", //Turkey
+							"UA", //Ukrain
+							"GB", //united Kingdom
+							"VA" //Vatican
+							);
+
+				$zh_edtion_array = array(	"CN", //China
+											"TW" //Taiwan;
+											);
+
+				//default
+				$edition = "US";
+
+				if(in_array($user->c, $eu_edtion_array))
+					$edition = "EU";
+				else if(in_array($user->c, $zh_edtion_array))
+					$edition = "ZH";
+			}
+			else{
+				$edition = $solruser->e;
+			}
+
+	}
+	
+	$editionsterm = taxonomy_get_term_by_name($edition, "editions");
+
+	$editionsterm = array_pop($editionsterm);
+
+
+	$query->addFilter("im_vid_16", $editionsterm->tid);
+
+}
+
+
+function intstrux_solr_support_facet_items_alter(&$build, &$settings) {
+	//print print_r($build, true);
+
+    if ($settings->facet == "bundle") {
+
+    	
+    	$build["article"]["#markup"] = "Article";
+    	//$build["page_html"]["#markup"] = "Article";
+    }
+}
+
+//RELATED - replacment for MLT -------------------------------------------
+
+function intstrux_solr_support_related($node, $rows=15){
+	
+
+	//Statically caching this function in case its called twice in one function call
+   	$ret = &drupal_static(__FUNCTION__);
+   
+	if (!isset($ret)) {
+    	if ($cache = cache_get('intstrux_solr_support_related_'.$node->nid.'_'.$rows)) {
+      		$ret = $cache->data;
+    	}
+    	else {
+      		
+    		$ret = array();
+
+			//print $node->nid;
+
+			//Search by Keywords
+			if(!empty($node->field_keywords[$node->language][0]['tid'])){
+				
+				try {
+					//Get all keywords and OR connect them
+					$tax = "(";
+				    $label = "(";
+					foreach ($node->field_keywords[$node->language] as $key => $value) {
+						$tax .= $tax == "(" ? "im_field_keywords:".$value['tid'] : " OR im_field_keywords:".$value['tid'];
+
+						$term = taxonomy_term_load($value['tid']);
+						$label .= $label == "(" ? "label:\"".$term->name."\"~50" : " OR label:\"".$term->name."\"~50";
+					}
+					$tax .= ")^50";
+				    $label .= ")";
+
+
+					$q = "( ".$tax." OR ".$label.") AND is_unified_sorting_date:[".(time()-(60*60*24*365*3))." TO ".time()."] AND NOT entity_id:".$node->nid."";
+
+					//Only get the past 3 years, not the current node, only the defined bundle types
+					$fq = "bundle:(article* OR page_html* OR asset_video* OR challenging_case* OR perspective*)";
+
+					//The fields to be returned
+					$fl = "label, path, entity_id, entity_type, bundle, score, im_field_keywords, is_unified_sorting_date";
+
+					//Sort by Scrore, then by date...
+					//TODO: would it be better to boost the time instead?
+					$sort = "is_unified_sorting_date desc";
+
+					$query = apachesolr_drupal_query("related_keywords", array("rows"=>$rows, "q"=>$q, "fq"=>$fq, "fl"=>$fl), $sort);
+				
+					//Page is always 0
+					$query->page= 0;
+					
+					//print("q: {$q} fq: {$fq} fl: {$fl} sort:{$sort}");
+
+					
+					// This hook allows modules to modify the query object.
+				    drupal_alter('apachesolr_query', $query);
+				    if ($query->abort_search) {
+				      return NULL;
+				    }
+
+				    //perform the search
+				    $response = $query->search();
+
+
+				    if (isset($response->response->docs)) {
+				      $ret = (array) $response->response->docs;
+
+				      //print print_r($ret, true);
+				    }
+				    else{
+				      //print ("NO RESULT!");
+				    }
+				}
+				catch (Exception $e) {
+				    watchdog('Apache Solr (RELATED)', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
+				}
+
+			}//end of: Search by Keywords;
+
+			//3 hours cache lifetime for this function 
+      		cache_set('intstrux_solr_support_related_'.$node->nid.'_'.$rows, $ret, 'cache', 60*60*3);
+    	}
+  	}
+
+	
+
+	return $ret;
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function intstrux_solr_support_theme() {
+  return array(
+    /**
+     * Shows a list of results (docs) in content related block
+     */
+    'intstrux_solr_support_related_block' => array(
+      'variables' => array('docs' => NULL, 'delta' => NULL),
+    ),
+  );
+}
+
+function theme_intstrux_solr_support_related_block($vars) {
+  $docs = $vars['docs'];
+  
+  if(!empty($docs)){
+	  $links = array();
+	  foreach ($docs as $result) {
+	    // Suitable for single-site mode. Label is already safe.
+	    $links[] = l($result->label." [".$result->score."]", $result->path, array('html' => TRUE));
+	  }
+	  $links = array(
+	    '#theme' => 'item_list',
+	    '#items' => $links,
+	  );
+	  return render($links);
+	}
+	else{
+		return "No related articles found";
+	}
+}

@@ -1,0 +1,738 @@
+//MODULES
+
+// TABLE OF CONTENTS ----------------
+//
+//	HEADER
+//	  -NAVBAR
+//
+//-----------------------------------
+
+
+////////////////////////
+//      @HEADER      // 
+//////////////////////
+
+// @NAVBAR
+//-----------------
+
+#block-menu-menu-pcm-main-menu
+{
+	ul
+	{
+		padding:0;
+	}
+
+	li
+	{
+		display:inline-block;
+		list-style-type: none;
+		margin:0;
+		padding:0;
+		height: 50px;
+		
+		
+		a
+		{
+			display:block;
+			height: 15px;
+			padding: 10px 25px 10px 25px;
+
+			text-transform:uppercase;
+			color: white;
+			@include single-text-shadow;
+
+			border-right:1px solid $purpleDark;
+			
+			-webkit-transition: all 0.3s ease-in-out;
+			-moz-transition: all 0.3s ease-in-out;
+			-o-transition: all 0.3s ease-in-out;
+			transition: all 0.3s ease-in-out;
+		}
+
+		a:hover
+		{
+			@include background-image(linear-gradient(top, $purpleHighlightLight 0%,$purpleHighlightLight 50%,$purpleHighlightDark 51%,$purpleHighlightDark 100%));
+          	text-decoration: none;
+		}
+	}
+}
+
+//@BREADCRUMBS
+//------------
+
+.breadcrumb a
+{
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	color: $gray;
+	opacity: 0.5;
+}
+
+.breadcrumb a:hover
+{
+	@include background-image(none);
+	background-color: $grayLighter;
+	color: #6f6f6f;
+	text-decoration:none;
+}
+
+//@LOGO  
+//-----
+
+#logo
+{
+	margin-left: 20px;
+}
+
+.spr-logo-sanofi
+{
+	display: block;
+	height: $logo-sanofi-height;
+	width: $logo-sanofi-width;
+}
+
+.spr-onc-logo
+{
+	display: block;
+	height: $onc-logo-height;
+	width: $onc-logo-width;
+}
+
+  
+#mainLogo
+{
+	display: inline;
+	float: left;
+	margin-left:10px;
+}
+
+#sponsoredLogo
+{
+	display: inline;
+	float: left;
+	margin-left: 100px;
+	margin-top:18px;	
+
+}
+
+
+// @SEARCH  
+//--------
+
+// Default input styling common for all
+
+input[type='text'], 
+{
+  vertical-align: middle;
+  width: 100%;
+  border: 1px solid $purpleDark;
+  padding: 5px;
+  @include border-radius;
+
+   @include background-image(linear-gradient(top, $purpleHighlightLighter 0%,$purpleHighlightLighter 50%,$purpleHighlightLightest 51%,$purpleHighlightLightest 100%));
+   @include box-shadow($purpleHighlightDark 0px 1px 0px);
+ }
+
+input[type='text']
+{
+	&:hover 
+	{
+        background-color: $white; 
+    }
+	&:focus 
+	{
+		background-image: none;
+		background-color: $white;
+	}
+
+}
+
+
+#header
+	{
+        #search-bar
+        {          
+          float: right;
+          padding-right: 20px;
+          padding-top: 3px;
+
+          #search-input
+          {
+           width: 200px;
+           height:15px;
+          
+          }
+
+          .submit
+          {
+          	border: 1px solid $purpleDark;
+          	height:20px;
+          	height: 27px;
+          	padding: 7px;
+           	@include border-top-right-radius;
+           	@include border-bottom-right-radius;
+           	margin-left: -4px;
+
+           	@include background-image(linear-gradient(top, $purpleLight 0%,$purpleLight 50%,$purple 51%,$purple 100%));
+          	@include box-shadow($purpleHighlightDark 0px 1px 0px); 
+
+          	color: white;
+          	font-size: 12px;
+          	@include single-text-shadow;
+
+          }
+
+          .submit:hover
+          {
+           	@include background-image(linear-gradient(top, $purpleHighlightDark 0%,$purpleHighlightDark 50%,$purpleHighlightLight 51%,$purpleHighlightLight 100%));
+          	@include transition-duration(.5s);
+
+          }
+        }
+    }
+
+
+////////////////////////
+//   @LANDING PAGE   // 
+//////////////////////
+
+
+.region-content-bottom
+{
+	max-height: 500px;
+	overflow: scroll;
+}
+
+.front .panels-flexible-row
+{
+	margin-right:10px;
+	margin-left:10px;
+	
+}
+
+.front .top
+{
+margin-bottom: 25px;
+
+}
+
+.pane-content .view-pcm-featured-articel
+{
+
+         
+}
+
+.panels-flexible-row-12-3
+{
+	min-height: 162px; 
+	
+	.btn-learnMore
+	{}
+}
+
+
+
+#main-video
+{
+	height: 390px;
+	margin-top: 10px;
+
+	@include box-shadow(0px 2px 3px 0px $grayDark);
+}
+
+#video-padding
+{
+	height:290px;
+}
+
+.videoOverlay
+{
+	height:100px;
+	background-color: $grayDark;
+
+	h3
+	{
+		padding-left: 10px;
+		padding-top: 10px;
+		margin:0px;
+	}
+
+	p
+	{
+		padding-left: 10px; 
+		margin-top: 10px;
+		font-size: 12px;
+		color: $white;
+	}
+}
+
+
+////////////////////////
+// 		@FOOTER		 // 
+//////////////////////
+
+#share-box
+{
+	display: block;
+    float: left;
+    margin-left: 355px;
+    margin-top: 20px;
+    width: 320px;
+}
+
+
+#pcm-footer 
+{	padding-bottom:20px;
+
+
+		#oncappLogo
+		{
+			float: left;
+			margin: 15px 10px 10px 10px;	
+		}
+		
+		a.apps
+		{
+			float: left;
+			margin: 15px 10px 10px 10px;
+		}
+	
+}
+
+.region-footer
+{
+	padding-left: 10px;
+	background-color: $purpleHighlightLight;
+	padding-top:10px;
+	padding-bottom: 10px;
+	margin:0px;
+	color: $white;
+	
+	p
+	{
+		font-size: 12px;
+		margin:auto;
+		display:block;
+		width:220px;
+		letter-spacing:0.05em;
+		opacity:0.6;
+	}
+	
+}
+
+.spr-oncApp-logo
+{
+	display: block;
+	height: $oncApp-logo-height;
+	width: $oncApp-logo-width;
+}
+
+.spr-icn-apple
+{
+	display: block;
+	height: $icn-apple-height;
+	width: $icn-apple-width;
+}
+
+.spr-icn-android
+{
+	display: block;
+	height: $icn-android-height;
+	width: $icn-android-width;
+}
+
+.spr-icn-kindle
+{
+	display: block;
+	height: $icn-kindle-height;
+	width: $icn-kindle-width;
+}
+
+
+
+////////////////////////
+// 	   @TAB BOX		 // 
+//////////////////////
+
+.tabRight
+	{
+		border-radius: 0 5px 5px 0;
+	}
+
+.tabLeft
+	{
+		border-radius: 5px 0 0 5px;
+	}
+
+
+.hide 
+{
+	display: none; 
+}
+
+// Tabbox main horizontal tabs to navigate through
+.cc-tab, .tabbox-tabs 
+{
+
+  color: $gray;
+  font-size: 12;
+  text-shadow: 0 -1px 0 rgba($white, 0.2);
+	 
+	  div 
+	  {
+	    list-style-type: none;
+
+	    cursor: pointer;
+	    float: left;
+	    padding: 12px 30px 9px;
+
+	    @include background-image(linear-gradient(top, $grayLighter 0%,$grayLighter 50%,$grayLight 51%,$grayLight 100%));
+	    @include text-shadow(0px 1px 0px $white);
+	    border: solid 1px #CCCCCC;
+
+    &:hover 
+    {
+    	@include background-image(none);
+    	background-color: $grayLighter;
+    	color: #6f6f6f;
+    }
+
+    &:active
+    {
+    	@include background-image(linear-gradient(top, $grayLight 0%,$grayLight 50%,#ccc 51%,#ccc 100%));
+    	color: $gray;
+    }
+
+    &.active 
+    {
+      color: $purple;
+      font-weight: bold;
+      text-shadow: 0 1px 0 white;
+      @include background-image(linear-gradient(top, $grayLight 0%,$grayLight 50%,$grayLighter 51%,$grayLighter 100%));
+ 	} 
+ } }
+ 
+ 
+////////////////////////
+// 		@PAGER		 // 
+//////////////////////
+
+
+
+.item-list .pager
+{
+	text-align: left;
+	margin-left:100px;	
+	margin-right: 100px;
+	margin-bottom:20px;
+}
+
+
+.item-list .pager li
+{
+	padding:0px;
+}
+
+ ul.pager
+{
+
+	height: 25px;
+
+	margin-top: 20px;
+	
+	padding-top:10px;
+	display: block;
+
+	li
+	{
+		padding:0px;
+		margin:0px;
+		
+		a
+		{
+			cursor: pointer;
+			padding: 9px;
+			border: 1px solid $grayLight;
+			margin-left: -6px;
+		}
+		
+		a:hover
+		{
+			background-color: $white;
+			text-decoration: none;
+			
+		}
+		
+	}
+
+
+
+} 
+
+ul.pager .pager-current
+{
+	background-color: white;
+    border: 1px solid #D9D9D9;
+    display: block;
+    float: left;
+    margin-right: 5px;
+    margin-top: -10px;
+    padding: 9px;
+    width: 10px;
+}
+
+ 
+////////////////////////
+//      @CONTENT	 // 
+//////////////////////
+ 
+ .cc-names
+ {
+	 font-size:12px;
+	 padding-bottom: 20px;
+ }
+ 
+ .front .panels-flexible-column-inside
+ {
+	 padding:0px;
+ }
+ 
+ .front .view-pcm-featured-articel .views-row
+ {
+	 margin:0px;
+	 padding:0px;
+	 border:none;
+ }
+ 
+ .front .panels-flexible-column-inside
+ {
+	margin: 0px;
+	 margin-bottom: 20px;
+	 
+ }
+ 
+ .front .view-id-pcm_featured_challenging_cases .views-row
+ {
+	 margin:0px;
+	 width: 100%;
+ }
+ 
+ .front .view-id-pcm_featured_challenging_cases .views-row h5
+  {
+ 	 margin:0px;
+ 	 padding: 0px;
+ 	
+  }
+ 
+ 
+
+ 
+ 
+ .btn-learnMore
+ {
+   float:right;
+ }
+ 
+ .abstract
+ {
+	 float: left;
+	 width:100%;
+	 height: 70px;
+	 padding-bottom:10px;
+	 
+ }
+ 
+ 
+ .view-id-pcm_featured_challenging_cases
+ {
+
+   
+	h4
+	{
+		margin-top:0px;
+		margin-left: 130px;
+		
+	}
+	
+	h5
+	{
+ 
+	}
+	
+	.cc-names
+	{
+		margin-left: 130px;
+
+
+	}
+ }
+ 
+ .cc-image-title
+ {
+   float:left;
+   margin-left: -40px;
+  margin-top: 81px;
+  font-size:12px;
+  
+ }
+ 
+ #proimage
+  {
+  
+ 	float: left;
+ 	 width: 53px;
+ 	 height: 70px;
+ 	 border: 3px solid $white;
+  }
+ 
+ #conimage
+  {
+ 	 float: left;
+ 	 width: 53px;
+ 	 height: 70px;
+ 	 border: 3px solid $white;
+  }
+ 
+
+
+//@LIST ITEMS
+//-----------
+
+.section-editorials .views-row,
+.section-articles .views-row 
+{
+	padding: 0pt 10px 15px;
+	margin: 0px 0pt 20px;
+	border-bottom: 1px dashed #D9D9D9;
+}
+
+
+
+
+// .view-dom-id-pcm-featured-challenging-cases-page-1-1 .views-row, .view-pcm-featured-articel .views-row
+// {
+	// padding: 10px;
+	// border-bottom: 1px dashed $grayLight;	
+	// margin: 20px 0px;
+// }
+// 
+// .views-field-title
+// {
+	// font-weight: bold;
+	// color: $grayDark;
+// }
+// 
+// .views-field-field-cc-pro-kol-name-value, .views-field-field-cc-con-kol-name-value
+// {
+	// font-size: 12px;
+// }
+
+
+//@CHALLENGING CASE LIST
+//---------------------
+
+.node-type-challenging-case .content fieldset,
+.node-type-challenging-case .content div
+{
+  @include column(9);
+}
+
+
+
+//@CHALLENGING CASE
+//-----------------
+
+.cc_page
+{
+	margin-top: 20px;
+
+}
+
+.cc_kol_info
+{
+	float: left;
+}
+
+.cc_header_thumb img
+{
+	width:56px;
+	height:73px;
+	float:left;
+	padding-right: 10px;
+}
+.cc_kol_name
+{
+	font-size:16px;
+	padding-bottom:5px;
+}
+
+.cc_kol_affiliation
+{
+	font-size:12px;
+}
+
+.cc_vote_btn
+{
+	width: 120px;
+	height: 20px;
+	display: inline;
+	float:left;
+}
+
+.cc_kol_body
+
+{
+	margin-top: 20px;
+	padding-top: 10px;
+	float:left;
+	color: $purple;
+}
+
+
+
+//@MEDIAL LIBRARY LIST
+//--------------------
+
+.section-pcmmedialibrary .views-row, .node-type-asset-video .views-row
+{
+	width: 300px;
+	height: 80px;
+	padding:10px;
+	float: left;
+	margin-bottom:40px;
+	
+	img
+	{
+		width:133px;
+		height:93px;
+		margin-left:10px;
+	}
+	
+	.podcast_info
+	{
+		float:right;
+		height:80px;
+		width:150px;
+	}
+	
+	.podcast_title a
+	{
+		font-size:12px;
+		font-weight:bold;
+		color: $grayDark;
+		
+	}	
+	
+	.podcast_speaker a
+	{
+		font-size:12px;
+		
+		color: $grayDark;
+	}
+}
+
+
+
+

@@ -1,0 +1,11 @@
+name = AMP Migrate
+description = AMP Migrate
+package = AMP
+core = 7.x
+project = amp_migrate
+
+dependencies[] = migrate
+
+#  include the files that contain your Migrate classes 
+files[] = amp_migrate.migrate.inc
+files[] = class/latest.inc

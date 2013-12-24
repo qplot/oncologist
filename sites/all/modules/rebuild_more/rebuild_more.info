@@ -1,0 +1,11 @@
+name = Rebuild More
+description = Adds more options to the node access rebuild process.
+package = Other
+core = 7.x
+
+; Information added by drupal.org packaging script on 2012-08-18
+version = "7.x-1.0-rc1"
+core = "7.x"
+project = "rebuild_more"
+datestamp = "1345316249"
+

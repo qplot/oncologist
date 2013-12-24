@@ -1,0 +1,5 @@
+name = Workbench View
+description = Intstrux extensible view access for the Workbench suite.
+package = Workbench
+core = 7.x
+version = "7.x-1.0"

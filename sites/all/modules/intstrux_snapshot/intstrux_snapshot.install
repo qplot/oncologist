@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function intstrux_snapshot_install() {
+	
+	switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      // the {tablename} syntax is so multisite installs can add a
+      // prefix to the table name as set in the settings.php file
+      db_query("CREATE TABLE {snapshot_data} (
+          url varchar(255) NOT NULL default '',
+          image_uri varchar(255) NOT NULL default '',
+          PRIMARY KEY  (url)
+        ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
+      break;
+  	}
+	
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function intstrux_snapshot_uninstall() {
+}
+
+/*
+ * Implementation of hook_requirements().
+ */
+function intstrux_snapshot_requirements($phase) {
+  $reqs = array();
+  if (!module_exists('intstrux_snapshot')) {
+    return $reqs;
+  }
+  
+  $status = 'Configured';
+  $severity = REQUIREMENT_OK;
+  $desc = 'please unistall if needed anymore';
+  
+  $reqs['intstrux_snapshot'] = array(
+    'title' => 'Intstrux Snapshot',
+    'value' => $status,
+    'severity' => $severity,
+    'description' => $desc,
+    );
+  return $reqs;
+}
+

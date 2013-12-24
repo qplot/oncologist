@@ -1,0 +1,8 @@
+name = AMPx Admin
+description = AMPx administration theme.
+version = VERSION
+core = 7.x
+base theme = seven
+
+; Then we add our own stylesheets.
+stylesheets[all][] = css/general.css

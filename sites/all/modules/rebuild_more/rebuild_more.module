@@ -1,0 +1,370 @@
+<?php
+/**
+ * @file
+ * Base module file for node_access_rebuild_selective
+ *
+ * @defgroup node_access_rebuild_selective Selective Permissions Rebuild
+ * @{
+ */
+
+/**
+ * @var REBUILD_MORE_CHUNK_SIZE
+ *
+ * How many nodes will be rebuilt each batch run?
+ */
+define('REBUILD_MORE_CHUNK_SIZE', 1);
+
+/**
+ * Implements hook_form_alter().
+ */
+function rebuild_more_form_node_configure_rebuild_confirm_alter(&$form, $form_state) {
+  $node_types = node_type_get_names();
+  $form['advanced'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Advanced Options'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  if (0 && !count(module_implements('node_grants'))) {
+    $form['advanced']['no_implement'] = array(
+      '#markup' => t('There are no modules implementing <a href="@url">hook_node_grants</a>, therefore advanced options are disabled.', array(
+        '@url' => 'http://api.drupal.org/api/drupal/modules!node!node.api.php/function/hook_node_grants',
+      )),
+    );
+  }
+
+  // We add our options if any modules implement node_grants
+  else {
+    $options = variable_get('rebuild_more_options', array()) + array(
+      'purge' => TRUE,
+      'types' => array_keys($node_types),
+      'nids' => '',
+    );
+    $form['advanced']['purge'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Purge all records first?'),
+      '#description' => t('By default, drupal core will empty all node permissions at the beginning of this process (purge).  For sites with many nodes (10k+) this means that node access is denied for all nodes for the duration of the time it takes to get to said node in the rebuild process.  If your rebuild takes several hours, this can have negative effects on the user.  <strong>Uncheck this box and the node permission will not be deleted until right before it is rebuilt.</strong> If your permissions are highly corrupt, and you are concerned with security you might want to check this box.'),
+      '#default_value' => $options['purge'],
+    );
+    $form['advanced']['types'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Node types to rebuild'),
+      '#default_value' => $options['types'],
+      '#options' => $node_types,
+      '#description' => t('Choose all the node types you want to process.'),
+    );
+    $items = array(
+      t('<strong>For individual nodes:</strong> Enter a list of nids (space or comma separated), e.g. <strong>100 101 102</strong>'),
+      t('<strong>For a range of nids:</strong> Enter min and max separated by a hyphen, e.g. <strong>100-200</strong>'),
+      t('<strong>For greater/less than:</strong> Enter like this: <strong>>100</strong> or <strong><100</strong> or <strong>>=100</strong> or <strong><=100</strong>'),
+    );
+    $form['advanced']['nids'] = array(
+      '#type' => 'textarea',
+      '#title' => t('NIDS'),
+      '#default_value' => (string) $options['nids'],
+      '#description' => theme("item_list", array('items' => $items)),
+      '#rows' => 3,
+    );
+    $index = array_search('node_configure_rebuild_confirm_submit', $form['#submit']);
+
+    if (empty($form['#validate'])) {
+      $form['#validate'] = array();
+    }
+    array_unshift($form['#validate'], 'rebuild_more_validate');
+    $form['#submit'][$index] = 'rebuild_more_submit';
+  }
+}
+
+/**
+ * Form validation handler for rebuild_more_validate().
+ */
+function rebuild_more_validate($form, &$form_state) {
+  if (!empty($form_state['values']['nids'])) {
+    // Determine how the nids are represented
+    if (($nids = trim($form_state['values']['nids'])) &&
+        !($conditions = _rebuild_more_nid_conditions($nids))) {
+      form_set_error('nids', t('Invalid format for nids; please see description below textfield for proper format.'));
+    }
+  }
+}
+
+/**
+ * Build the nid conditions from the nids string
+ *
+ * @param string $nids
+ *
+ * @return array
+ *   Three elements fit for ->condition()
+ */
+function _rebuild_more_nid_conditions($string) {
+  $conditions = array();
+  if (preg_match('/^([><]=?)(\d+)$/', $string, $found)) {
+    $conditions[] = array('nid', $found[2], $found[1]);
+  }
+  elseif (preg_match('/^(\d+)\-(\d+)$/', $string, $found)) {
+    $conditions[] = array('nid', $found[1], '>=');
+    $conditions[] = array('nid', $found[2], '<=');
+  }
+  elseif (preg_match_all('/(\d+)[, ]?/', $string, $found)) {
+    $in = array();
+    foreach ($found[1] as $nid) {
+      $in[] = $nid;
+    }
+    $conditions[] = array('nid', $in, 'IN');
+  }
+  return $conditions;
+}
+
+
+/**
+ * Handler for wipe confirmation
+ */
+function rebuild_more_submit($form, &$form_state) {
+  $options = array(
+    'purge' => (bool) $form_state['values']['purge'],
+    'nids' => $form_state['values']['nids'],
+    'types' => array_filter($form_state['values']['types']),
+  );
+  variable_set('rebuild_more_options', $options);
+  rebuild_more_rebuild(TRUE, $options);
+  $form_state['redirect'] = 'admin/reports/status';
+}
+
+/**
+ * Rebuild the node access database. This is occasionally needed by modules
+ * that make system-wide changes to access levels.
+ *
+ * When the rebuild is required by an admin-triggered action (e.g module
+ * settings form), calling node_access_needs_rebuild(TRUE) instead of
+ * node_access_rebuild() lets the user perform his changes and actually
+ * rebuild only once he is done.
+ *
+ * Note : As of Drupal 6, node access modules are not required to (and actually
+ * should not) call node_access_rebuild() in hook_enable/disable anymore.
+ *
+ * @see node_access_needs_rebuild()
+ *
+ * @param $batch_mode
+ *   Set to TRUE to process in 'batch' mode, spawning processing over several
+ *   HTTP requests (thus avoiding the risk of PHP timeout if the site has a
+ *   large number of nodes).
+ *   hook_update_N and any form submit handler are safe contexts to use the
+ *   'batch mode'. Less decidable cases (such as calls from hook_user,
+ *   hook_taxonomy, etc...) might consider using the non-batch mode.
+ * @param array $options
+ *   - purge: bool Erase all records from node_access at start of process
+ *   - nids: array of nids to limit the rebuild
+ *   - types: array of node types to limit the rebuild
+ */
+function rebuild_more_rebuild($batch_mode = FALSE, $options = array()) {
+
+  // Default options
+  $options += array(
+    'purge' => TRUE,
+    'nids' => NULL,
+    'types' => NULL,
+  );
+
+  // Only recalculate if the site is using a node_access module.
+  if (count(module_implements('node_grants'))) {
+    if ($batch_mode) {
+      $batch = array(
+        'title' => t('Rebuilding content access permissions'),
+        'operations' => array(
+          array('_rebuild_more_rebuild', array($options)),
+        ),
+        'finished' => '_rebuild_more_rebuild_finished'
+      );
+      batch_set($batch);
+    }
+    else {
+      // Try to allocate enough time to rebuild node grants
+      drupal_set_time_limit(240);
+      $nids = _rebuild_more_db_select($options)->fetchCol();
+      if ($options['purge']) {
+        db_delete('node_access')
+          ->condition('nid', $nids, 'IN')
+          ->execute();
+      }
+      foreach ($nids as $nid) {
+        $node = node_load($nid, NULL, TRUE);
+        // To preserve database integrity, only acquire grants if the node
+        // loads successfully.
+        if (!empty($node)) {
+          if (!$options['purge']) {
+            _rebuild_more_db_delete($options);
+          }
+          node_access_acquire_grants($node);
+        }
+      }
+    }
+  }
+  else {
+    db_delete('node_access')->execute();
+    // Not using any node_access modules. Add the default grant.
+    db_insert('node_access')
+      ->fields(array(
+        'nid' => 0,
+        'realm' => 'all',
+        'gid' => 0,
+        'grant_view' => 1,
+        'grant_update' => 0,
+        'grant_delete' => 0,
+      ))
+      ->execute();
+  }
+
+  if (!isset($batch)) {
+    drupal_set_message(t('Content permissions have been rebuilt.'));
+    node_access_needs_rebuild(FALSE);
+    cache_clear_all();
+  }
+}
+
+/**
+ * Return the EXECUTED select query based on options
+ *
+ * @param array $options
+ * - nids
+ * - types
+ *
+ * @return object SelectQuery
+ */
+function _rebuild_more_db_select($options = array()) {
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'));
+  if ($conditions = _rebuild_more_nid_conditions($options['nids'])) {
+    foreach ($conditions as $value) {
+      list($a1, $a2, $a3) = $value;
+      $query->condition($a1, $a2, $a3);
+    }
+  }
+  if ($options['types']) {
+    $query->condition('type', $options['types'], 'IN');
+  }
+  return $query->execute();
+}
+
+/**
+ * Return the EXECUTED delete query based on options
+ *
+ * @param array $options
+ * - nids
+ * - types
+ *
+ * @return object SelectQuery
+ */
+function _rebuild_more_db_delete($options = array()) {
+  if ($nids = _rebuild_more_db_select($options)) {
+    $nids = $nids->fetchCol();
+    db_delete('node_access')
+    ->condition('nid', $nids, 'IN')
+    ->execute();
+  }
+}
+
+/**
+ * Batch callback operation for media indexing
+ *
+ * @param array $context
+ */
+function _rebuild_more_rebuild($options, &$context) {
+
+  $context['message'] = array();
+
+  /**
+   * Initialize the batch process and vars
+   */
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['options'] = $options;
+    $context['sandbox']['started'] = time();
+
+    // This is the number of runs complete in the batch
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['nids'] = _rebuild_more_db_select($options)->fetchCol();
+    if ($context['sandbox']['options']['purge']) {
+      _rebuild_more_db_delete($context['sandbox']['options']);
+    }
+
+    // This is the total number of runs in the batch
+    $context['sandbox']['max'] = count($context['sandbox']['nids']);
+
+    //this var holds the decimal fraction of percentage complete; when this is 1
+    //the batch is complete
+    $context['finished'] = 0;
+
+    // Appears below the status message
+    $context['results'] = array();
+
+    $context['finished'] = $context['sandbox']['max'] === 0 ? 1 : 0;
+
+    // If we're not finished go ahead and process first run
+    if ($context['finished']) {
+      return;
+    }
+  }
+
+  /**
+   * Do the actual work of this run
+   */
+  $chunk = variable_get('rebuild_more_chunk_size', REBUILD_MORE_CHUNK_SIZE);
+  for ($i = 0; $i < $chunk; ++$i) {
+    if (empty($context['sandbox']['nids'])) {
+      break;
+    }
+    $nid = array_shift($context['sandbox']['nids']);
+    $node = node_load($nid, NULL, TRUE);
+    // To preserve database integrity, only acquire grants if the node
+    // loads successfully.
+    if (!empty($node)) {
+      if (!$context['sandbox']['options']['purge']) {
+        db_delete('node_access')
+          ->condition('nid', $nid)
+          ->execute();
+      }
+      node_access_acquire_grants($node);
+    }
+  }
+  $context['sandbox']['progress'] = $context['sandbox']['max'] - count($context['sandbox']['nids']);
+
+  /**
+   * Measure if we're done
+   */
+  $context['finished'] = min(1, $context['sandbox']['progress'] / $context['sandbox']['max']);
+  if ($context['finished'] == 1) {
+
+    // Wrap up your batch...
+
+    $context['message'][] = t('Batch processing of records complete.');
+  }
+  else {
+    $elapsed = time() - $context['sandbox']['started'];
+    $estimated = 0;
+    $remaining = $context['sandbox']['max'] - $context['sandbox']['progress'];
+    if (($context['sandbox']['max'] - $remaining) * $remaining) {
+      $estimated = $elapsed / ($context['sandbox']['max'] - $remaining) * $remaining;
+    }
+    $context['message'][] = t('Elapsed time: @time &mdash; Estimated wait: @time2', array(
+      '@time' => format_interval($elapsed),
+      '@time2' => format_interval($estimated),
+    ));
+    $context['message'][]= t('@count remaining.', array(
+      '@count' => format_plural($context['sandbox']['max'] - $context['sandbox']['progress'], '1 record', '@count records'),
+    ));
+  }
+  $context['message'] = implode(' <br /> ', $context['message']);
+}
+
+/**
+ * Post-processing for rebuild_more_rebuild_batch.
+ */
+function _rebuild_more_rebuild_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message(t('The content access permissions have been rebuilt.'));
+    node_access_needs_rebuild(FALSE);
+  }
+  else {
+    drupal_set_message(t('The content access permissions have not been properly rebuilt.'), 'error');
+  }
+  cache_clear_all();
+}

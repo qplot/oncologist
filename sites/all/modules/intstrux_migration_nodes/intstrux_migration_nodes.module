@@ -1,0 +1,418 @@
+<?php
+
+ /**
+ * Implements hook_menu().
+ */
+function intstrux_migration_nodes_menu() {
+  $items = array();
+  
+  $items['admin/migrate/nodes'] = array(
+    'title' => 'Migrate Nodes',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_migration_nodes_form'),
+    'access callback' => TRUE,
+    'weight' => 56,
+  );
+  
+  return $items;
+}
+
+function intstrux_migration_nodes_form($form, &$form_state) {
+  $form = array();
+  
+  $form['description'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p>' . t('Migrate new nodes from D6 to D7.') . '</p>',
+  );
+  
+  $form['batch'] = array(
+    '#type' => 'select',
+    '#title' => 'Choose batch',
+    '#options' => array(
+      'batch_import_page_html' => t('Import Page HTML Nodes'),
+      'batch_import_article' => t('Import Article Nodes to Image Asset'),
+      'batch_delete_article' => t('Delete Article Nodes'),
+    ),
+  );
+  
+  $form['actions'] = array(
+    '#type' => 'actions'
+  );
+ 
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Migrate'),
+  ); 
+  
+  return $form;
+}
+
+function intstrux_migration_nodes_form_submit(&$form, &$form_state) {
+  
+  $function = 'intstrux_migration_node_' . $form_state['values']['batch']; 
+    
+  // Execute the function named.
+  $batch = $function();
+  
+  batch_set($batch);  
+}
+
+function intstrux_migration_node_batch_import_page_html() {
+  $operations = array();
+    
+  module_load_include('inc', 'intstrux_migration_nodes', 'nodes_html_page');
+  
+  $nodes = _get_node_export_nodes_one();
+  
+  foreach($nodes as $delta => $node) {
+    $result = db_select('node', 'n')->fields('n', array('nid'))->condition('n.nid', $node['nid'])->execute()->fetchAssoc(); 
+    
+    if($result) {
+      drupal_set_message(t('Node !title:@nid already exists', array('!title' => $node['title'], '@nid' => $node['nid'])), 'error'); 
+    } else {
+      $operations[] = array('intstrux_migration_node_batch_import_page_html_start', array($node, t('(Operation @operation)', array('@operation' => $delta))));  
+    }
+  }
+  
+  $batch = array(
+    'title' => t('Processing Node Migration'),
+    'operations' => $operations,
+    'init_message' => t('Node Migration is starting.'),
+    'error_message' => t('Node Migration has encountered an error.'),
+    'progress_message' => t('Current: @current | Remaining: @remaining | Total Nodes: @total | Percentage: @percentage | Estimate: @estimate | Elapsed: @elapsed'),
+    'finished' => 'intstrux_migration_node_batch_finished',
+  );
+  
+  return $batch;
+}
+
+function intstrux_migration_node_batch_import_page_html_start($node, $operation_details, &$context) {
+  // copy current uid
+  $uid = $GLOBALS['user']->uid;
+    
+  // set temporary uid
+  $GLOBALS['user']->uid = $node['uid'];
+    
+    $new_node = new stdClass();
+    $new_node->is_new=TRUE;
+    $new_node->nid = $node['nid'];
+    $new_node->vid = $node['vid'];
+    $new_node->type = $node['type'];
+    //node_object_prepare($new_node);
+    
+    $new_node->language = (empty($node['language']))? LANGUAGE_NONE : $node['language'];
+    $new_node->uid = $node['uid'];
+    $new_node->status = $node['status'];
+    $new_node->created = $node['created'];
+    $new_node->changed = $node['changed'];
+    $new_node->comment = $node['comment'];
+    $new_node->promote = $node['promote'];
+    $new_node->title = $node['title'];
+    $new_node->format = $node['format'];
+    
+    if($node['field_htmlfile'][0]) {
+        
+      $htmlfile = array();  
+        
+      if(file_exists($node['field_htmlfile'][0]['filepath'])) {
+        
+        $data = file_get_contents($node['field_htmlfile'][0]['filepath']);
+        
+        $destination = file_build_uri($node['field_htmlfile'][0]['filename']);
+        
+        if($file = file_save_data($data, $destination)) {
+          $file->display = 1; // important
+          $htmlfile[] = (array) $file; 
+        }
+      }
+      
+      drupal_set_message(print_r($htmlfile, true));
+      
+      if($htmlfile) {          
+        $new_node->field_htmlfile = array(
+          $new_node->language => $htmlfile,
+        );
+      }
+    }
+      
+    if($node['field_bannerhtmlfile'][0]) {
+      
+      $bannerhtmlfile = array();  
+        
+      if(file_exists($node['field_bannerhtmlfile'][0]['filepath'])) {
+          
+        $data = file_get_contents($node['field_bannerhtmlfile'][0]['filepath']);
+        
+        $destination = file_build_uri($node['field_bannerhtmlfile'][0]['filename']);
+        
+        if($file = file_save_data($data, $destination)) {
+          $file->display = 1; // important
+          $bannerhtmlfile[] = (array) $file; 
+        }
+      }
+        
+      if($bannerhtmlfile) {  
+        $new_node->field_bannerhtmlfile = array(
+          $new_node->language => $bannerhtmlfile,
+        );
+      }
+    }
+    
+    $new_node->field_inject_category = array(
+      $new_node->language => array(
+        array('value' => $node['field_inject_category'][0]['value']),
+      ),
+    );
+
+    $new_node->field_article_title = array(
+      $new_node->language => array(
+        array('value' => $node['field_article_title'][0]['value']),
+      ),
+    );
+    
+    $new_node->field_authors = array(
+      $new_node->language => array(
+        array('value' => $node['field_authors'][0]['value']),
+      ),
+    );
+    
+    $new_node->field_abstract = array(
+      $new_node->language => array(
+        array('value' => $node['field_abstract'][0]['value']),
+      ),
+    );
+    
+    $new_node->field_htmlpage_downloadsize = array(
+      $new_node->language => array(
+        array('value' => $node['field_htmlpage_downloadsize'][0]['value']),
+      ),
+    );
+    
+    if($node['field_embeddedimage'][0]) {
+        
+      $embeddedimages = array();
+        
+      foreach($node['field_embeddedimage'] as $image_delta => $image) {
+        
+        if(file_exists($node['field_embeddedimage'][$image_delta]['filepath'])) {
+            
+          $data = file_get_contents($node['field_embeddedimage'][$image_delta]['filepath']);
+        
+          $destination = file_build_uri($node['field_embeddedimage'][$image_delta]['filename']);
+        
+          if($file = file_save_data($data, $destination)) {
+            $embeddedimages[] = (array) $file; 
+          }
+        }  
+      }  
+              
+      if($embeddedimages) {
+        $new_node->field_embeddedimage = array(
+          $new_node->language => $embeddedimages,
+        );
+      }
+    }
+
+    if($node['field_embeddedfiles'][0]) {
+        
+      $embeddedfiles = array();
+        
+      foreach($node['field_embeddedfiles'] as $file_delta => $file) {
+        if(file_exists($node['field_embeddedfiles'][$file_delta]['filepath'])) {
+          
+          $data = file_get_contents($node['field_embeddedfiles'][$file_delta]['filepath']);
+        
+          $destination = file_build_uri($node['field_embeddedfiles'][$file_delta]['filename']);
+        
+          if($nfile = file_save_data($data, $destination)) {
+            $nfile->display = 1; // important
+            $embeddedfiles[] = (array) $nfile; 
+          }
+        }
+      }  
+        
+      if($embeddedfiles) {
+        $new_node->field_embeddedfiles = array(
+          $new_node->language => $embeddedfiles,
+        );
+      }
+    }
+    
+    if($node['field_content_bydomain'][0]) {
+        
+      foreach($node['field_content_bydomain'] as $collection_delta => $collection) {
+        $field_collection_item = entity_create('field_collection_item', array('field_name' => 'field_collection_multisite'));  
+        $field_collection_item->setHostEntity('node', $new_node);
+        $field_collection_item->field_multisite_filter[$new_node->language][]['value'] = $node['field_content_bydomain'][$collection_delta]['value'];
+        $field_collection_item->field_multisite_featured[$new_node->language][]['value'] = $node['field_multisite_featured'][$collection_delta]['value'];
+        $field_collection_item->field_multisite_weight[$new_node->language][]['value'] = $node['field_multisite_weight'][$collection_delta]['value'];
+        $field_collection_item->save();
+      }
+
+     /*
+      // no need to assign it to 
+      $new_node->field_collection_multisite = array(
+        $new_node->language => array(
+          array('value' => $field_collection_item->item_id),
+        ),
+      );
+      * 
+      */
+    }
+    
+    // return original uid
+    $GLOBALS['user']->uid = $uid;
+    
+    if ($new_node = node_submit($new_node)) {
+      node_save($new_node);   
+      drupal_set_message(t("Node " . $new_node->title ." : " . $new_node->nid . " added correctly"));
+      
+      $context['results'][] = $new_node->nid . ' : ' . check_plain($new_node->title);
+
+      // Optional message displayed under the progressbar.
+      $context['message'] = t('Loading node "@title"', array('@title' => $new_node->title)) . ' ' . $operation_details;
+      
+    }else {
+      drupal_set_message(t("Node " . $new_node->title . " added incorrectly"), "error");  
+    } 
+}
+
+function intstrux_migration_node_batch_import_article() {
+  $operations = array(); 
+    
+  module_load_include('inc', 'intstrux_migration_nodes', 'nodes_article_rest');
+  
+  $nodes = _get_node_export_nodes_one();
+  
+  foreach($nodes as $delta => $node) {
+    $result = db_select('node', 'n')->fields('n', array('nid'))->condition('n.nid', $node['nid'])->execute()->fetchAssoc(); 
+    
+    if($result) {
+      drupal_set_message(t('Node !title:@nid already exists', array('!title' => $node['title'], '@nid' => $node['nid'])), 'error'); 
+    } else {
+      $operations[] = array('intstrux_migration_node_batch_import_article_start', array($node, t('(Operation @operation)', array('@operation' => $delta))));  
+    }
+  }
+  
+  $batch = array(
+    'title' => t('Processing Article Import'),
+    'operations' => $operations,
+    'init_message' => t('Article Import is starting.'),
+    'error_message' => t('Article Import has encountered an error.'),
+    'progress_message' => t('Current: @current | Remaining: @remaining | Total Nodes: @total | Percentage: @percentage | Estimate: @estimate | Elapsed: @elapsed'),
+    'finished' => 'intstrux_migration_node_batch_finished',
+  );
+  
+  return $batch;
+}
+
+function intstrux_migration_node_batch_import_article_start($node, $operation_details, &$context) {
+  // copy current uid
+  $uid = $GLOBALS['user']->uid;
+    
+  // set temporary uid
+  $GLOBALS['user']->uid = $node['uid'];
+    
+  $new_node = new stdClass();
+  $new_node->is_new=TRUE;
+  $new_node->nid = $node['nid'];
+  $new_node->vid = $node['vid'];
+  $new_node->type = 'asset_image';
+  //node_object_prepare($new_node);
+    
+  $new_node->language = (empty($node['language']))? LANGUAGE_NONE : $node['language'];
+  $new_node->uid = $node['uid'];
+  $new_node->status = $node['status'];
+  $new_node->created = $node['created'];
+  $new_node->changed = $node['changed'];
+  $new_node->comment = $node['comment'];
+  $new_node->promote = $node['promote'];
+  $new_node->title = $node['title'];
+  $new_node->format = $node['format']; 
+  
+  if($node['field_image_portrait'][0]) {
+    
+    $image_portrait = array();
+        
+    foreach($node['field_image_portrait'] as $image_delta => $image) {
+        
+      if(file_exists($node['field_image_portrait'][$image_delta]['filepath'])) {
+            
+        $data = file_get_contents($node['field_image_portrait'][$image_delta]['filepath']);
+        
+        $destination = file_build_uri($node['field_image_portrait'][$image_delta]['filename']);
+        
+        if($file = file_save_data($data, $destination)) {
+          $image_portrait[] = (array) $file; 
+        }
+      }  
+    }  
+              
+    if($image_portrait) {
+      $new_node->field_image_image = array(
+        $new_node->language => $image_portrait,
+      );
+    }
+  }
+  
+  // return original uid
+  $GLOBALS['user']->uid = $uid;
+  
+  if ($new_node = node_submit($new_node)) {
+    node_save($new_node);   
+      
+    drupal_set_message(t('Node !title:@nid added successfully!', array('!title' => $new_node->title, '@nid' => $new_node->nid)));
+      
+    $context['results'][] = $new_node->nid . ' : ' . check_plain($new_node->title);
+
+    // Optional message displayed under the progressbar.
+    $context['message'] = t('Loading node "@title"', array('@title' => $new_node->title)) . ' ' . $operation_details;
+      
+  }else {
+    drupal_set_message(t("Node " . $new_node->title . " added incorrectly"), "error");  
+  } 
+}
+
+
+function intstrux_migration_node_batch_delete_article() {
+  
+  $operations = array();  
+    
+  $nodes = db_select('node', 'n')->fields('n', array('nid'))->condition('n.type', 'article')->execute()->fetchAll();
+    
+  foreach($nodes as $delta => $node) {
+    $operations[] = array('intstrux_migration_node_batch_delete_article_start', array($node, t('(Operation @operation)', array('@operation' => $delta))));  
+  }
+  
+  $batch = array(
+    'title' => t('Processing Article Deletion'),
+    'operations' => $operations,
+    'init_message' => t('Article Deletion is starting.'),
+    'error_message' => t('Article Deletion has encountered an error.'),
+    'progress_message' => t('Current: @current | Remaining: @remaining | Total Nodes: @total | Percentage: @percentage | Estimate: @estimate | Elapsed: @elapsed'),
+    'finished' => 'intstrux_migration_node_batch_finished',
+  );
+  
+  return $batch;
+}
+
+function intstrux_migration_node_batch_delete_article_start($node, $operation_details, &$context) {
+  
+  drupal_set_message(t('Node !title:@nid deleted successfully', array('!title' => $node->title, '@nid' => $node->nid)));
+      
+  $context['results'][] = $node->nid . ' : ' . check_plain($node->title);
+
+  // Optional message displayed under the progressbar.
+  $context['message'] = t('Loading node "@title"', array('@title' => $node->title)) . ' ' . $operation_details;
+  
+  node_delete($node->nid); 
+}
+
+function intstrux_migration_node_batch_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message(t('finished successfully'));
+    drupal_set_message(t('The final result !result', array('!result' => print_r($results, true))));
+  } else {
+      
+  } 
+}

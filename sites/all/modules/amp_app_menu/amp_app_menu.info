@@ -1,0 +1,14 @@
+name = AMP App Menu
+description = Changes for the HD App Menu
+core = 7.x
+package = AlphaMedPress
+php = 5.2.4
+version = 7.x-1.0-beta1
+project = amp_app_menu
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = amp_articles_alt
+features[views_view][] = amp_current_issues_menu
+features[views_view][] = amp_view_articles_menu
+features_exclude[dependencies][ctools] = ctools

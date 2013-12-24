@@ -1,0 +1,8 @@
+name = Intstrux HighWire Migrate
+description = Import HighWire Article ID to existing nodes.
+package = Intstrux
+version = 7.x-1.0
+core = 7.x
+
+dependencies[] = intstrux_highwire
+dependencies[] = intstrux_highwire_field

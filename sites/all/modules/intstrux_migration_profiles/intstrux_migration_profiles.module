@@ -1,0 +1,195 @@
+<?php
+
+define('NODE_ACCESS_EXAMPLE_GRANT_ALL', 23);
+
+/**
+ * init hook
+ */
+function intstrux_migration_profiles_init() {
+}
+
+
+/*
+ * Implementation of hook_permission().
+ */
+function intstrux_migration_profiles_permission() {
+  return array(
+  	
+  	'intstrux_migration_profiles_admin' => array(
+      'title' => t('intstrux migration profiles'),
+    ),
+    
+  );
+}
+
+/*
+ * Implementation of hook_menu().
+ */
+function intstrux_migration_profiles_menu() {
+  $items = array();
+  
+  $items['admin/migrate/profiles'] = array(
+    'title' => 'Migrate Profiles', 
+    'page callback' => 'drupal_get_form',
+    'page arguments' =>  array('intstrux_migration_profiles_form'), 
+    'access arguments' => array('intstrux_migration_profiles'), 
+    'weight' => 10, 
+  );
+  
+  return $items;
+}
+
+function intstrux_migration_profiles_form() {
+  $form = array();
+  
+  $form['description'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p>' . t('Migrate all user profiles from D6 to D7') . '</p>',
+  );
+
+  $form['actions'] = array(
+    '#type' => 'actions'
+  );
+  
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Migrate'),
+  );
+  
+  return $form;
+}
+
+function intstrux_migration_profiles_form_submit($form, &$form_state) {
+      $_SESSION['http_request_count'] = 0; // reset counter for debug information.
+      
+      
+  $batch = array(
+    'title' => t('Processing Profiles migration'),
+    'operations' => array(
+      array('intstrux_migration_profiles_batch_start', array()),
+    ),
+    'finished' => 'intstrux_migration_profiles_batch_finish',
+    'init_message' => t('Profiles migration is starting.'),
+    'error_message' => t('Profiles migration has encountered an error.'),
+    'progress_message' => t('Percentage: @percentage% | Estimate: @estimate | Elapsed: @elapsed')
+  );
+
+  batch_set($batch);
+}
+
+function intstrux_migration_profiles_batch_start(&$context){
+	
+	if (empty($context['sandbox'])) {
+    	$context['sandbox'] = array();
+    	$context['sandbox']['progress'] = 0;
+    	$context['sandbox']['current_user'] = 0;
+
+    	// Save node count for the termination message.
+    	$context['sandbox']['max'] = 13000;//db_query('SELECT COUNT(DISTINCT nid) FROM {node}')->fetchField();
+  	}
+	
+	
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type','node')->entityCondition('bundle','profile')->range($context['sandbox']['progress'], 5);
+	
+	//$count = $query->count()->execute();
+	
+	$result = $query->execute();
+
+	if (isset($result['node'])) {
+	  $items_nids = array_keys($result['node']);
+	  $news_items = entity_load('node', $items_nids);
+	}
+	
+	$updated = "";
+	foreach ($news_items as $key => $value) {
+		$newprofile =  user_load($value->uid, TRUE);
+		
+		//dpm($newprofile);
+		
+		//if (!$newprofile) {
+			//$newprofile = profile2_create(array('type'=>'profile','uid'=>$value->uid));
+		//}
+
+		//$newprofile->field_name['und'][0]['value'] = $node->title;	
+		//$newprofile->field_bio = $node->body;
+		$name = explode("@",$newprofile->mail);
+		$name = $name[0];
+		$pos = 0;
+		while (user_load_by_name($name."_".$pos)) {
+    		$pos++;
+		}
+		$newprofile->name = $name."_".$pos;
+		
+		//print_r($items_nids);
+		
+		//$queryD = db_select('content_type_profile', 'd')->fields('d', array('nid','field_user_degree_other_value','field_user_principal_value','field_user_worksetting_value'))->condition('d.nid', $items_nids,'=');
+		$queryD = db_select('content_type_profile', 'd')->fields('d', array('nid','field_user_degree_other_value','field_user_principal_value','field_user_worksetting_value'))->condition('d.nid', $key);
+		$field_result = $queryD->execute();
+		//print_r($field_result);
+		//print('<hr>');
+		
+		foreach ($field_result as $field) {
+			$newprofile->field_user_degree_other['und'][0]['value'] = $field->field_user_degree_other_value;
+			$newprofile->field_user_principal['und'][0]['value'] = $field->field_user_principal_value;
+			$newprofile->field_user_worksetting['und'][0]['value'] = $field->field_user_worksetting_value;
+			
+			$newprofile->field_user_firstname = $value->field_user_firstname;
+			$newprofile->field_user_lastname = $value->field_user_lastname;
+			$newprofile->field_user_location = $value->field_user_location;
+			$newprofile->field_user_degree = $value->field_user_degree;
+			$newprofile->field_user_emailapp = $value->field_user_emailapp;
+			
+			user_save($newprofile);
+		
+			db_delete('content_type_profile')
+			->condition('nid', $field->nid)
+			->execute(); 
+		//print('<pre>');
+		//print print_r ($field->field_user_degree_other_value);
+		//print('</pre>');
+		
+		}
+		
+		//print print_r($newprofile->field_user_degree_other['und']);
+		//exit;
+		
+		//$newprofile->field_user_firstname = $value->field_user_firstname;
+		//$newprofile->field_user_lastname = $value->field_user_lastname;
+		//$newprofile->field_user_location = $value->field_user_location;
+		//$newprofile->field_user_degree = $value->field_user_degree;
+		//$newprofile->field_user_emailapp = $value->field_user_emailapp;
+		//$newprofile->$field_user_degree_other_value = $field_user_degree_other_value['und'][0][$field->$field_user_degree_other_value];
+		//$newprofile->field_weight = $node->field_weight;
+		//print('<pre>');
+		//print print_r($newprofile);
+		//print('</pre>');
+		//user_save($newprofile);
+		
+		$updated .= $value->uid.", ";
+		
+  		$context['results'][] = $value->uid . ' : ' . check_plain($value->name) . ' ' . $operation_details;
+
+	    // Update our progress information.
+	    $context['sandbox']['progress']++;
+	    $context['sandbox']['current_user'] = $value->uid;
+	    $context['message'] = "Now processing: ".check_plain($value->name);
+	}
+  
+	 // Inform the batch engine that we are not finished,
+  // and provide an estimation of the completion level we reached.
+  if ($context['sandbox']['progress'] < $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+   $_SESSION['http_request_count']++;
+}
+
+function  intstrux_migration_profiles_batch_finish($success, $results, $operations) {
+	  if ($success) {
+	    drupal_set_message(t('Migrated these Profiles: !updated', array('!updated' => print_r ($results, true))));
+	  } else {
+	    $error_operation = reset($operations);
+	    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
+	  }
+}

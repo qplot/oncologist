@@ -1,0 +1,249 @@
+<?php
+
+/*
+ * Implementation of hook_menu().
+ */
+function intstrux_migration_multigroup_menu() {
+  $items = array();
+  
+  $items['admin/migrate/multigroup_new'] = array(
+    'title' => 'Migrate Multigroups New',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_migration_multigroup_form'),
+    'access callback' => TRUE,
+    'weight' => 50,
+  );
+  
+  return $items;
+}
+
+function intstrux_migration_multigroup_form($form, &$form_state) {
+  $form = array();
+  
+  $form['description'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p>' . t('Migrate multigroup field structure to field collection structure.') . '</p>',
+  );
+  
+  $form['actions'] = array(
+    '#type' => 'actions'
+  );
+ 
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Migrate'),
+  ); 
+  
+  return $form;
+}
+
+function intstrux_migration_multigroup_form_submit(&$form, &$form_state) {
+    
+  $operations = array();  
+  
+  $collections = array(
+    'field_collection_articles' => array(
+      'field_article' => array(
+        'field_article' => 'nid',
+      ),
+    ),
+    'field_collection_interactive_fil' => array(
+      'field_interactive_file_id' => array(
+        'field_interactive_file_id' => 'value',
+      ),
+      'field_interactive_file_source' => array(
+        'field_interactive_file_source' => 'fid',
+      ),
+    ),
+    'field_collection_interactive_par' => array(
+      'field_interactive_parameter_id' => array(
+        'field_interactive_parameter_id' => 'value',
+      ),
+      'field_interactive_parameter_val' => array(
+        'field_interactive_parameter_val' => 'value',
+      ),
+    ),
+    'field_collection_multisite' => array(
+      'field_content_bydomain' => array(
+        'field_multisite_filter' => 'value', 
+      ),
+      'field_multisite_featured' => array(
+        'field_multisite_featured' => 'value', 
+      ),
+      'field_multisite_weight' => array(
+        'field_multisite_weight' => 'value', 
+      ),
+    ),
+    'field_collection_mutablevideo_vi' => array(
+      'field_reference_videoasset' => array(
+        'field_reference_videoasset' => 'nid',
+      ),
+      'field_reference_videothumb' => array(
+        'field_reference_videothumb' => 'fid',
+      ),
+    ),
+    'field_collection_pages' => array(
+      'field_page_type' => array(
+        'field_page_type' => 'value',
+      ),
+      'field_image_portrait' => array(
+        'field_image_portrait' => 'fid',
+      ),
+      'field_reference_html' => array(
+        'field_reference_html' => 'nid',
+      ),
+      'field_reference_interactive' => array(
+        'field_reference_interactive' => 'nid',
+      ),
+      'field_reference_interactive_ad' => array(
+        'field_reference_interactive_ad' => 'nid',
+      ),
+      'field_image_horizontal' => array(
+        'field_image_horizontal' => 'fid',
+      ),
+      'field_reference_video' => array(
+        'field_reference_video' => 'nid',
+      ),
+      'field_reference_mutablevideo' => array(
+        'field_reference_mutablevideo' => 'nid',
+      ),
+      'field_reference_int_html' => array(
+        'field_reference_int_html' => 'nid',
+      ),
+    ),
+    'field_collection_video_mp4videos' => array(
+      'field_videos_mp4videos' => array(
+        'field_videos_mp4videos' => 'value',
+      ),
+      'field_bc_multiple_filesize' => array(
+        'field_bc_multiple_filesize' => 'value',
+      ),
+    ),
+    'field_collection_videopage_video' => array(
+      'field_reference_videopageasset' => array(
+        'field_reference_videopageasset' => 'nid',
+      ),
+    ),
+  );
+  
+  foreach($collections as $field_collection => $fields) {
+    $operations[] = array('intstrux_migration_multigroup_batch_start', array($field_collection, $fields));
+  }
+  
+    
+  $batch = array(
+    'title' => t('Processing Multigroup Migration'),
+    'operations' => $operations,
+    'init_message' => t('Multigroup Migration is starting.'),
+    'error_message' => t('Multigroup Migration has encountered an error.'),
+    'progress_message' => t('Current: @current | Remaining: @remaining | Total Field Collections: @total | Percentage: @percentage | Estimate: @estimate | Elapsed: @elapsed'),
+    'finished' => 'intstrux_migration_multigroup_batch_finished',
+  );
+  
+  batch_set($batch);
+}
+
+function intstrux_migration_multigroup_batch_start($field_collection, $field_multigroup, &$context) {
+  if (empty($context['sandbox'])) {
+    $context['sandbox'] = array();
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['current_field_collection'] = $field_collection;
+    $context['sandbox']['current_node'] =0;
+    $context['sandbox']['max'] = 0;
+  }
+  
+  if($field_multigroup) {
+      
+    $limit = 5;
+    
+    $results = '';
+      
+    $cck_count = array();
+    
+    foreach($field_multigroup as $cck => $field) {
+      $query = db_select('content_' . $cck, 'f')
+        ->fields('f', array('nid', 'vid'))
+        ->distinct();
+      $result = $query->execute();
+      $cck_count[$cck] =  $result->rowCount();
+    }
+    
+    $context['sandbox']['max'] = max($cck_count);
+    
+    $cck = array_search(max($cck_count), $cck_count);    
+    
+    $query = db_select('content_' . $cck, 'f')
+      ->fields('f', array('nid', 'vid'))
+      ->distinct()
+      ->orderBy('f.nid', 'ASC')
+      ->where('f.nid > :nid', array(':nid' => $context['sandbox']['current_node']))       
+      ->extend('PagerDefault')
+      ->limit($limit);
+    $nodes_result = $query->execute();
+        
+    foreach ($nodes_result as $node_record) {
+      $context['sandbox']['current_node'] = $node_record->nid;
+      $multigroup_data = array();
+      
+      foreach($field_multigroup as $cck => $field) {
+        $query = db_select('content_' . $cck, 'f')
+          ->fields('f')
+          ->condition('f.nid', $node_record->nid);
+        $field_result = $query->execute();
+
+        foreach ($field_result as $field_item) {
+          $multigroup_data[$field_item->delta][$cck] = $field_item;
+        }
+        
+        $node = node_load($node_record->nid);
+        
+        foreach ($multigroup_data as $delta => $values) {
+          if(isset($node->{$field_collection}[$node->language]) &&  !empty($node->{$field_collection}[$node->language][$delta]['value'])) {
+            // has value 
+            $results .= t('value exists at !nid and collection !field with value !item', array('!nid' => $node->nid, '!field' => $field_collection, '!item' => $node->{$field_collection}[$node->language][$delta]['value']));
+            continue;
+          }
+          
+          // create new entity 
+          $field_collection_item = entity_create('field_collection_item', array('field_name' => $field_collection));
+          $field_collection_item->setHostEntity('node', $node);
+          
+          foreach($values as $cck => $data) {
+            $content_col_field = $cck . '_' . reset($field_multigroup[$cck]); // d6
+                        
+            //$field_col_field = key($collection_field[$cck]) . '_' .  reset($collection_field[$cck]); // d7
+            //print $content_col_field . '---- current ' .  $data->{$content_col_field}  . ' to ---' . $field_col_field . '<br/>';
+            
+            $field_collection_item->{key($field_multigroup[$cck])}[$node->language][][reset($field_multigroup[$cck])] = $data->{$content_col_field};
+          }
+          
+          $field_collection_item->save();
+        }
+      }
+
+      $context['sandbox']['progress']++; 
+      $context['results'][] = $results;
+      $context['message'] = t('Merging !collection. !nid node @progress of @max', array(
+        '!collection' => $context['sandbox']['current_field_collection'],
+        '!nid' => $context['sandbox']['current_node'],
+        '@progress' => $context['sandbox']['progress'],
+        '@max' => $context['sandbox']['max'],  
+      )); 
+    }
+  } 
+  
+  // Check if the batch is finished
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = ($context['sandbox']['progress'] >= $context['sandbox']['max']);
+  }
+}
+
+
+function intstrux_migration_multigroup_batch_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message(t('finished successfully'));
+    drupal_set_message(t('The final result !result', array('!result' => print_r($results, true))));
+  } else {
+      
+  } 
+}

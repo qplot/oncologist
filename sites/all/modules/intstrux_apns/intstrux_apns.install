@@ -1,0 +1,193 @@
+<?php
+
+/**
+ * Implements hook_field_scheme().
+ */
+function intstrux_apns_schema() {
+  $schema = array();
+
+  $schema['intstrux_apns_queue'] = array(
+    'description' => 'Queue for scheduled push notifications',
+    'fields' => array(
+      'uid' => array(
+        'description' => 'User ID',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'payload' => array(
+        'description' => 'Message',
+        'type' => 'varchar',
+        'length' => '256',
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'Timestamp when message was added',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('uid'),
+    'indexes' => array(
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  $schema['intstrux_apns_tokens'] = array(
+    'description' => 'Stores device tokens',
+    'fields' => array(
+      
+      'token' => array(
+        'description' => 'Device Token',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+
+      'type' => array(
+        'description' => 'Device Type (iPhone, Android)',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+
+      'iosVersion' => array(
+        'description' => 'iosVersion',
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+      ),
+
+      'app' => array(
+        'description' => 'app',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+
+      'appVersion' => array(
+        'description' => 'appVersion',
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+      ),
+      
+      'uid' => array(
+        'description' => 'User ID',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+
+      'edition' => array(
+        'description' => 'edition',
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+      ),
+
+      'country' => array(
+        'description' => 'country',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+
+      'speciality' => array(
+        'description' => 'speciality',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+
+      'preferences' => array(
+        'description' => 'preferences',
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      
+      'language' => array(
+        'description' => 'Language',
+        'type' => 'varchar',
+        'length' => 11,
+        'not null' => TRUE,
+      ),
+
+      'timestamp' => array(
+        'description' => 'Timestamp token was added',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      
+    ),
+    'primary key' => array('token', 'uid'),
+    'indexes' => array(
+      'timestamp' => array('timestamp'),
+      'token' => array('token'),
+      'type' => array('type'),
+      'language' => array('language'),
+    ),
+  );
+
+
+  $schema['intstrux_apns_urlhashes'] = array(
+    'description' => 'Maps hasehed values to URLs. This is for shortening the payload of a push notification',
+    'fields' => array(
+      'hash' => array(
+        'description' => 'A hashed value',
+        'type' => 'varchar',
+        'length' => '8',
+        'not null' => TRUE,
+      ),
+      'url' => array(
+        'description' => 'The target URL',
+        'type' => 'varchar',
+        'length' => '512',
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'Timestamp when hash was added',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('hash'),
+    'indexes' => array(
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+
+  $schema['intstrux_apns_history'] = array(
+    'description' => 'Previously send push notifications',
+    'fields' => array(
+      'mid' => array(
+        'description' => 'Message ID',
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'payload' => array(
+        'description' => 'Message',
+        'type' => 'varchar',
+        'length' => '256',
+        'not null' => TRUE,
+      ),
+
+      'filter' => array(
+        'description' => 'Serialized filter object',
+        'type' => 'varchar',
+        'length' => '1024',
+        'not null' => TRUE,
+      ),
+
+      'timestamp' => array(
+        'description' => 'Timestamp when message was added',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('mid'),
+    'indexes' => array(
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  return $schema;
+}

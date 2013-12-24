@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Defines intstrux highwire migrate imports.
+ */
+
+
+/**
+ * Implements hook_menu().
+ */
+function intstrux_highwire_migrate_menu() {
+  $items = array();
+  
+  $items['admin/config/content/highwire/migrate'] = array(
+    'title' => 'Migrate',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_highwire_migrate_form'),
+    'access arguments' => array('administer intstrux highwire settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+    'file' => 'intstrux_highwire_migrate.default.inc',
+  );
+  
+  $items['admin/config/content/highwire/migrate/default'] = array(
+    'title' => 'Migrate',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 1,
+  );
+  
+  $items['admin/config/content/highwire/migrate/verify'] = array(
+    'title' => 'Verify',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_highwire_migrate_verify_form'),
+    'access arguments' => array('administer intstrux highwire settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 2,
+    'file' => 'intstrux_highwire_migrate.verify.inc',  
+  );
+  
+  $items['admin/config/content/highwire/migrate/import'] = array(
+    'title' => 'Import with HTML file attachment',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_highwire_migrate_import_form'),
+    'access arguments' => array('administer intstrux highwire settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 3,
+    'file' => 'intstrux_highwire_migrate.import.inc',
+  );
+  
+  $items['admin/config/content/highwire/migrate/import_new'] = array(
+    'title' => 'Import with body field',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_highwire_migrate_import_new_form'),
+    'access arguments' => array('administer intstrux highwire settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 3,
+    'file' => 'intstrux_highwire_migrate.import_new.inc',
+  );
+  
+  $items['admin/config/content/highwire/migrate/date'] = array(
+    'title' => 'Migrate Dates',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_highwire_migrate_date_form'),
+    'access arguments' => array('administer intstrux highwire settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 4,
+    'file' => 'intstrux_highwire_migrate.date.inc',
+  );
+  
+  $items['admin/config/content/highwire/migrate/body'] = array(
+    'title' => 'Migrate Articles Body',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_highwire_migrate_body_form'),
+    'access arguments' => array('administer intstrux highwire settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5,
+    'file' => 'intstrux_highwire_migrate.body.inc',
+  );
+  
+  $items['admin/config/content/highwire/migrate/section'] = array(
+    'title' => 'Migrate Section Taxonomy',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_highwire_migrate_section_form'),
+    'access arguments' => array('administer intstrux highwire settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+    'file' => 'intstrux_highwire_migrate.section.inc',
+  );
+  
+  $items['admin/config/content/highwire/migrate/reindex'] = array(
+    'title' => 'Reindex Taxonomy Nodes',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_highwire_migrate_reindex_form'),
+    'access arguments' => array('administer intstrux highwire settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 11,
+    'file' => 'intstrux_highwire_migrate.reindex.inc',
+  );
+  
+  return $items;
+}

@@ -1,0 +1,214 @@
+.view-container,
+.menu-active,
+.view.view-view-pagehtml.view-id-view_pagehtml
+{
+    height: 941px;
+}
+.section-view-pagehtml #page,
+.section-view-pagehtml-popup #page
+{
+    position: relative;
+}
+
+.section-view-articles .title,
+.section-view-articles-current .title,
+.section-view-latest .title,
+.section-view-clinicaltrials .title
+{
+	display: -webkit-box;
+    font-size: 1.7em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    /* ellipsis */
+    /* until we get highwire import. Then move this to section name. */
+    /*height: 42px;*/
+    line-height: 1.2em;
+    /*margin: 6px auto 10px auto;*/
+    nowhitespace: afterproperty;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.page-view-featuredqueue .title,
+.page-view-customized .title,
+.page-view-customized .item_thumb_title,
+.page-view-sections .title,
+.page-view-pagehtml .title,
+.page-view-pagehtml-popup .title,
+.section-view-articles .title,
+.section-view-articles-current .title,
+.section-view-latest .title,
+.page-view-clinicaltrials .title
+{
+	display: -webkit-box;
+    font-size: 1.1em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 1.2em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.section-view-articles .title
+{
+    font-size: 1.1em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+|}
+
+.section-view-articles .title{
+    font-size: 1.1em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+}
+
+.section-view-articles-current .title
+{
+    font-size: 1.1em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+|}
+
+.section-view-articles-current .title{
+    font-size: 1.1em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+}
+
+.section-view-latest .title{
+    font-size: 1.1em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    margin-bottom: 5px;
+}
+
+.page-view-sections-china .title{
+    font-size: 1em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
+    nowhitespace: afterproperty;
+    text-overflow: ellipsis;
+}
+.section-view-articles .title{
+    font-size: 1.1em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
+    nowhitespace: afterproperty;
+    text-overflow: ellipsis;
+}
+
+.page-view-customized .author,
+.page-views .author
+{
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    /* ellipsis */
+    /*height: 35px;*/
+    color: #333;
+    display: -webkit-box;
+    font-size: 0.9em;
+    line-height: 1.4em;
+    margin: 10px auto 10px auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+
+
+.page-view-articles .abstract,
+.page-view-articles-current .abstract,
+.page-view-latest .abstract,
+.page-view-sections .abstract,
+.page-view-customized .abstract,
+.page-view-pagehtml .abstract,
+.page-view-pagehtml-popup .abstract,
+.page-view-featuredqueue .abstract,
+.page-view-clinicaltrials .abstract
+{
+    -webkit-box-orient: vertical;
+    /* ellipsis */
+    color: #666666;
+    display: -webkit-box;
+    font-size: 0.8em;
+    line-height: 1.5em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    margin-bottom: 20px;
+}
+
+.node-type-article .abstract .copyright-statement{
+    display:none;
+}
+
+.element-invisible
+{
+    display: none
+}
+
+h2.element-invisible
+{
+    display: none
+}
+
+#block-apachesolr-search-mlt-001
+{
+    display: none
+}
+
+/* Fixes alignement of references */
+
+div.ref-cit,
+.ref-cit div,
+.ref-cit cite,
+.ref-cit ol,
+.ref-cit li {
+    margin-left:0;
+    margin-right:0;
+    padding-left:0;
+    padding-right:0;
+    display: inline;
+}
+
+.cit-metadata{
+    margin-left:-2px !important;
+}
+
+.cit-list li br {
+    display:none
+}
+
+.cit-metadata p{
+    display:inline;
+    margin-left:-4px;
+}
+
+/* Resize portrait images */
+
+.fig-inline .large.active{
+    height:600px;
+}
+
+/* image / pdf articles ex: https://onchd.alpha.intstrux.com/image/ke-zuo-ti-ni-yong-yu-zhi-liao-alkzhong-pai-fei-xiao-xi-bao-fei-yan-ying-lai-zhong-liu-fen-zi */
+.node-type-asset-image .format-cadmus {
+	padding: 0px 87px !important;
+}
+.node-type-asset-image .item img {
+	margin-left: -40px;
+}
+.node-type-asset-image .section,
+.node-type-asset-image .date
+ {
+	margin-left: 25px;
+}

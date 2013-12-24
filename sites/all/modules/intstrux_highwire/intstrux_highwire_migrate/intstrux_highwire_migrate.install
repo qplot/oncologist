@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function intstrux_highwire_migrate_schema() {
+  $schema = array();
+
+  $schema['highwire_migrate'] = array(
+    'description' => 'HighWire Article ',
+    'fields' => array(
+      'nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => 0,
+        'description' => 'Primary Key: {node}.nid for node.',
+      ),
+      'atom_id' => array(
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Primary Key: {highwire_migrate}.atom_id for HighWire Articles.',
+      ),
+    ),
+    'primary key' => array('nid', 'atom_id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+    ),
+    'foreign keys' => array(
+      'node' => array(
+        'table' => 'node',
+        'columns' => array('nid' => 'nid'),
+      ),
+    ),
+  );
+  
+  return $schema;
+}

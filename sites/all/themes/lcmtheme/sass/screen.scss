@@ -1,0 +1,36 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+// Compass
+@import "compass/css3";
+
+// CSS Reset
+@import "partials/normalize";
+
+//GRID
+@import "partials/grid";
+
+// CORE VARIABLES
+@import "partials/settings"; // Modify this for custom colors, font-sizes, etc
+
+//TYPOGRAPHY
+@import "partials/type";
+@import url(http://fonts.googleapis.com/css?family=Gentium+Book+Basic:700);
+
+// PAGE STRUCTURE
+@import "partials/scaffolding"; //place for general layout styling. Store body, wrapper, content and other layout specific blocks here.
+
+// Base CSS
+
+
+
+
+@import "partials/modules";
+@import "partials/buttons";
+
+@import "partials/themes";
+@import "partials/slider";
+
+

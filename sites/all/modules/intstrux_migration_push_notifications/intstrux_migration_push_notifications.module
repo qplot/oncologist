@@ -1,0 +1,313 @@
+<?php
+
+/*
+ * Implementation of hook_menu().
+ */
+function intstrux_migration_push_notifications_menu() {
+  $items = array();
+  
+  $items['admin/migrate/push_notifications'] = array(
+    'title' => 'Migrate Push Notifications',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_migration_push_notifications_form'),
+    'access callback' => TRUE,
+    'weight' => 51,
+  );
+  
+  return $items;
+}
+
+function intstrux_migration_push_notifications_form($form, &$form_state) {
+  $form = array();
+  
+  $form['description'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p>' . t('Migrate APNS Client content to Push Notifications Tokens table.') . '</p>',
+  );
+  
+  $form['actions'] = array(
+    '#type' => 'actions'
+  );
+ 
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Migrate'),
+  ); 
+  
+  return $form;
+}
+
+function intstrux_migration_push_notifications_form_submit(&$form, &$form_state) {
+  $batch = array(
+    'title' => t('Processing Multigroup Migration'),
+    'operations' => array(
+        array('intstrux_migration_push_notifications_batch_start', array()),
+    ),
+    'init_message' => t('Push Notifications Migration is starting.'),
+    'error_message' => t('Push Notifications Migration has encountered an error.'),
+    'progress_message' => t('Current: @current | Remaining: @remaining | Total Field Collections: @total | Percentage: @percentage | Estimate: @estimate | Elapsed: @elapsed'),
+    'finished' => 'intstrux_migration_push_notifications_batch_finished',
+  );
+  
+  batch_set($batch);
+}
+
+function intstrux_migration_push_notifications_batch_start(&$context) {
+  if (empty($context['sandbox'])) {
+    $context['sandbox'] = array();
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['current_node'] = 0;
+    $context['sandbox']['max'] = 0;
+  }
+  
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('n.type', 'apns_client')
+    ->condition('n.nid', $context['sandbox']['current_node'], '>')
+    ->orderBy('n.nid', 'ASC');
+  
+  if(!$context['sandbox']['max']) {
+    $context['sandbox']['max'] = $query->countQuery()->execute()->fetchField();
+  }
+  
+  $query->range(0, 25);
+  
+  $nids = $query->execute();
+  
+  foreach($nids as $delta => $nid) {
+    
+    $node = node_load($nid->nid);
+    
+    $mail = (isset($node->field_apns_userid[$node->language]))? $node->field_apns_userid[$node->language][0]['value'] : '';
+    
+    $user = user_load_by_mail($mail);
+    
+    // store node content fields in push_notifications_token table
+    if(isset($node->field_apns_token[$node->language])) {
+        
+      $token = (isset($node->field_apns_token[$node->language]))? $node->field_apns_token[$node->language][0]['value'] : '';  
+        
+      if (push_notifications_find_token($token, $user->nid)) {
+        // This token is already registered to this user.
+        continue;
+      }
+        
+      $table = 'push_notifications_tokens';
+      $record = new stdClass();
+      $record->token = $token;
+      $record->uid = ($user->uid)? $user->uid : 0;
+      $record->type = 2; // 0 for ios and 1 for android
+      $record->language = $node->language;
+      $record->timestamp = time() + $delta;
+      $record->mail = $mail;
+      $record->udid = (isset($node->field_apns_udid[$node->language]))? $node->field_apns_udid[$node->language][0]['value'] : '';
+      $record->bundle = (isset($node->field_app_bundleid[$node->language]))? $node->field_app_bundleid[$node->language][0]['value'] : '';
+      $record->version = (isset($node->field_app_ios_version[$node->language]))? $node->field_app_ios_version[$node->language][0]['value'] : '';
+      drupal_write_record($table, $record);
+    }
+    
+    $context['sandbox']['progress']++; 
+    $context['results'][] = $node->title;
+    $context['sandbox']['current_node'] = $node->nid;
+    $context['message'] = t('Last imported node @nid.', array('@nid' => $node->nid));
+  }
+  
+  
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  } 
+}
+
+function intstrux_migration_push_notifications_batch_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message(t('finished successfully'));
+    drupal_set_message(t('The final result !result', array('!result' => print_r($results, true))));
+  } else {
+      
+  } 
+}
+
+/**
+ * Implements hook_services_resources_alter().
+ */
+function intstrux_migration_push_notifications_services_resources_alter(&$resources, $endpoint) {
+  if (isset($resources['push_notifications'])) {
+    if (isset($resources['push_notifications']['operations'])) {
+      if (isset($resources['push_notifications']['operations']['create'])) {
+        $resources['push_notifications']['operations']['create']['callback'] = '_intstrux_migration_push_notifications_service_create_device_token';
+        $resources['push_notifications']['operations']['create']['args'][] = array(
+          'name' => 'mail',
+          'type' => 'string',  
+          'optional' => TRUE,
+          'source' => 'data',
+          'description' => 'User E-mail',
+        );
+        $resources['push_notifications']['operations']['create']['args'][] = array(
+          'name' => 'udid',
+          'type' => 'string',  
+          'optional' => FALSE,
+          'source' => 'data',
+          'description' => 'Device UDID',
+        );
+        $resources['push_notifications']['operations']['create']['args'][] = array(
+          'name' => 'bundle',
+          'type' => 'string',  
+          'optional' => FALSE,
+          'source' => 'data',
+          'description' => 'Domain Name',
+        );
+        $resources['push_notifications']['operations']['create']['args'][] = array(
+          'name' => 'version',
+          'type' => 'string',  
+          'optional' => FALSE,
+          'source' => 'data',
+          'description' => 'Device Version',
+        );
+      }
+    }
+  }
+}
+
+function _intstrux_migration_push_notifications_service_create_device_token($data) {
+  if (!isset($data['token']) || !isset($data['type']) || !isset($data['udid']) || !isset($data['bundle']) || !isset($data['version'])) {
+    return services_error(t('At least one parameter is missing.'), 400);
+  }
+
+  // Default language to English and validate language setting.
+  if (isset($data['language'])) {
+    // Make sure this is a valid language code.
+    include_once DRUPAL_ROOT . '/includes/iso.inc';
+    $languages = _locale_get_predefined_list();
+    if (!array_key_exists($data['language'], $languages)) {
+      return services_error(t('This is not a valid ISO 639 language code'), 404);
+    }
+
+    // Optionally, only allow enabled languages.
+    if (variable_get('push_notifications_require_enabled_language')) {
+      $available_languages = language_list();
+      if (!array_key_exists($data['language'], $available_languages)) {
+        return services_error(t('This language is not enabled'), 404);
+      }
+    }
+    $language = $data['language'];
+  }
+  else {
+    $default_language = language_default();
+    $language = $default_language->language;
+  }
+
+  // Decode data.
+  $token = $data['token'];
+  $type = $data['type'];
+  $udid = $data['udid'];
+  $bundle = $data['bundle'];
+  $version = $data['version'];
+
+  // Get the current user id.
+  $uid = $GLOBALS['user']->uid;
+  // Remove empty spaces from the token.
+  $token = str_replace(' ', '', $token);
+  // Convert type to integer value.
+  if ($type != 'ios' && $type != 'android') {
+    return services_error(t('Type not supported.'), 400);
+  }
+  else {
+    $type_id = ($type == 'ios') ? PUSH_NOTIFICATIONS_TYPE_ID_IOS : PUSH_NOTIFICATIONS_TYPE_ID_ANDROID;
+  }
+  
+  if(isset($data['mail']) && !empty($data['mail'])) {
+     $mail = $data['mail']; 
+  } else {
+     $mail = $GLOBALS['user']->mail;
+  }
+
+  // Determine if this token is already registered with the current user.
+  if (push_notifications_find_token($token, $uid)) {
+    return array(
+      'success' => 1,
+      'message' => 'This token is already registered to this user.'
+    );
+  }
+
+  // Store this token in the database.
+  $result = intstrux_migration_push_notifications_save_token(array(
+      'token' => $token,
+      'type_id' => $type_id,
+      'uid' => $uid,
+      'language' => $language,
+      'mail' => $mail,
+      'udid' => $udid,
+      'bundle' => $bundle,
+      'version' => $version,
+  ));
+
+  if ($result === FALSE) {
+    return services_error(t('This token could not be stored.'), 400);
+  }
+  else {
+    return array(
+      'success' => 1,
+      'message' => 'This token was successfully stored in the database.'
+    );
+  }
+}
+
+/**
+ * Store a token in the database.
+ * Removes all spaces in the token.
+ *
+ * @param $token
+ *   Device token.
+ * @param $type_id
+ *   Device type id.
+ * @param $uid
+ *   User ID.
+ * @param $language
+ *   Language that this token is registered for, optional.
+ * @param $mail
+ *   User E-mail.
+ * @param $udid
+ *   Device UDID.
+ * @param $bundle
+ *   Domain Name.
+ * @param $version
+ *   Device Version.
+ *
+ * @return
+ *   Failure to write a record will return FALSE, Otherwise SAVED_NEW.
+ */
+function intstrux_migration_push_notifications_save_token($params = array()) {
+    
+  $token = (isset($params['token']))? $params['token'] : FALSE;  
+  $type_id = (isset($params['type_id']))? $params['type_id'] : FALSE;
+  $uid = (isset($params['uid']))? $params['uid'] : FALSE;
+  $language = (isset($params['language']))? $params['language'] : '';
+  $mail = (isset($params['mail']))? $params['mail'] : '';
+  $udid = (isset($params['udid']))? $params['udid'] : FALSE;
+  $bundle = (isset($params['bundle']))? $params['bundle'] : FALSE;
+  $version = (isset($params['version']))? $params['version'] : FALSE;
+
+  if (!is_string($token) || !is_numeric($type_id) || !is_numeric($uid) || !is_string($udid) || !is_string($bundle) || !is_string($version)) {
+    return FALSE;
+  }
+
+  // Default language to site default.
+  if ($language == '') {
+    $default_language = language_default();
+    $language = $default_language->language;
+  }
+
+  // Write record.
+  $table = 'push_notifications_tokens';
+  $record = new stdClass();
+  $record->token = $token;
+  $record->uid = $uid;
+  $record->type = $type_id;
+  $record->language = $language;
+  $record->timestamp = time();
+  $record->mail = $mail;
+  $record->udid = $udid;
+  $record->bundle = $bundle;
+  $record->version = $version;
+  return drupal_write_record($table, $record);
+}

@@ -1,0 +1,10 @@
+name = AMP Tester
+description = Test feature to show test views.
+core = 7.x
+package = AlphaMedPress
+version = 7.x-1.0-beta1
+project = amp_tester
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = amp_tester
+features_exclude[dependencies][views] = views

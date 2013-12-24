@@ -1,0 +1,163 @@
+<?php
+
+/**
+ * init hook
+ */
+function intstrux_migration_brightcove_init() {
+}
+
+
+/*
+ * Implementation of hook_permission().
+ */
+function intstrux_migration_brightcove_permission() {
+  return array(
+  	
+  	'intstrux_migration_brightcove_admin' => array(
+      'title' => t('intstrux migration brightcove'),
+    ),
+    
+  );
+}
+
+function intstrux_migration_brightcove_menu() {
+  $items = array();
+  
+  $items['admin/migrate/brightcove'] = array(
+    'title' => 'Migrate Brightcove', 
+    'page callback' => 'intstrux_migration_brightcove_sync', 
+    'access arguments' => array('intstrux_migration_admin'), 
+    'weight' => 10, 
+  );
+  
+  return $items;
+}
+
+function intstrux_migration_brightcove_sync(){
+
+$query = new EntityFieldQuery();
+$query->entityCondition('entity_type','node')
+->entityCondition('bundle','asset_video')
+->range(0, 10);
+
+$result = $query->execute();
+
+	if (isset($result['node'])) {
+	  $items_nids = array_keys($result['node']);
+	  $news_items = entity_load('node', $items_nids);
+	  print_r($news_items);
+	}
+}
+
+function intstrux_migration_brightcove_node_presave($node){
+	if ($node->type == 'asset_video' || $node->type == 'page_video' || $node->type == 'perspective'){
+		drupal_set_message(t('Brightcove migration interjected'));
+		
+		if ($node->field_bcexport["und"][0]["video_id"] === NULL){
+			drupal_set_message(t('Brightcove Id has not been entered'));
+			$node->field_bcm_status["und"][0]["value"] = 1;	
+		}else{
+			drupal_set_message(t('Brightcove Id has been entered'));
+			$node->field_bcm_status["und"][0]["value"] = 2;		
+		}
+		
+		$vidId = $node->field_bcexport["und"][0]["video_id"];
+		$read_token = variable_get('brightcove_read_api_key', '');
+		$bc_ios = getBCData($vidId,$read_token);
+		
+		foreach($bc_ios[7] as $video_object){
+			$rendition_height = $video_object->frameHeight;
+		
+			if($rendition_height > 530 && $rendition_height < 550){
+				$video_asset_size = $video_object->size;
+				$video_asset_mp4 = $video_object->url;
+				
+				if ($node->type == 'asset_video' || $node->type == 'perspective'){
+					$node->field_bc_filesize["und"][0]["value"] = $video_asset_size;
+					$node->field_video_mp4video["und"][0]["value"] = $video_object->url;
+					$node->field_perspective_direct["und"][0]["value"] = $video_object->url;
+				}
+			}else{
+				$video_page_size = $video_object->size;
+				
+				if ($node->type == 'page_video'){
+					$node->field_bc_filesize["und"][0]["value"] = $video_page_size;
+					$node->field_video_mp4video["und"][0]["value"] = $video_object->url;
+				}
+			}
+		}
+		$node->field_bcm_update["und"][0]["value"] = time();
+		$node->field_video_remotevideo["und"][0]["value"] = $bc_ios[4];
+		$node->field_bc_thumbnail["und"][0]["value"] = $bc_ios[6];
+		$node->field_perspective_murl_streamed["und"][0]["value"] = $bc_ios[4];
+		
+		if(!isset($node->field_video_title["und"][0]['value'])){
+
+			if(isset($bc_ios[0])) {
+		    		$node->field_video_title["und"][0]['value'] = $bc_ios[0];
+		    	}else if($node->field_video_title["und"][0]['value'] === NULL || $node->field_video_title["und"][0]['value'] == ''){
+		    		$node->field_video_title["und"][0]['value'] = ' ';
+		    }
+		   
+		    if ($bc_ios[0] == 'no_title') {
+		    		$node->field_video_title["und"][0]['value'] = ' ';
+		    	}
+	    }
+
+	    if(!isset($node->field_video_speaker["und"][0]["value"])){
+
+		    if(isset($bc_ios[1])) {
+		    		$node->field_video_speaker["und"][0]["value"] = $bc_ios[1];
+		    	}else if($node->field_video_speaker["und"][0]["value"] === NULL || $node->field_video_speaker["und"][0]["value"] == ''){
+		    		$node->field_video_speaker["und"][0]["value"] = $bc_ios[1] = ' ';
+		    }
+
+		}
+
+	    if(!isset($node->body["und"][0]["value"])){
+
+		    if(isset($bc_ios[3])) {
+		    		$node->body["und"][0]["value"] = $bc_ios[3];
+		    	}else if($node->body["und"][0]["value"] === NULL || $node->body["und"][0]["value"] == ''){
+		    		$node->body["und"][0]["value"] = $bc_ios[3] = ' ';
+		    }
+		}
+		
+		drupal_set_message(t('Brightcove fields have been populated'));
+			
+		imagecache_external_generate_path($bc_ios[6], "podcast_preview");
+		
+		imagecache_external_generate_path($bc_ios[6], "bc_thumbnail");
+		
+		drupal_set_message(t('External Image cache has been updated'));
+	}
+}
+
+function getBCData($vidId,$read_token){
+ 	$read_token = variable_get('brightcove_read_api_key', '');
+ 	$bc_url = 'http://api.brightcove.com/services/library?command=find_video_by_id&video_id='.$vidId.'&video_fields=id,renditions,name,length,longDescription,referenceId,videoStillURL,FLVURL,HLSURL&h&custom_fields=author,event&media_delivery=http&token='.$read_token;
+
+	//$bc_url = 'http://api.brightcove.com/services/library?command=find_video_by_id&video_id='.$vidId.'&video_fields=name,length,FLVURL&token='.$read_token;
+
+ 	$ch = curl_init();
+	$timeout = 5;
+	curl_setopt($ch,CURLOPT_URL,$bc_url);
+	curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+	curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+	$data = curl_exec($ch);
+	curl_close($ch);
+
+	$decoded_json = json_decode($data, false);
+	$bc_mp4 = $decoded_json->FLVURL;
+	$bc_ios = $decoded_json->HLSURL;
+	$bc_renditions = $decoded_json->renditions;
+	$bc_title = $decoded_json->name;
+	$bc_description = isset($decoded_json->longDescription) ?  $decoded_json->longDescription : "";
+	$bc_author = isset($decoded_json->customFields->author) ? $decoded_json->customFields->author : "";
+	$bc_event = isset($decoded_json->customFields->event) ? $decoded_json->customFields->event : "";
+	$bc_still = $decoded_json->videoStillURL;
+	$referenceId = $decoded_json->referenceId;
+	
+	return array($bc_title,$bc_author,$bc_event,$bc_description,$bc_ios,$bc_mp4,$bc_still,$bc_renditions);
+	//print print_r($decoded_json);
+}

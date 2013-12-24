@@ -1,0 +1,19 @@
+name = Intstrux APNs support (Apple Push Notifications)
+package = Intstrux
+project = intstrux_apns
+core = 7.x
+description = APNs module
+
+; Information added by drupal.org packaging script on 2011-04-17
+
+; Information added by drupal.org packaging script on 2011-07-05
+version = "7.x-1.0"
+core = "7.x"
+project = "intstrux_apns"
+datestamp = "1309860118"
+
+files[] = intstrux_apns.install
+files[] = intstrux_apns.module
+configure = admin/config/services/apns
+dependencies[] = services
+

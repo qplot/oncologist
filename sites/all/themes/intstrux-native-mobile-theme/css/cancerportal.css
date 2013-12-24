@@ -1,0 +1,15 @@
+.page-view-cancerportals .cancerportal_nolink img{
+	opacity:0.3;
+}
+
+/*.page-view-cancerportals .perspective_row_image img
+{
+	width: 565px;
+	height: auto;
+}*/
+
+.page-view-cancerportals .view-container.menu-active
+{
+margin-left: 178px;
+margin-top: 10px;
+}

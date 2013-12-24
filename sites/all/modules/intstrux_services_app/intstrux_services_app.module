@@ -1,0 +1,413 @@
+<?php
+
+function intstrux_services_app_interactive_view() {
+  $view = views_get_view("view_items_interactive_ad_alt");
+  //$view->set_arguments(array("US"));
+  $view->build();
+  $view->execute();
+  $view_results = $view->result;
+  
+    
+  $i=0;
+
+  foreach ($view_results as $key => $viewitem) {
+      
+    $i++; 
+        
+    print "item: <pre>".print_r($viewitem,true)."</pre>";
+
+  }
+
+}
+
+function intstrux_services_app_menu() {
+  $items = array();
+  
+  $items['admin/interactive/test'] = array(
+    'title' => 'check interactive view', 
+    'page callback' => 'intstrux_services_app_interactive_view',
+    'access arguments' => array('intstrux_solr_support'), 
+    'weight' => 10, 
+  );
+
+  $items['admin/config/application'] = array(
+    'title' => 'Application settings',
+    'description' => 'Configure general settings for the OncologistHD Application',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_services_app_application_settings'),
+    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('administer intstrux application settings'),
+    'file' => 'intstrux_services_app.admin.inc',
+  );
+  
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function intstrux_services_app_permission() {
+  return array(
+    "services app retrieve app menu" => array(
+      'title' => t('Get menu'),
+    ),
+    "services app retrieve app pager" => array(
+      'title' => t('Get pager'),
+    ),
+    "administer intstrux application settings" => array(
+      'title' => t('Administer application settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_services_resources().
+ */
+function intstrux_services_app_services_resources() {
+  return array(
+    'appmenu' => array(
+      'retrieve' => array(
+        'help' => 'Retrieves an appmenu',
+        'file' => array(
+          'type' => 'inc',
+          'module' => 'intstrux_services_app',
+          'name' => 'intstrux_services_app_menu.resource'
+        ),
+        'callback' => '_intstrux_services_app_menu_retrieve',
+        'access callback' => '_intstrux_services_app_menu_access',
+        'access arguments' => array('view'),
+        'access arguments append' => TRUE,
+        'args' => array(
+          'menu_name' => array(
+            'name' => 'menu_name',
+            'type' => 'string',
+            'description' => 'The name of the menu to get',
+            'source' => array('path' => '0'),
+            'optional' => FALSE,
+          ),
+          'appversion' => array(
+	        'name' => 'appversion',
+	        'type' => 'string',
+	        'description' => 'The version of the application making the request.',
+	        'source' => array('param' => 'appversion'),
+	        'optional' => TRUE,
+	        'default value' => 'default',
+	      ),
+	      'appmode' => array(
+	        'name' => 'appmode',
+	        'type' => 'string',
+	        'description' => 'The mode(default, prerelease...) of the application making the request.',
+	        'source' => array('param' => 'appmode'),
+	        'optional' => TRUE,
+	        'default value' => 'default',
+	      ),
+	      'args' => array(
+	        'name' => 'args',
+	        'type' => 'array',
+	        'description' => 'A list of arguments to pass to the menu.',
+	        'source' => array('param' => 'args'),
+	        'optional' => TRUE,
+	        'default value' => array(),
+	      ),
+		  
+		  
+        ),
+      ),
+    ),
+    
+	'apppager' => array(
+      'retrieve' => array(
+        'help' => 'Retrieves an apppager',
+        'file' => array(
+          'type' => 'inc',
+          'module' => 'intstrux_services_app',
+          'name' => 'intstrux_services_app_pager.resource'
+        ),
+        'callback' => '_intstrux_services_app_pager_retrieve',
+        'access callback' => '_intstrux_services_app_pager_access',
+        'access arguments' => array('view'),
+        'access arguments append' => TRUE,
+        'args' => array(
+          'view_id' => array(
+            'name' => 'view_id',
+            'type' => 'string',
+            'description' => 'The id of the view to get',
+            'source' => array('path' => '0'),
+            'optional' => FALSE,
+          ),
+          'args' => array(
+	        'name' => 'args',
+	        'type' => 'string',
+	        'description' => 'A list of arguments to pass to the view.',
+	        'source' => array('param' => 'args'),
+	        'optional' => TRUE,
+	        'default value' => "",
+	      ),
+		  
+		  
+        ),
+      ),
+    ),
+    
+	
+	
+	
+	'appuser' => array(
+      'actions' => array(
+        'passwordReset' => array(
+          'help' => 'Request a password reset',
+          'file' => array(
+          	'type' => 'inc',
+          	'module' => 'intstrux_services_app',
+          	'name' => 'intstrux_services_app_user.resource'
+        	),
+          'callback' => '_intstrux_services_app_user_password_reset',
+          'args' => array(
+            array(
+              'name' => 'mail',
+              'type' => 'string',
+              'description' => 'A valid email address',
+              'source' => array('data' => 'mail'),
+              'optional' => FALSE,
+            ),
+          ),
+          'access callback' => 'services_access_menu',
+          
+        ),
+        
+		
+		'passwordOneTimeLogin' => array(
+          'help' => 'One time login',
+          'file' => array(
+          	'type' => 'inc',
+          	'module' => 'intstrux_services_app',
+          	'name' => 'intstrux_services_app_user.resource'
+        	),
+          'callback' => '_intstrux_services_app_user_password_onetimelogin',
+          'args' => array(
+          	array(
+              'name' => 'token',
+              'type' => 'string',
+              'description' => 'A valid on time login token',
+              'source' => array('data' => 'token'),
+              'optional' => FALSE,
+            ),
+            array(
+              'name' => 'mail',
+              'type' => 'string',
+              'description' => 'A valid email address',
+              'source' => array('data' => 'mail'),
+              'optional' => TRUE,
+            ),
+          ),
+          'access callback' => 'services_access_menu',
+          
+        ),
+
+      ),
+    ),
+	
+	
+  );
+}
+
+/**
+ * Access callback for the menu resource.
+ *
+ * @param $op
+ *   The operation that's going to be performed.
+ * @param $args
+ *   The arguments that will be passed to the callback.
+ *
+ * @return bool
+ *   Whether access is given or not.
+ */
+function _intstrux_services_app_menu_access($op = 'view', $args = array()) {
+
+  global $user;
+  $access = FALSE;
+
+  switch ($op) {
+    case 'view':
+
+      $access = user_access("services menu retrieve app menu");
+
+      if (!in_array($args['menu_name'], menu_get_names()))
+        return services_error(t('Menu @menu_name could not be found', array('@menu_name' => $args['menu_name'])), 404);
+
+      break;
+  }
+
+  return $access;
+}
+
+
+/**
+ * Access callback for the pager resource.
+ *
+ * @param $op
+ *   The operation that's going to be performed.
+ * @param $args
+ *   The arguments that will be passed to the callback.
+ *
+ * @return bool
+ *   Whether access is given or not.
+ */
+function _intstrux_services_app_pager_access($op = 'view', $args = array()) {
+
+  global $user;
+  $access = FALSE;
+
+  switch ($op) {
+    case 'view':
+
+      $access = user_access("services app retrieve app pager");
+
+	$bypass = array("view_customized", "view_personalized", "view_items_customized", "view_items_personalized");
+
+      if(!in_array($args['view_id'], $bypass)){
+      
+      $view = views_get_view($args['view_id']);
+      if (empty($view)) {
+        return services_error(t('View @view could not be found', array('@view' => $args['view_id'])), 404);
+      }
+	  
+      
+      return $access && $view->access('default');
+	  }
+	  else{
+	  	return $access;
+	  }
+
+      break;
+  }
+
+  return $access;
+}
+
+function intstrux_services_app_detect_mobile(){
+	
+	return new Mobile_Detect();
+}
+
+
+function intstrux_services_app_mail($key, &$message, $params) {
+    switch($key) {
+      case 'passwordResetApp':
+        
+        $langcode = $message['language']->language;
+        $message['subject'] = t('Notification from The Oncologist HD App');
+        $message['body'][] = t("Your temprary token is: ".  $params['token'].". You may also click on the following link to log into the App directly: app://com.intstrux.oncHD/passwordReset/".$params['token']."/".$params['account']->mail);
+        break;
+    }
+}
+
+
+
+function intstrux_services_app_node_prepare($node){
+
+
+    //Editing a node
+    if($node->nid){
+
+          if( $node->type == "asset_image" ||
+              $node->type == "page_html"){
+
+              if(empty($node->field_tax_article[$lang][0]['tid'])){
+
+                drupal_set_message("This contnent type is not connected to an Issue, Journal or Supplement and therefore has no published date. This will result in the content showing last in views sorted by date", 'warning');
+              }
+              else{
+
+              $term = taxonomy_term_load($node->field_tax_article[$lang][0]['tid']);
+
+                if(empty($term)){
+
+                  drupal_set_message("This contnent type was connected to an Issue, Journal or Supplement which has been delteted and therefore has no published date. This will result in the content showing last in views sorted by date", 'warning');
+                }
+              }
+              
+          }
+
+          if( $node->type == "asset_image" ||
+              $node->type == "asset_video" ||
+              $node->type == "article" ||
+              $node->type == "page_html"){
+
+              if(empty($node->field_tax_section[$lang][0]['tid'])){
+
+                 drupal_set_message("This content type is not associated with a section/category. This will result in the content not showing in the section area", 'warning');
+              }
+
+              if(empty($node->field_tax_edition[$lang][0]['tid'])){
+
+                 drupal_set_message("This content needs to be associated to at least one edition", 'error');
+              }
+
+            }
+            if( $node->type == "asset_image" ||
+                $node->type == "article" ||
+                $node->type == "page_html"){
+              if(empty($node->field_article_page[$lang][0]['value'])){
+
+                 drupal_set_message("This content needs to have a valid page number. Default ot 0 if unsure", 'error');
+              }
+
+              
+          }
+
+          
+    }
+}
+
+
+
+function intstrux_services_app_validate_version($version) {
+  $arr = explode(".", $version);
+
+  $ret = TRUE;
+
+  if(count($arr) == 3){
+
+    foreach ($arr as $key => $value) {
+      if(!is_numeric($value) || $value < 0){
+        $ret = FALSE;
+        break;
+      }
+    }
+
+  }
+  else{
+    $ret = FALSE;
+  }
+
+  return $ret;
+  
+}
+
+//1: A > B, 
+//-1: A < B, 
+//0: A == B
+function intstrux_services_app_versioncompare_version($versiona, $versionb) {
+  $arrA = explode(".", $versiona);
+  $arrB = explode(".", $versionb);
+  
+  $ret = TRUE;
+
+  for($i=0; $i < count($arrA); $i++) {
+      
+    //Greater
+    if($arrA[$i] >  $arrB[$i]){
+      return 1;
+    }
+    //Smaller
+    if($arrA[$i] <  $arrB[$i]){
+      return -1;
+    }
+
+  }
+ 
+  //Equal last case
+  return 0;
+  
+}

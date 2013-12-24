@@ -1,0 +1,414 @@
+<?php
+
+/**
+ * init hook
+ */
+function intstrux_migration_taxonmoy_init() {
+}
+
+
+/*
+ * Implementation of hook_permission().
+ */
+function intstrux_migration_taxonmoy_permission() {
+  return array(
+  	
+  	'intstrux_migration_taxonmoy_admin' => array(
+      'title' => t('intstrux migration taxonomy'),
+    ),
+    
+  );
+}
+
+/*
+ * Implementation of hook_menu().
+ */
+function intstrux_migration_taxonmoy_menu() {
+  $items = array();
+  
+  $items['admin/migrate/taxonomy'] = array(
+    'title' => 'Migrate Taxonomy', 
+    'page callback' => 'drupal_get_form',
+    'page arguments' =>  array('intstrux_migration_taxonmoy_form'), 
+    'access arguments' => array('intstrux_migration_taxonmoy'), 
+    'weight' => 10, 
+  );
+  
+  return $items;
+}
+
+function intstrux_migration_taxonmoy_form() {
+  $form = array();
+  
+  $form['description'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p>' . t('Migrate magazine taxonomy terms D6 to D7') . '</p>',
+  );
+
+  $form['actions'] = array(
+    '#type' => 'actions'
+  );
+  
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Migrate'),
+  );
+  
+  return $form;
+}
+
+function _intstrux_migration_taxonmoy_get_edition($edition){
+	
+	$e= "";
+	
+	switch (strtolower($edition)) {
+		case 'com.intstrux.onchd':
+			$e= "US";
+			break;
+			
+		case 'eu.intstrux.onchd':
+			$e= "EU";
+			break;
+			
+		case 'zh.intstrux.onchd':
+		case 'zhtmp.intstrux.onchd':
+			$e= "ZH";
+			break;	
+		
+		default:
+			$e= "default";
+			break;
+	}
+	
+	return $e;
+	
+}
+
+
+function _intstrux_migration_taxonmoy_get_publication($app){
+	
+	$e= "";
+	
+	switch (strtolower($app)) {
+		case 'com.intstrux.onchd':
+		case 'eu.intstrux.onchd':
+		case 'zh.intstrux.onchd':
+		case 'zhtmp.intstrux.onchd':
+		case 'com.intstrux.oncsd':
+			$e= "The Oncologist";
+			break;	
+		
+		case 'com.intstrux.stemcellshd':
+			$e= "StemCells";
+			break;
+			
+		case 'com.intstrux.sctmhd':
+			$e= "SCTM";
+			break;
+			
+		case 'board.intstrux.ceoroundtable':
+		case 'com.intstrux.ceoroundtable':
+			$e= "CEO Rountable";
+			break;
+		
+		default:
+			$e= $app;
+			break;
+	}
+	
+	return $e;
+	
+}
+
+function _intstrux_migration_taxonmoy_get_type($type){
+	
+	if(empty($type)){
+		$type = "unspecified";
+	}
+	
+	return $type;
+	
+}
+
+
+function intstrux_migration_taxonmoy_form_submit($form, &$form_state) {
+  	
+
+	$postargs = "method=%22views.get%22&view_name=%22X_magazines%22";
+	//The curl session is initialized using just the URL prefix as a parameter:
+  	$session = curl_init(); 
+	//The various curl options need to be set specifically for a POST:
+    
+    // Tell curl to use HTTP POST
+     curl_setopt($session, CURLOPT_URL, "https://ampserver.intstrux.com/services/json"); 
+
+ 	 curl_setopt($session, CURLOPT_HEADER, false); // Display headers
+
+ 	 curl_setopt($session, CURLOPT_VERBOSE, true); // Display communication with server
+     curl_setopt ($session, CURLOPT_POST, true); 
+     // Tell curl that this is the body of the POST
+     curl_setopt ($session, CURLOPT_POSTFIELDS, $postargs); 
+     curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+  
+
+  	curl_setopt($session, CURLOPT_HTTPHEADER, array("Content-Type:application/x-www-form-urlencoded", "Accept:application/json", "User-Agent:ASIHTTPRequest"));
+
+  
+	//We then run curl_exec to execute the POST and then close the session:
+ 	$response = curl_exec($session); 
+	
+	$ret.= "<pre>\n";
+	$ret.=  print_r($account, YES);  // get error info
+	$ret.=  "\n\ncURL error number:" .curl_errno($session); // print error info
+	$ret.=  "\n\ncURL error:" . curl_error($session); 
+	$ret.=  "</pre>\n";
+
+
+	$obj = json_decode($response);
+
+	$arr = array();
+	
+	//->node_node_data_field_reference_html_nid
+	
+	
+	
+	foreach ($obj->{'#data'} as $key => $value) {
+		//drupal_set_message(print_r($value, 1));
+		//$key = $value->node_data_field_magazine_type_field_application_value."---".$value->node_data_field_magazine_type_field_magazine_type_value."---".$value->node_title;
+	
+		$date = strtotime($value->node_data_field_magazine_type_field_release_date_value);
+		$mothyear = date("y/m", $date);
+	
+		$key = $mothyear." -- ".
+				$value->node_title. " [".
+			   _intstrux_migration_taxonmoy_get_publication($value->node_data_field_magazine_type_field_application_value) ." -- ".
+			   _intstrux_migration_taxonmoy_get_edition($value->node_data_field_magazine_type_field_application_value)." -- ".
+			   _intstrux_migration_taxonmoy_get_type($value->node_data_field_magazine_type_field_magazine_type_value)."]";
+		
+		if(!isset($arr[$key])){
+			$arr[$key] = new stdClass();
+			
+			$arr[$key]->publication 	= _intstrux_migration_taxonmoy_get_publication($value->node_data_field_magazine_type_field_application_value);
+			$arr[$key]->edition 		= _intstrux_migration_taxonmoy_get_edition($value->node_data_field_magazine_type_field_application_value);
+			$arr[$key]->type 			= _intstrux_migration_taxonmoy_get_type($value->node_data_field_magazine_type_field_magazine_type_value);
+			$arr[$key]->title 			= $value->node_title;
+			$arr[$key]->date 			= $value->node_data_field_magazine_type_field_release_date_value;
+		
+			$arr[$key]->children		= array();
+		
+		}
+		
+		$arr[$key]->children[] = $value->node_node_data_field_reference_html_nid;
+	}
+	
+	/*
+	taxonomy_vocabulary_save((object) array(
+		  'name' => 'Articles',
+		  'machine_name' => 'articles',
+	));
+	
+		
+	taxonomy_vocabulary_save((object) array(
+		  'name' => 'Editions',
+		  'machine_name' => 'editions',
+	));
+	
+	taxonomy_vocabulary_save((object) array(
+		  'name' => 'Publications',
+		  'machine_name' => 'publications',
+	));
+	
+	taxonomy_vocabulary_save((object) array(
+		  'name' => 'Article Types',
+		  'machine_name' => 'article_types',
+	));
+	*/	
+		
+	$vid = db_query("SELECT vid FROM {taxonomy_vocabulary} WHERE machine_name = 'articles'")->fetchField();
+	
+	$tids = array();
+	foreach (taxonomy_get_tree($vid) as $term) {
+	  taxonomy_term_delete($term->tid);
+	}
+	
+	$edition_vid = db_query("SELECT vid FROM {taxonomy_vocabulary} WHERE machine_name = 'editions'")->fetchField();
+	
+	$tids = array();
+	foreach (taxonomy_get_tree($edition_vid) as $term) {
+	  taxonomy_term_delete($term->tid);
+	}
+	
+	$publication_vid = db_query("SELECT vid FROM {taxonomy_vocabulary} WHERE machine_name = 'publications'")->fetchField();
+	
+	$tids = array();
+	foreach (taxonomy_get_tree($publication_vid) as $term) {
+	  taxonomy_term_delete($term->tid);
+	}
+	
+	$type_vid = db_query("SELECT vid FROM {taxonomy_vocabulary} WHERE machine_name = 'article_types'")->fetchField();
+	
+	$tids = array();
+	foreach (taxonomy_get_tree($type_vid) as $term) {
+	  taxonomy_term_delete($term->tid);
+	}	
+		
+
+  $batch = array(
+    'title' => t('Processing Taxonomy migration'),
+    'operations' => array(
+      array('intstrux_migration_taxonmoy_batch_start', array($arr, $vid, $edition_vid, $publication_vid, $type_vid)),
+    ),
+    'finished' => 'intstrux_migration_taxonmoy_batch_finish',
+    'init_message' => t('Profiles migration is starting.'),
+    'error_message' => t('Profiles migration has encountered an error.'),
+    'progress_message' => t('Percentage: @percentage% | Estimate: @estimate | Elapsed: @elapsed')
+  );
+
+  batch_set($batch);
+}
+
+function intstrux_migration_taxonmoy_batch_start($arr, $vid, $edition_vid, $publication_vid, $type_vid, &$context){
+	
+	if (empty($context['sandbox'])) {
+    	$context['sandbox'] = array();
+    	$context['sandbox']['progress'] = 0;
+    	$context['sandbox']['current_pos'] = 0;
+    	$context['sandbox']['max'] = count($arr);
+  	}
+	
+	$pos = 0;
+	foreach ($arr as $key => $value) {
+		
+		
+		if($context['sandbox']['current_pos'] == $pos){
+				
+			$context['sandbox']['current_pos']++;
+			// Update our progress information.
+			$context['sandbox']['progress']++;
+			$context['message'] = "Now processing: ".check_plain($key);
+		
+			//Publications
+			$result_publication = taxonomy_get_term_by_name($value->publication, "publications");
+			
+			if(empty($result_publication)){
+				$term = new stdClass();	
+				$term->name = $value->publication;
+				$term->vid =  $publication_vid;
+			
+			  	taxonomy_term_save($term);
+				
+				$result_publication = taxonomy_get_term_by_name($value->publication, "publications");
+			}
+			
+			
+			//Editions
+			$result_edition = taxonomy_get_term_by_name($value->edition, "editions");
+			
+			if(empty($result_edition)){
+				$term = new stdClass();	
+				$term->name = $value->edition;
+				$term->vid =  $edition_vid;
+			
+			  	taxonomy_term_save($term);
+				
+				$result_edition = taxonomy_get_term_by_name($value->edition, "editions");
+			}
+			
+			//Issue Types
+			$result_type = taxonomy_get_term_by_name($value->type, "article_types");
+			
+			if(empty($result_type)){
+				$term = new stdClass();	
+				$term->name = $value->type;
+				$term->vid =  $type_vid;
+			
+			  	taxonomy_term_save($term);
+				
+				$result_type = taxonomy_get_term_by_name($value->type, "article_types");
+			}
+			
+			
+			//Articles
+			$result_issues = taxonomy_get_term_by_name($key, "articles");
+			
+			if(empty($result_issues)){
+				$term = new stdClass();	
+				$term->name = $key;
+				$term->vid = $vid;
+				
+				
+				$keys_publications = array_keys($result_publication);
+				$term->field_tax_publication[LANGUAGE_NONE][0]['tid'] = $keys_publications[0];
+		        
+				$keys_editions = array_keys($result_edition);
+				$term->field_tax_edition[LANGUAGE_NONE][0]['tid'] = $keys_editions[0];
+		        
+		        $keys_types = array_keys($result_type);
+				$term->field_tax_article_type[LANGUAGE_NONE][0]['tid'] = $keys_types[0];
+		        
+		        $term->field_term_title[LANGUAGE_NONE][0]['value'] = $value->title;
+				$term->field_term_date[LANGUAGE_NONE][0]['value'] = $value->date;
+		        $term->field_term_generated[LANGUAGE_NONE][0]['value'] =1;
+		        
+		        taxonomy_term_save($term);
+				$result_issues = taxonomy_get_term_by_name($key, "articles");
+			}
+			else{
+				$keys_issues = array_keys($result_issues);
+				
+				$term = taxonomy_term_load($keys_issues[0]);
+				 
+				$keys_publications = array_keys($result_publication);
+				$term->field_tax_publication[LANGUAGE_NONE][0]['tid'] = $keys_publications[0];
+		        
+				$keys_editions = array_keys($result_edition);
+				$term->field_tax_edition[LANGUAGE_NONE][0]['tid'] = $keys_editions[0];
+		        
+		        $keys_types = array_keys($result_type);
+				$term->field_tax_article_type[LANGUAGE_NONE][0]['tid'] = $keys_types[0];
+		        
+		        $term->field_term_title[LANGUAGE_NONE][0]['value'] = $value->title;
+				$term->field_term_date[LANGUAGE_NONE][0]['value'] = $value->date;
+		        $term->field_term_generated[LANGUAGE_NONE][0]['value'] =1;
+		        
+		        taxonomy_term_save($term);
+			}
+	
+			$keys_issues = array_keys($result_issues);
+			$tid = $keys_issues[0];
+	
+			foreach ($value->children as $pos => $nid) {
+				
+				drupal_set_message("Connecting Node ".$nid." to term: ". $tid);
+				$node = node_load($nid);
+				
+				if($node!==FALSE){
+					$node->field_tax_article[LANGUAGE_NONE][0]['tid'] = $tid;
+					node_save($node);
+				}
+				
+			}
+    	
+    	}
+
+		$pos++;
+	
+	}	
+	
+  
+	// Inform the batch engine that we are not finished,
+  	// and provide an estimation of the completion level we reached.
+  	if ($context['sandbox']['progress'] < $context['sandbox']['max']) {
+    	$context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  	}
+
+}
+
+function  intstrux_migration_taxonmoy_batch_finish($success, $results, $operations) {
+	  if ($success) {
+	    drupal_set_message(t('Created these taxonomy terms: !updated', array('!updated' => print_r ($results, true))));
+	  } else {
+	    $error_operation = reset($operations);
+	    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
+	  }
+}

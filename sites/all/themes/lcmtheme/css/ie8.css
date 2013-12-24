@@ -1,0 +1,22 @@
+#page-wrapper{
+	display:block;
+	height:100%;
+	margin-bottom:-20px;
+	margin-left:17%;
+	position: relative;
+	display:inline-block;
+}
+
+#block-block-2 p{
+	margin-left:100px;
+	display:inline-block;
+	margin-top:80px;
+}
+
+.region-bottom{
+	height:0px
+}
+
+#footer p{
+	width:350px;
+}

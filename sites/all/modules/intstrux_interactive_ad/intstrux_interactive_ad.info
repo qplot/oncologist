@@ -1,0 +1,11 @@
+name = Interactive Ad
+description = Interactive Ad multistep form support.
+package = Intstrux
+core = 7.x
+
+dependencies[] = multistep
+dependencies[] = cck
+dependencies[] = intstrux_interactive_ad_feature
+
+; Future dependency
+;dependencies[] = brightcove

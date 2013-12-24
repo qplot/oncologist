@@ -1,0 +1,2032 @@
+@import url(http://fonts.googleapis.com/css?family=Gentium+Book+Basic:700);
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/*------------------------------------*\
+            $DEFAULTS
+\*------------------------------------*/
+/* line 6, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+a:hover, a {
+  text-decoration: none;
+}
+
+/* line 11, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+form input {
+  border: none;
+}
+
+/* line 41, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section,
+summary {
+  display: block;
+}
+
+/* line 49, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+audio,
+canvas,
+video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+
+/* line 60, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/* line 68, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+[hidden] {
+  display: none;
+}
+
+/* line 81, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* line 95, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+html,
+button,
+input,
+select,
+textarea {
+  /* Verdana-based sans serif stack */
+  font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+}
+
+/* line 101, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+body {
+  margin: 0;
+}
+
+/* line 117, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+a:focus {
+  outline: thin dotted;
+}
+/* line 124, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+a:hover, a:active {
+  outline: 0;
+}
+
+/* line 136, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* line 141, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+h2 {
+  font-size: 1.5em;
+  margin: 0.83em 0;
+}
+
+/* line 146, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+h3 {
+  font-size: 1.17em;
+  margin: 1em 0;
+}
+
+/* line 151, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+h4 {
+  font-size: 1em;
+  margin: 1.33em 0;
+}
+
+/* line 156, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+h5 {
+  font-size: 0.83em;
+  margin: 1.67em 0;
+}
+
+/* line 161, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+h6 {
+  font-size: 0.75em;
+  margin: 2.33em 0;
+}
+
+/* line 168, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+/* line 175, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+b,
+strong {
+  font-weight: bold;
+}
+
+/* line 180, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+blockquote {
+  margin: 1em 40px;
+}
+
+/* line 187, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+dfn {
+  font-style: italic;
+}
+
+/* line 193, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+/* line 201, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+p,
+pre {
+  margin: 16px 0;
+}
+
+/* line 212, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+pre,
+code,
+kbd,
+samp {
+  font-family: monospace, serif;
+  _font-family: 'courier new', monospace;
+  font-size: 1em;
+}
+
+/* line 222, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* line 233, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+q {
+  quotes: none;
+}
+
+/* line 241, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+/* line 246, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+small {
+  font-size: 75%;
+}
+
+/* line 254, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+/* line 261, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+sup {
+  top: -0.5em;
+}
+
+/* line 265, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+sub {
+  bottom: -0.25em;
+}
+
+/* line 278, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+dl,
+menu,
+ol,
+ul {
+  margin: 1em 0;
+}
+
+/* line 284, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+dd {
+  margin: 0 0 0 40px;
+}
+
+/* line 293, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+menu,
+ol,
+ul {
+  padding: 0 0 0 40px;
+}
+
+/* line 302, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+nav ul,
+nav ol {
+  list-style: none;
+  list-style-image: none;
+}
+
+/* line 318, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+}
+
+/* line 327, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* line 337, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+figure {
+  margin: 0;
+}
+
+/* line 347, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+form {
+  margin: 0;
+}
+
+/* line 354, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/* line 364, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+legend {
+  border: 0;
+  padding: 0;
+  white-space: normal;
+  *margin-left: -7px;
+}
+
+/* line 380, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  margin: 0;
+  vertical-align: baseline;
+  *vertical-align: middle;
+}
+
+/* line 392, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+button,
+input {
+  line-height: normal;
+}
+
+/* line 404, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+  *overflow: visible;
+}
+
+/* line 415, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+button[disabled],
+input[disabled] {
+  cursor: default;
+}
+
+/* line 425, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+  *height: 13px;
+  *width: 13px;
+}
+
+/* line 438, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+/* line 443, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/* line 452, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* line 461, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+textarea {
+  overflow: auto;
+  vertical-align: top;
+}
+
+/* line 472, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_normalize.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 41, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_grid.scss */
+body {
+  width: 100%;
+  *zoom: 1;
+}
+/* line 27, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_grid.scss */
+body:before, body:after {
+  content: "";
+  display: table;
+}
+/* line 31, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_grid.scss */
+body:after {
+  clear: both;
+}
+
+/*------------------------------------*\
+      $COLORS
+\*------------------------------------*/
+/* @LINKS  
+-----------------*/
+/* @GRAYS 
+-----------------*/
+/* @ACCENT COLORS 
+-----------------*/
+/* @BRANDING COLORS
+-----------------*/
+/*------------------------------------*\
+$COMPASS EXPERIMENTAL SUPPORT SETTINGS
+\*------------------------------------*/
+/*------------------------------------*\
+      $FONT STACK
+\*------------------------------------*/
+/*------------------------------------*\
+      $TYPOGRAPHY
+\*------------------------------------*/
+/*------------------------------------*\
+            $GRID SETTINGS
+\*------------------------------------*/
+/*------------------------------------*\
+            $SPRITE SETTINGS
+\*------------------------------------*/
+/* line 82, spr/*.png */
+.spr-sprite, .spr-icn-android, .spr-icn-apple, .spr-icn-kindle, .spr-oncApp-logo {
+  background: url('../images/spr-s663d09879f.png') no-repeat;
+}
+
+/* line 60, /Applications/LiveReload.app/Contents/Resources/SASS.lrplugin/lib/compass/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.spr-icn-android {
+  background-position: 0 -176px;
+}
+
+/* line 60, /Applications/LiveReload.app/Contents/Resources/SASS.lrplugin/lib/compass/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.spr-icn-apple {
+  background-position: 0 -202px;
+}
+
+/* line 60, /Applications/LiveReload.app/Contents/Resources/SASS.lrplugin/lib/compass/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.spr-icn-kindle {
+  background-position: 0 -228px;
+}
+
+/* line 60, /Applications/LiveReload.app/Contents/Resources/SASS.lrplugin/lib/compass/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+
+
+
+
+/* line 60, /Applications/LiveReload.app/Contents/Resources/SASS.lrplugin/lib/compass/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.spr-oncApp-logo {
+  background-position: 0 -147px;
+}
+
+/*------------------------------------*\
+            $TEXT SHADOW
+\*------------------------------------*/
+/*------------------------------------*\
+      $BORDER RADIOUS
+\*------------------------------------*/
+/*------------------------------------*\
+            $REMOVED
+\*------------------------------------*/
+/* line 152, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_settings.scss */
+#navigation .title {
+  display: none;
+}
+
+/*------------------------------------*\
+      $BODY TEXT
+\*------------------------------------*/
+/* line 18, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+p, .field-content {
+  margin: 0 0 9px;
+  /* Verdana-based sans serif stack */
+font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  color: #333333;
+  margin: 5px;
+}
+/* line 27, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+p small, .field-content small {
+  font-size: 12px;
+  color: #d9d9d9;
+}
+
+/* line 34, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h1 {
+  font-size: 30px;
+  line-height: 36px;
+}
+/* line 39, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h1 small {
+  font-size: 18px;
+}
+
+/* line 45, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h2 {
+  font-size: 14px;
+  color: #996699;
+  text-transform: uppercase;
+font-family: Georgia, Times, "Times New Roman", serif;
+text-shadow: black 0px 1px 1px;
+  text-shadow: white 0px 1px 1px;
+  margin: 0px;
+  margin-bottom: 10px;
+}
+/* line 55, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h2 small {
+  font-size: 18px;
+}
+
+.node-type-article h2{
+  font-size: 18px;
+}
+
+/* line 61, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h3 {
+ font-size: 18px;
+color: #969;
+text-transform: uppercase;
+font-family: Georgia,Times,"Times New Roman",serif;
+text-shadow: black 0px 1px 1px;
+text-shadow: white 0px 1px 1px;
+margin: 0px;
+margin-bottom: 10px;
+}
+/* line 69, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h3 small {
+  font-size: 14px;
+}
+
+/* line 75, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h4, h5, h6 {
+  color: #333333;
+  line-height: 18px;
+  text-shadow: white 0px 1px 1px;
+}
+
+/* line 82, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h4 {
+  font-size: 14px;
+}
+/* line 86, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h4 small {
+  font-size: 12px;
+}
+
+.node-type-article h4{
+  margin-left:10px;
+}
+
+/* line 92, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h5 {
+  font-size: 12px;
+}
+
+/* line 97, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+h6 {
+  font-size: 14px;
+  color: #996699;
+  text-transform: uppercase;
+  /* Verdana-based sans serif stack */
+font-family: Georgia, Times, "Times New Roman", serif;
+text-shadow: black 0px 1px 1px;
+  text-shadow: white 0px 1px 1px;
+}
+
+/* line 106, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+p {
+  margin: 10px;
+  hyphenate: auto;
+  hyphenate-before: 2;
+  hyphenate-after: 3;
+  hyphenate-lines: 3;
+  orphans: 4;
+}
+
+/*------------------------------------*\
+      $HEADINGS LAYOUT
+\*------------------------------------*/
+/* line 121, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+.landingBox h6 {
+  margin: 0;
+}
+
+/*------------------------------------*\
+      $LINKS
+\*------------------------------------*/
+/* line 132, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+a {
+  color: #0088cc;
+  text-decoration: none;
+}
+
+/* line 137, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+a:hover {
+  color: #005580;
+  text-decoration: underline;
+}
+
+/* line 146, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+.views-field-title {
+  margin: 5px;
+}
+/* line 148, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+.views-field-title a {
+  font-weight: bold;
+  font-size: 22px;
+  color: #333333;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+/*------------------------------------*\
+          $STRUCTURAL LAYOUT
+\*------------------------------------*/
+/* line 11, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+.clearfix {
+  *zoom: 1;
+}
+/* line 27, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_grid.scss */
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+}
+/* line 31, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_grid.scss */
+.clearfix:after {
+  clear: both;
+}
+
+
+
+
+/* @MAIN
+-----------------*/
+
+
+
+
+/* line 20, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+#page-wrapper {
+  margin: 0 auto;
+  width: 990px;
+  min-height: 560px;
+  border: 1px solid #996699;
+  background-color: white;
+  -webkit-box-shadow: #555555 1px 1px 5px;
+  -moz-box-shadow: #555555 1px 1px 5px;
+  box-shadow: #555555 1px 1px 5px;
+}
+/* line 29, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+#page-wrapper .panels-flexible-column-first {
+  display: inline;
+  float: left;
+  width: 540px;
+  margin: 0 10px;
+}
+/* line 34, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+#page-wrapper .pcm-landing-right {
+  display: inline;
+  float: left;
+  width: 404px;
+  margin: 0 10px;
+}
+
+/* line 44, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+.view-id-pcm_featured_challenging_cases .views-row, .section-articles .views-row {
+  display: inline;
+  float: left;
+  width: 540px;
+  margin: 0 10px;
+margin-right: 60px;
+margin-top: 20px;
+}
+
+/* line 51, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+.section-medialibrary #main {
+  display: inline;
+  float: left;
+  width: 700px;
+  margin: 0 10px;
+}
+
+/* @HEADER
+-----------------*/
+/* line 62, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+#header {
+  background-color: white;
+  width: 100%;
+  height: 150px;
+  margin-bottom: 10px;
+}
+/* line 70, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+#header #block-menu-menu-pcm-main-menu {
+  margin-top: 100px;
+  height: 40px;
+  background-color: #7a527a;
+  margin-bottom: 20px;
+}
+/* line 77, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+#header #block-menu-menu-pcm-main-menu .menu {
+  height: 35px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #9e6b9e), color-stop(50%, #9e6b9e), color-stop(51%, #996699), color-stop(100%, #996699));
+  background-image: -webkit-linear-gradient(top, #9e6b9e 0%, #9e6b9e 50%, #996699 51%, #996699 100%);
+  background-image: -moz-linear-gradient(top, #9e6b9e 0%, #9e6b9e 50%, #996699 51%, #996699 100%);
+  background-image: -o-linear-gradient(top, #9e6b9e 0%, #9e6b9e 50%, #996699 51%, #996699 100%);
+  background-image: -ms-linear-gradient(top, #9e6b9e 0%, #9e6b9e 50%, #996699 51%, #996699 100%);
+  background-image: linear-gradient(top, #9e6b9e 0%, #9e6b9e 50%, #996699 51%, #996699 100%);
+}
+
+/* @FOOTER
+-----------------*/
+/* line 89, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+#footer {
+  padding-top: 20px;
+}
+
+/* line 94, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+#pcm-footer {
+  clear: both;
+  margin-top: 42px;
+  height: 40px;
+  width: 100%;
+  bottom: 0px;
+  background-color: #996699;
+  border: 1px solid #996699;
+}
+
+/* line 106, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_scaffolding.scss */
+#page-wrapper {
+  margin-bottom: 40px;
+}
+
+/* line 21, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#block-menu-menu-pcm-main-menu ul {
+  padding: 0;
+}
+/* line 26, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#block-menu-menu-pcm-main-menu li {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  height: 50px;
+}
+/* line 35, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#block-menu-menu-pcm-main-menu li a {
+  display: block;
+  height: 15px;
+  padding: 10px 25px 10px 25px;
+  text-transform: uppercase;
+  color: white;
+  text-shadow: rgba(0, 0, 0, 0.6) 0px 1px 1px;
+  border-right: 1px solid #7a527a;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+    font-size: 14px;
+    font-weight:250px;
+}
+/* line 53, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#block-menu-menu-pcm-main-menu li.active-trail a, #block-menu-menu-pcm-main-menu li a:hover {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #aa8ab7), color-stop(50%, #aa8ab7), color-stop(51%, #a282af), color-stop(100%, #a282af));
+  background-image: -webkit-linear-gradient(top, #aa8ab7 0%, #aa8ab7 50%, #a282af 51%, #a282af 100%);
+  background-image: -moz-linear-gradient(top, #aa8ab7 0%, #aa8ab7 50%, #a282af 51%, #a282af 100%);
+  background-image: -o-linear-gradient(top, #aa8ab7 0%, #aa8ab7 50%, #a282af 51%, #a282af 100%);
+  background-image: -ms-linear-gradient(top, #aa8ab7 0%, #aa8ab7 50%, #a282af 51%, #a282af 100%);
+  background-image: linear-gradient(top, #aa8ab7 0%, #aa8ab7 50%, #a282af 51%, #a282af 100%);
+  text-decoration: none;
+}
+
+/* line 64, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.breadcrumb a {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  color: #555555;
+  opacity: 0.5;
+}
+
+/* line 74, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.breadcrumb a:hover {
+  background-image: none;
+  background-color: #e6e7e8;
+  color: #6f6f6f;
+  text-decoration: none;
+}
+
+/* line 85, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#logo {
+  margin-left: 20px;
+}
+
+/* line 90, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+
+
+/* line 97, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+
+
+/* line 105, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#mainLogo {
+   background-image: url("/sites/all/themes/pcmtheme/images/prostatecancer1.png");
+    background-repeat: no-repeat;
+    display: inline;
+    float: left;
+    height: 87px;
+    margin-left: 10px;
+    width: 457px;
+}
+
+/* line 112, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#sponsoredLogo {
+background-image: url("/sites/all/themes/pcmtheme/images/sponsored-logo3.png");
+background-repeat: no-repeat;
+display: inline;
+float: left;
+height: 40px;
+margin-left: 194px;
+margin-top: 10px;
+width: 287px;
+}
+
+#sto-logo {
+  background-image: url("/sites/all/themes/pcmtheme/images/sto-logo5.png");
+  background-repeat: no-repeat;
+  bottom: -45px;
+  height: 44px;
+  left: 11px;
+  position: relative;
+  width: 175px;
+}
+
+/* line 127, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+input[type='text'] {
+  vertical-align: middle;
+  width: 100%;
+  border: 1px solid #7a527a;
+  padding: 5px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ded6e2), color-stop(50%, #ded6e2), color-stop(51%, #dbd2df), color-stop(100%, #dbd2df));
+  background-image: -webkit-linear-gradient(top, #ded6e2 0%, #ded6e2 50%, #dbd2df 51%, #dbd2df 100%);
+  background-image: -moz-linear-gradient(top, #ded6e2 0%, #ded6e2 50%, #dbd2df 51%, #dbd2df 100%);
+  background-image: -o-linear-gradient(top, #ded6e2 0%, #ded6e2 50%, #dbd2df 51%, #dbd2df 100%);
+  background-image: -ms-linear-gradient(top, #ded6e2 0%, #ded6e2 50%, #dbd2df 51%, #dbd2df 100%);
+  background-image: linear-gradient(top, #ded6e2 0%, #ded6e2 50%, #dbd2df 51%, #dbd2df 100%);
+  -webkit-box-shadow: #a282af 0px 1px 0px;
+  -moz-box-shadow: #a282af 0px 1px 0px;
+  box-shadow: #a282af 0px 1px 0px;
+}
+
+/* line 141, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+input[type='text']:hover {
+  background-color: white;
+}
+/* line 145, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+input[type='text']:focus {
+  background-image: none;
+  background-color: white;
+}
+
+/* line 156, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#header #search-bar {
+  float: right;
+  padding-right: 20px;
+  padding-top: 3px;
+}
+/* line 162, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#header #search-bar #search-input {
+  width: 200px;
+  height: 15px;
+}
+/* line 169, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#header #search-bar .submit {
+  border: 1px solid #7a527a;
+  height: 20px;
+  height: 27px;
+  padding: 7px;
+  -moz-border-radius-topright: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -ms-border-top-right-radius: 3px;
+  -o-border-top-right-radius: 3px;
+  border-top-right-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -ms-border-bottom-right-radius: 3px;
+  -o-border-bottom-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-left: -4px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #9e6b9e), color-stop(50%, #9e6b9e), color-stop(51%, #996699), color-stop(100%, #996699));
+  background-image: -webkit-linear-gradient(top, #9e6b9e 0%, #9e6b9e 50%, #996699 51%, #996699 100%);
+  background-image: -moz-linear-gradient(top, #9e6b9e 0%, #9e6b9e 50%, #996699 51%, #996699 100%);
+  background-image: -o-linear-gradient(top, #9e6b9e 0%, #9e6b9e 50%, #996699 51%, #996699 100%);
+  background-image: -ms-linear-gradient(top, #9e6b9e 0%, #9e6b9e 50%, #996699 51%, #996699 100%);
+  background-image: linear-gradient(top, #9e6b9e 0%, #9e6b9e 50%, #996699 51%, #996699 100%);
+  -webkit-box-shadow: #a282af 0px 1px 0px;
+  -moz-box-shadow: #a282af 0px 1px 0px;
+  box-shadow: #a282af 0px 1px 0px;
+  color: white;
+  font-size: 12px;
+  text-shadow: rgba(0, 0, 0, 0.6) 0px 1px 1px;
+}
+/* line 188, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#header #search-bar .submit:hover {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #a282af), color-stop(50%, #a282af), color-stop(51%, #aa8ab7), color-stop(100%, #aa8ab7));
+  background-image: -webkit-linear-gradient(top, #a282af 0%, #a282af 50%, #aa8ab7 51%, #aa8ab7 100%);
+  background-image: -moz-linear-gradient(top, #a282af 0%, #a282af 50%, #aa8ab7 51%, #aa8ab7 100%);
+  background-image: -o-linear-gradient(top, #a282af 0%, #a282af 50%, #aa8ab7 51%, #aa8ab7 100%);
+  background-image: -ms-linear-gradient(top, #a282af 0%, #a282af 50%, #aa8ab7 51%, #aa8ab7 100%);
+  background-image: linear-gradient(top, #a282af 0%, #a282af 50%, #aa8ab7 51%, #aa8ab7 100%);
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -ms-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+
+/* line 203, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.region-content-bottom {
+  max-height: 500px;
+  overflow: scroll;
+  padding-top:12px;
+}
+
+/* line 209, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.page-panels .panels-flexible-row {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+/* line 216, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.page-panels .top {
+  margin-bottom: 25px;
+}
+
+/* line 228, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.panels-flexible-row-12-3 {
+  min-height: 162px;
+}
+
+/* line 238, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#main-video {
+  height: 390px;
+  margin-top: 10px;
+  -webkit-box-shadow: 0px 2px 3px 0px #333333;
+  -moz-box-shadow: 0px 2px 3px 0px #333333;
+  box-shadow: 0px 2px 3px 0px #333333;
+}
+
+/* line 246, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#video-padding {
+  height: 290px;
+}
+
+/* line 251, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.videoOverlay {
+  height: 100px;
+  background-color: #333333;
+}
+/* line 256, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.videoOverlay h3 {
+  padding-left: 10px;
+  padding-top: 10px;
+  margin: 0px;
+}
+/* line 263, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.videoOverlay p {
+  padding-left: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: white;
+}
+
+/* line 277, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#share-box {
+    display: block;
+    float: left;
+    margin-left: 330px;
+    margin-top: 20px;
+    width: 350px;
+}
+
+/* line 287, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#pcm-footer {
+  padding-bottom: 20px;
+}
+/* line 291, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#pcm-footer #oncappLogo {
+  float: left;
+  margin: 15px 10px 10px 10px;
+}
+/* line 297, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#pcm-footer a.apps {
+  float: left;
+  margin: 15px 10px 10px 10px;
+}
+
+/* line 305, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.region-footer {
+ background-color: #AA8AB7;
+    color: white;
+    margin: 0;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-top: 1px;
+}
+/* line 314, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.region-footer p {
+ display: block;
+    float: right;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    margin: auto;
+    width: 300px;
+}
+
+/* line 326, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.spr-oncApp-logo {
+  display: block;
+  height: 29px;
+  width: 116px;
+}
+
+/* line 333, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.spr-icn-apple {
+  display: block;
+  height: 26px;
+  width: 26px;
+}
+
+/* line 340, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.spr-icn-android {
+  display: block;
+  height: 26px;
+  width: 26px;
+}
+
+/* line 347, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.spr-icn-kindle {
+  display: block;
+  height: 26px;
+  width: 26px;
+}
+
+/* line 360, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.tabRight {
+  border-radius: 0 5px 5px 0;
+}
+
+/* line 365, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.tabLeft {
+  border-radius: 5px 0 0 5px;
+}
+
+/* line 371, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.hide {
+  display: none;
+}
+
+/* line 377, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc-tab, .tabbox-tabs {
+  color: #555555;
+  font-size: 12;
+  text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.2);
+}
+/* line 384, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc-tab div, .tabbox-tabs div {
+  list-style-type: none;
+  cursor: pointer;
+  float: left;
+  padding: 12px 30px 9px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e6e7e8), color-stop(50%, #e6e7e8), color-stop(51%, #d9d9d9), color-stop(100%, #d9d9d9));
+  background-image: -webkit-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: -moz-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: -ms-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  text-shadow: 0px 1px 0px white;
+  border: solid 1px #CCCCCC;
+}
+/* line 396, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc-tab div:hover, .tabbox-tabs div:hover {
+  background-image: none;
+  background-color: #e6e7e8;
+  color: #6f6f6f;
+}
+/* line 403, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc-tab div:active, .tabbox-tabs div:active {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d9d9d9), color-stop(50%, #d9d9d9), color-stop(51%, #cccccc), color-stop(100%, #cccccc));
+  background-image: -webkit-linear-gradient(top, #d9d9d9 0%, #d9d9d9 50%, #cccccc 51%, #cccccc 100%);
+  background-image: -moz-linear-gradient(top, #d9d9d9 0%, #d9d9d9 50%, #cccccc 51%, #cccccc 100%);
+  background-image: -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 50%, #cccccc 51%, #cccccc 100%);
+  background-image: -ms-linear-gradient(top, #d9d9d9 0%, #d9d9d9 50%, #cccccc 51%, #cccccc 100%);
+  background-image: linear-gradient(top, #d9d9d9 0%, #d9d9d9 50%, #cccccc 51%, #cccccc 100%);
+  color: #555555;
+}
+/* line 409, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc-tab div.active, .tabbox-tabs div.active {
+  color: #996699;
+  font-weight: bold;
+  text-shadow: 0 1px 0 white;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d9d9d9), color-stop(50%, #d9d9d9), color-stop(51%, #e6e7e8), color-stop(100%, #e6e7e8));
+  background-image: -webkit-linear-gradient(top, #d9d9d9 0%, #d9d9d9 50%, #e6e7e8 51%, #e6e7e8 100%);
+  background-image: -moz-linear-gradient(top, #d9d9d9 0%, #d9d9d9 50%, #e6e7e8 51%, #e6e7e8 100%);
+  background-image: -o-linear-gradient(top, #d9d9d9 0%, #d9d9d9 50%, #e6e7e8 51%, #e6e7e8 100%);
+  background-image: -ms-linear-gradient(top, #d9d9d9 0%, #d9d9d9 50%, #e6e7e8 51%, #e6e7e8 100%);
+  background-image: linear-gradient(top, #d9d9d9 0%, #d9d9d9 50%, #e6e7e8 51%, #e6e7e8 100%);
+}
+
+ul.pager {
+  padding: 13px;
+  margin: 20px 0px 20px 0px;
+  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+/* line 434, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.item-list .pager li {
+  padding: 0em;
+}
+/* line 449, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+ul.pager li {
+  padding: 0px;
+  margin: 0px;
+}
+/* line 454, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+ul.pager li a {
+  cursor: pointer;
+  padding: 2px;
+  color:black;
+}
+/* line 462, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+ul.pager li a:hover {
+  background-color: rgba(255,255,255,.4);
+  text-decoration: none;
+}
+
+/* line 475, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+ul.pager .pager-current {
+    border: 1px solid #d9d9d9;
+    padding:9px;
+}
+
+/* line 492, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc-names {
+  font-size: 12px;
+  padding-bottom: 20px;
+}
+
+/* line 498, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.page-panels .panels-flexible-column-inside {
+  padding: 0px;
+}
+
+/* line 503, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.page-panels .view-pcm-featured-articel .views-row {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+}
+
+/* line 510, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.page-panels .panels-flexible-column-inside {
+  margin: 0px;
+  margin-bottom: 20px;
+}
+
+/* line 517, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.page-panels .view-id-pcm_featured_challenging_cases .views-row {
+  margin: 0px;
+  width: 100%;
+}
+
+/* line 523, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.page-panels .view-id-pcm_featured_challenging_cases .views-row h5 {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* line 534, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.btn-learnMore {
+  float: right;
+}
+
+/* line 539, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+/* line 539, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.abstract {
+float: left;
+line-height: 21px;
+overflow: hidden;
+margin-bottom:10px;
+width: 100%;
+font-size: 12px;
+height: 47px;
+}
+
+.node-type-article .abstract{
+  height:100%;
+}
+
+.node-type-article .abstract h2{
+  margin-top:15px;
+}
+
+.abstract p{
+  font-size: 14px;
+}
+
+/* line 553, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.view-id-pcm_featured_challenging_cases h4 {
+  margin-top: 0px;
+  margin-left: 130px;
+}
+/* line 565, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.view-id-pcm_featured_challenging_cases .cc-names {
+  margin-left: 130px;
+}
+
+/* line 573, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc-image-title {
+  float: left;
+  margin-left: -40px;
+  margin-top: 81px;
+  font-size: 12px;
+}
+
+/* line 582, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#proimage {
+  float: left;
+  width: 53px;
+  height: 70px;
+  border: 3px solid white;
+}
+
+/* line 591, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+#conimage {
+  float: left;
+  width: 53px;
+  height: 70px;
+  border: 3px solid white;
+}
+
+/* line 605, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.section-editorials .views-row,
+.section-articles .views-row {
+  padding: 0pt 10px 15px;
+  margin: 0px 0pt 10px;
+  border-bottom: 1px dashed #D9D9D9;
+}
+
+/* line 638, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+/*.node-type-challenging-case .content fieldset,
+.node-type-challenging-case .content div {
+  display: inline;
+  float: left;
+  width: 700px;
+  margin: 0 10px;
+  padding-bottom:22px;
+}*/
+
+/* line 648, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc_page {
+  margin-top: 20px;
+  width: 500px;
+}
+
+/* line 654, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc_kol_info {
+  float: left;
+}
+
+/* line 659, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc_header_thumb img {
+  width: 56px;
+  height: 73px;
+  float: left;
+  padding-right: 10px;
+}
+
+/* line 666, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc_kol_name {
+  font-size: 16px;
+  padding-bottom: 5px;
+}
+
+/* line 672, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc_kol_affiliation {
+  font-size: 12px;
+}
+
+/* line 677, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc_vote_btn {
+  width: 120px;
+  height: 20px;
+  display: inline;
+  float: left;
+}
+
+/* line 686, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.cc_kol_body {
+  margin-top: 20px;
+  padding-top: 10px;
+  float: left;
+  color: #996699;
+}
+
+/* line 699, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.section-pcmmedialibrary .views-row, .node-type-asset-video .views-row {
+width: 310px;
+height: 80px;
+/*padding: 7px;*/
+float: left;
+margin-bottom: 70px;
+}
+
+.section-pcmmedialibrary .sidebar {
+  display:none;
+
+}
+
+
+/* line 707, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.section-pcmmedialibrary .views-row img, .node-type-asset-video .views-row img {
+  width: 133px;
+  height: 93px;
+  margin-left: 10px;
+}
+/* line 714, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.section-pcmmedialibrary .views-row .podcast_info, .node-type-asset-video .views-row .podcast_info {
+  float: right;
+  height: 80px;
+  width: 150px;
+}
+/* line 721, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.section-pcmmedialibrary .views-row .podcast_title a, .node-type-asset-video .views-row .podcast_title a {
+  font-size: 12px;
+  font-weight: bold;
+  color: #333333;
+}
+/* line 729, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_modules.scss */
+.section-pcmmedialibrary .views-row .podcast_speaker a, .node-type-asset-video .views-row .podcast_speaker a {
+  font-size: 12px;
+  color: #333333;
+}
+
+/* line 12, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_buttons.scss */
+.btn-learnMore a, .cc_vote_btn {
+  background: #e6e7e8;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(50%, white), color-stop(50%, #e6e7e8));
+  background: -moz-linear-gradient(center top, white 50%, #e6e7e8 50%);
+  -webkit-box-shadow: 0px 0px .5px 1px #ffffff;
+  -moz-box-shadow: 0px 0px .5px 1px #ffffff;
+  box-shadow: 0px 0px .5px 1px #ffffff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  text-shadow: 0px 1px 0px #ffffff;
+  padding: 3px 10px;
+  border-color: #dfe0e1;
+  border-width: 1px;
+  border-style: solid;
+  text-transform: lowercase;
+  text-align: center;
+  font-size: 12px;
+  color: #666666;
+  cursor: pointer;
+}
+
+/* line 35, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_buttons.scss */
+.btn-learnMore a:hover, .cc_vote_btn:hover {
+  background: white;
+  color: #222222;
+  text-decoration: none;
+}
+
+/* line 47, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_buttons.scss */
+.node-type-perspective #perspective_btn {
+  background: none;
+  list-style-type: none;
+  color: #555555;
+  font-size: 12;
+  text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  float: left;
+  padding: 12px 30px 9px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e6e7e8), color-stop(50%, #e6e7e8), color-stop(51%, #d9d9d9), color-stop(100%, #d9d9d9));
+  background-image: -webkit-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: -moz-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: -ms-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  text-shadow: 0px 1px 0px white;
+  border: solid 1px #CCCCCC;
+}
+
+/* line 64, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_buttons.scss */
+#tab1.tabinactive, #tab2.tabinactive, #tab3.tabinactive {
+  height: 25px;
+  padding: 5px;
+  background: none;
+  list-style-type: none;
+  color: #555555;
+  font-size: 12;
+  text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  float: left;
+  filter: none;
+background: #f2f2f2; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIyMiUiIHN0b3AtY29sb3I9IiNmMmYyZjIiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI4NSUiIHN0b3AtY29sb3I9IiNlNWU1ZTUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #f2f2f2 22%, #e5e5e5 85%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,#f2f2f2), color-stop(85%,#e5e5e5)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #f2f2f2 22%,#e5e5e5 85%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #f2f2f2 22%,#e5e5e5 85%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #f2f2f2 22%,#e5e5e5 85%); /* IE10+ */
+background: linear-gradient(top,  #f2f2f2 22%,#e5e5e5 85%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-8 */
+
+  text-shadow: 0px 1px 0px white;
+  border: solid 1px #CCCCCC;
+}
+
+/* line 93, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_buttons.scss */
+#tab1.tabactive, #tab2.tabactive, #tab3.tabactive {
+  padding: 5px;
+  height: 25px;
+  color: #996699;
+  font-weight: bold;
+  text-shadow: 0 1px 0 white;
+background: #e5e5e5; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIxNSUiIHN0b3AtY29sb3I9IiNlNWU1ZTUiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI3OCUiIHN0b3AtY29sb3I9IiNmMmYyZjIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #e5e5e5 15%, #f2f2f2 78%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(15%,#e5e5e5), color-stop(78%,#f2f2f2)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #e5e5e5 15%,#f2f2f2 78%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #e5e5e5 15%,#f2f2f2 78%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #e5e5e5 15%,#f2f2f2 78%); /* IE10+ */
+background: linear-gradient(top,  #e5e5e5 15%,#f2f2f2 78%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', endColorstr='#f2f2f2',GradientType=0 ); /* IE6-8 */
+
+  border: solid 1px #CCCCCC;
+}
+
+/* line 114, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_buttons.scss */
+.cc_tab_image img {
+  width: 56px;
+  height: 73px;
+  display: none;
+}
+
+/* line 121, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_buttons.scss */
+#tab1.tabactive, #tab1.tabinactive {
+  border-radius: 5px 0 0 5px;
+}
+
+/* line 126, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_buttons.scss */
+#tab3.tabactive, #tab3.tabinactive {
+  border-radius: 0px 5px 5px 0px;
+}
+
+/* line 131, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_buttons.scss */
+#tab1.tabinactive:hover, #tab2.tabinactive:hover, #tab3.tabinactive:hover {
+background: #f8f8f8; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIyMiUiIHN0b3AtY29sb3I9IiNmOGY4ZjgiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI4NSUiIHN0b3AtY29sb3I9IiNmMWYxZjEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #f8f8f8 22%, #f1f1f1 85%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,#f8f8f8), color-stop(85%,#f1f1f1)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #f8f8f8 22%,#f1f1f1 85%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #f8f8f8 22%,#f1f1f1 85%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #f8f8f8 22%,#f1f1f1 85%); /* IE10+ */
+background: linear-gradient(top,  #f8f8f8 22%,#f1f1f1 85%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8f8f8', endColorstr='#f1f1f1',GradientType=0 ); /* IE6-8 */
+
+}
+
+/* line 2, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_themes.scss */
+body {
+  background-image: url("../images/bckg1.png");
+  background-repeat: repeat;
+}
+
+/* line 8, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_themes.scss */
+.page-panels .panels-flexible-row, .pager {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(10%, #e6e7e8), color-stop(100%, #e6e7e8));
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #e6e7e8 10%, #e6e7e8 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #e6e7e8 10%, #e6e7e8 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0%, #e6e7e8 10%, #e6e7e8 100%);
+  background-image: -ms-linear-gradient(top, #ffffff 0%, #e6e7e8 10%, #e6e7e8 100%);
+  background-image: linear-gradient(top, #ffffff 0%, #e6e7e8 10%, #e6e7e8 100%);
+  /* W3C */
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0px 5px 0px 0px #d9d9d9;
+  -moz-box-shadow: 0px 5px 0px 0px #d9d9d9;
+  box-shadow: 0px 5px 0px 0px #d9d9d9;
+  border: 1px solid #d9d9d9;
+  padding: 10px;
+}
+
+/* line 22, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_themes.scss */
+.breadcrumb a,
+.tabbox-tabs li {
+  padding: 2px 5px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e6e7e8), color-stop(50%, #e6e7e8), color-stop(51%, #d9d9d9), color-stop(100%, #d9d9d9));
+  background-image: -webkit-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: -moz-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: -o-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: -ms-linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  background-image: linear-gradient(top, #e6e7e8 0%, #e6e7e8 50%, #d9d9d9 51%, #d9d9d9 100%);
+  text-shadow: 0px 1px 0px white;
+  border: solid 1px #CCCCCC;
+  cursor: pointer;
+}
+
+/* line 2, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_slider.scss */
+#mySlider {
+  width: 529px;
+  height: 400px;
+  margin-left: 10px;
+}
+
+/* line 9, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_slider.scss */
+li .royalCaption {
+  width: 100%;
+  height: 115px;
+  background-color: #333;
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+  /* For IE8 and earlier */
+  margin-top: 285px;
+}
+
+/* line 20, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_slider.scss */
+.royalCaptionItem h3, .royalCaptionItem p {
+  display: block;
+  padding-left: 20px;
+  float: left;
+}
+
+/* line 27, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_slider.scss */
+.royalCaptionItem h3 {
+  line-height: 18px;
+}
+
+/* line 32, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_slider.scss */
+.royalCaption .royalCaptionItem p {
+  float: left;
+  height: 50px;
+  padding-top: 60px;
+  color: white;
+  margin-left: 20px;
+}
+
+/* line 41, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_slider.scss */
+.royalControlNavCenterer {
+  margin-top: 30px;
+}
+
+/* line 47, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_slider.scss */
+div.royalSlider .royalControlNavCenterer {
+  border-radius: 0px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(10%, #e6e7e8), color-stop(100%, #e6e7e8));
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #e6e7e8 10%, #e6e7e8 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #e6e7e8 10%, #e6e7e8 100%);
+  background-image: -o-linear-gradient(top, #ffffff 0%, #e6e7e8 10%, #e6e7e8 100%);
+  background-image: -ms-linear-gradient(top, #ffffff 0%, #e6e7e8 10%, #e6e7e8 100%);
+  background-image: linear-gradient(top, #ffffff 0%, #e6e7e8 10%, #e6e7e8 100%);
+  /* W3C */
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0px 5px 0px 0px #d9d9d9;
+  -moz-box-shadow: 0px 5px 0px 0px #d9d9d9;
+  box-shadow: 0px 5px 0px 0px #d9d9d9;
+  border: 1px solid #d9d9d9;
+  margin-bottom: 20px;
+}
+
+/* line 58, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_slider.scss */
+.royalWrapper {
+  border: 5px solid white;
+  -webkit-box-shadow: 0px 2px 2px 2px #d9d9d9;
+  -moz-box-shadow: 0px 2px 2px 2px #d9d9d9;
+  box-shadow: 0px 2px 2px 2px #d9d9d9;
+}
+
+.cc_vote_btn
+{
+  display:none;
+}
+
+.view-pcm-featured-editorials
+{
+  display: inline;
+  float: left;
+  margin-right: 60px;
+  width: 542px;
+}
+
+
+
+
+.podcast_title a, .podcast_title a:visited, .podcast_title a:hover
+{
+  color: #333333;
+  line-height: 18px;
+  font-size: 14px;
+}
+
+.podcast_speaker a, .podcast_speaker a:visited, .podcast_speaker a:hover
+{
+  color: #333333;
+  line-height: 18px;
+  font-size: 12px;
+
+}
+
+
+
+
+.view-pcm-featured-media-random .views-row
+{
+      border-bottom: 1px dashed #D9D9D9;
+      margin: 0 0 10px;
+     padding: 0 10px 15px;
+display:block;
+}
+
+.section-challengingcases .view-pcm-featured-challenging-cases
+{
+  margin-right: 60px;
+}
+
+
+.section-editorials #content-area .views-row
+{
+  padding: 0 10px 120px;
+}
+
+.section-editorials #main-wrapper #content-area
+{
+  float: left;
+  display: inline;
+  margin: 0 35px 0;
+  margin-left: 0;
+  margin-right:35px;
+  padding-top: 0;
+  width: 540px;
+}
+
+.pane-pcm-featured-media-random h2.pane-title
+{
+  background: #ffffff; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjIzJSIgc3RvcC1jb2xvcj0iI2U2ZTdlOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+background: -moz-linear-gradient(top,  #ffffff 0%, #e6e7e8 23%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(23%,#e6e7e8)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #ffffff 0%,#e6e7e8 23%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #ffffff 0%,#e6e7e8 23%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #ffffff 0%,#e6e7e8 23%); /* IE10+ */
+background: linear-gradient(top,  #ffffff 0%,#e6e7e8 23%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e6e7e8',GradientType=0 ); /* IE6-8 */
+
+  
+   /* margin-left: 111px;*/
+    padding: 8px;
+    text-align: center;
+    width: 164px;
+border: 1px solid #E1E1E1;
+
+        
+        -webkit-border-radius: 5px 5px 0px 0px;
+        border-radius: 5px 5px 0px 0px;
+        
+}
+
+.view-pcm-featured-media-random .pager {
+	display:none;
+}
+
+.section-articles #content-area, .section-articles .view-content, .node-type-page-html .section .content-area
+{
+  float: left;
+  margin-right: 30px;
+  width: 560px;
+}
+
+.page-pcmhome .view-pcm-featured-articel .view-content{
+  width:100%;
+}
+
+.not-front  .view-pcm-featured-media-random .views-row
+{
+margin: 15px;
+    width: 160px;
+}
+
+.node-type-challenging-case p
+{
+  
+
+    width: 500px;
+}
+
+.overlay
+{
+        background-image: url("../images/overlay.png");
+  background-repeat: no-repeat;
+  width: 514px;
+  height: 228px;
+  position:absolute;
+  right:9px;
+  top:13px;
+
+}
+
+#main_16x9
+{
+  margin-top: -20px;
+}
+
+.page-panels h2
+{
+  margin-top: -10px;
+}
+
+#block-block-2 p
+{
+     color: gray;
+    font-size: 11px;
+    margin: -20px auto 0;
+    text-align: center;
+    width: 735px;
+
+}
+#main
+{
+  padding: 0 25px;
+}
+
+
+
+
+.page-panels #main
+{
+  padding: 0;
+}
+
+
+
+.page-panels h3
+{
+  /* line 61, /Users/swetzoff/Documents/Work/GIT/ampserverhp/sites/all/themes/pcmtheme/sass/partials/_type.scss */
+
+padding-top: 10px;
+color: white;
+
+text-shadow: black 0px 1px 1px;
+
+}
+
+
+.node-type-page-html h2, .node-type-page-html b, .node-type-article h2, .node-type-article b
+{
+color:black;
+margin-bottom: 20px;
+margin-top: 30px;
+padding-left: 10px;
+}
+
+.node-type-page-html h3, .node-type-article h3
+{
+color: black;
+font-size: 14px;
+margin-left: 10px;
+}
+
+.node-type-page-html h1, .node-type-article h1{
+  margin-left: 10px;
+}
+
+.node-type-page-html img, .node-type-article img{
+  padding: 30px 10px;
+}
+
+a[name]
+{
+  color: #333;
+  padding-right: 5px
+}
+
+a[name]:hover,
+a[name]:active,
+a[name]:visited
+{
+    color: #333;
+    cursor: default;
+    text-decoration: none;
+
+}
+
+
+table
+{
+font-size: 12px;
+margin: 10px;
+border-collapse: collapse;
+text-align: left;
+}
+
+th
+{
+  font-size: 14px;
+  font-weight: normal;
+  padding: 10px 8px;
+  border-color:#fff;
+  border-bottom: 2px solid black;
+}
+td
+{
+
+  padding: 9px 8px 0px 8px;
+}
+
+
+.section-challenging-cases #content-area
+{
+  width: 500px;
+  display:block;
+  float: left;
+}
+
+.sidebar, .sidebar .view-content, .sidebar .content-area
+{
+   display: inline;
+    float: right;
+    width: 250px;
+    margin-left: 20px;
+    margin-top: 25px;
+}
+
+.node-type-asset-video #main
+{
+  padding: 0;
+}
+
+.node-type-asset-video .sidebar
+{
+  display:none;
+}
+
+.node-type-asset-video #block-views-pcm-featured-media-block-1 {
+	max-height:500px;
+	overflow:scroll;
+	padding-top:12px;
+}
+
+.node-type-asset-video .pager {
+	display:none;
+}
+
+
+#disclaimer-text {
+  display: inline;
+  float: left;
+  height: 0px;
+  margin-left: 856px;
+  margin-top: -34px;
+  width: 287px;
+  font-size:11px;
+  color:black;
+  cursor: pointer;
+  cursor: hand;
+  text-decoration:underline;  
+}
+
+#disclaimer{
+  position:absolute;
+  top:0px;
+  left:0px;
+  margin:13% 65%;
+  z-index:1;
+  text-align:left;
+  padding:5px 5px 0px 5px;
+  width:250px;
+  height:80px;
+  font-size:14px;
+  background-color:white;
+  border: 2px solid #996699;
+  display:none;
+}
+
+#disclaimer-close-btn{
+    position:absolute;
+    background-image: url("../images/close_btn.png");
+    top:-9px;
+    left:252px;
+    width:20px;
+    height:20px;
+    cursor: pointer;
+    cursor: hand; 
+}
+
+.front #article-title-1,
+.front .contributors,
+.front .section.abstract,
+.front .copyright-statement,
+.front .kwd-group,
+.front .fn-group,
+.node-type-article #article-title-1,
+.node-type-article .contributors,
+.node-type-article .copyright-statement,
+.node-type-article .kwd-group,
+.page-lcmarticles #article-title-1,
+.page-lcmarticles .contributors,
+.page-lcmarticles .section.abstract,
+.page-lcmarticles .copyright-statement,
+.page-lcmarticles .kwd-group,
+.page-lcmarticles .fn-group,
+.abstract .fn-group
+<<<<<<< HEAD
+{
+  display:none;
+}
+
+ul.pager .pager-current
+{
+  padding:0px;
+}
+
+.contributor-list
+{
+  display:block;
+  list-style:none;
+}
+
+.contributor-list li, 
+.affiliation-list li
+=======
+>>>>>>> origin/hotfix_china_4
+{
+  display:inline-block;
+}
+
+.author .xref-sep{
+  vertical-align:super;
+  font-size:12px;
+}
+
+.affiliation{
+  font-size:13px;
+  padding-bottom:20px;
+}
+
+.fig-label,.table-label{
+  margin-left:10px;
+}
+
+/* Fixes alignement of references */
+
+div.ref-cit,
+.ref-cit div,
+.ref-cit cite,
+.ref-cit ol,
+.ref-cit li {
+    margin-left:0;
+    margin-right:0;
+    padding-left:0;
+    padding-right:0;
+    display: inline;
+}
+
+.cit-list li{
+  padding-bottom:10px;
+}
+
+.cit-metadata{
+    margin-left:-2px !important;
+}
+
+.cit-list li br{
+  display:none;
+}
+
+<<<<<<< HEAD
+=======
+ul.pager .pager-current
+{
+  padding:0px;
+}
+
+.contributor-list
+{
+  display:block;
+  list-style:none;
+}
+
+.contributor-list li, 
+.affiliation-list li
+{
+  display:inline-block;
+}
+
+.author .xref-sep{
+  vertical-align:super;
+  font-size:12px;
+}
+
+.affiliation{
+  font-size:13px;
+  padding-bottom:20px;
+}
+
+.fig-label,.table-label{
+  margin-left:10px;
+}
+
+/* Fixes alignement of references */
+
+div.ref-cit,
+.ref-cit div,
+.ref-cit cite,
+.ref-cit ol,
+.ref-cit li {
+    margin-left:0;
+    margin-right:0;
+    padding-left:0;
+    padding-right:0;
+    display: inline;
+}
+
+.cit-list li{
+  padding-bottom:10px;
+}
+
+.cit-metadata{
+    margin-left:-2px !important;
+}
+
+.cit-list li br{
+  display:none;
+}
+
+>>>>>>> origin/hotfix_china_4
+.rev-xref-ref{
+  visibility:hidden;
+  margin-left:-20px; 
+}
+
+.cit-article-title{
+  font-size:16px;
+}
+
+.cit-metadata p{
+    display:inline;
+    margin-left:-4px;
+<<<<<<< HEAD
+}
+=======
+}
+>>>>>>> origin/hotfix_china_4

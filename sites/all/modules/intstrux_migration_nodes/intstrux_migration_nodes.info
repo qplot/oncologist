@@ -1,0 +1,4 @@
+name = Intstrux Migration Nodes 
+description = Migrate nodes object from D6 to D7
+package = Intstrux
+core = 7.x

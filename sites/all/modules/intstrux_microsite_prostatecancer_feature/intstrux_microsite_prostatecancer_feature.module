@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Intstrux Microsite Prostate Cancer Feature feature.
+ */
+
+include_once 'intstrux_microsite_prostatecancer_feature.features.inc';

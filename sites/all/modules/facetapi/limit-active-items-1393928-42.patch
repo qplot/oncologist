@@ -1,0 +1,149 @@
+diff --git a/facetapi.admin.inc b/facetapi.admin.inc
+index 4f2a43d..831bcca 100644
+--- a/facetapi.admin.inc
++++ b/facetapi.admin.inc
+@@ -659,11 +659,12 @@ function facetapi_facet_display_form($form, &$form_state, FacetapiAdapter $adapt
+   $form['#submit'][] = 'facetapi_facet_display_form_submit';
+   $form['#validate'][] = 'facetapi_facet_display_form_validate';
+ 
+-  // Allow the realm and adapter to alter the form.
++  // Allow the realm, adapter, and URL  to alter the form.
+   if ($realm['settings callback']) {
+     $realm['settings callback']($form, $form_state);
+   }
+   $adapter->settingsForm($form, $form_state);
++  $adapter->getUrlProcessor()->settingsForm($form, $form_state);
+ 
+   return $form;
+ }
+diff --git a/plugins/facetapi/adapter.inc b/plugins/facetapi/adapter.inc
+index 58b4cfc..1dc34c2 100644
+--- a/plugins/facetapi/adapter.inc
++++ b/plugins/facetapi/adapter.inc
+@@ -854,6 +854,9 @@ abstract class FacetapiAdapter {
+       // Apply the adapter's default settings.
+       $this->settings[$name]->settings += $this->getDefaultSettings();
+ 
++      // Apply the URL processor's default settings.
++      $this->settings[$name]->settings += $this->getUrlProcessor()->getDefaultSettings();
++
+       // Applies each dependency plugin's default settings.
+       foreach ($facet['dependency plugins'] as $id) {
+         if ($is_new) {
+diff --git a/plugins/facetapi/url_processor.inc b/plugins/facetapi/url_processor.inc
+index ee5eb7e..022cde8 100644
+--- a/plugins/facetapi/url_processor.inc
++++ b/plugins/facetapi/url_processor.inc
+@@ -181,4 +181,21 @@ abstract class FacetapiUrlProcessor {
+   public function getFilterKey() {
+     return $this->filterKey;
+   }
++
++  /**
++   * Allows for processor specific overrides to the settings form.
++   */
++  public function settingsForm(&$form, &$form_state) {
++    // Nothing to do...
++  }
++
++  /**
++   * Provides default values for the backend specific settings.
++   *
++   * @return array
++   *   The defaults keyed by setting name to value.
++   */
++  public function getDefaultSettings() {
++    return array();
++  }
+ }
+diff --git a/plugins/facetapi/url_processor_standard.inc b/plugins/facetapi/url_processor_standard.inc
+index b3ddf91..46b72e8 100644
+--- a/plugins/facetapi/url_processor_standard.inc
++++ b/plugins/facetapi/url_processor_standard.inc
+@@ -14,6 +14,13 @@
+ class FacetapiUrlProcessorStandard extends FacetapiUrlProcessor {
+ 
+   /**
++   * Stores the "limit_active_items" settings for each facet.
++   *
++   * @var array
++   */
++  protected $limitActiveItems = array();
++
++  /**
+    * Implements FacetapiUrlProcessor::fetchParams().
+    *
+    * Use $_GET as the source for facet data.
+@@ -45,6 +52,17 @@ class FacetapiUrlProcessorStandard extends FacetapiUrlProcessor {
+       }
+       elseif (!$active) {
+         $field_alias = rawurlencode($facet['field alias']);
++
++        // Strips all other filters for this facet if limit option is set.
++        if ($this->limitActiveItems($facet)) {
++          foreach ($qstring[$this->filterKey] as $pos => $filter) {
++            if (0 === strpos($filter, $field_alias)) {
++              unset($qstring[$this->filterKey][$pos]);
++            }
++          }
++        }
++
++        // Adds the filter to the query string.
+         $qstring[$this->filterKey][] = $field_alias . ':' . $value;
+       }
+     }
+@@ -56,6 +74,20 @@ class FacetapiUrlProcessorStandard extends FacetapiUrlProcessor {
+   }
+ 
+   /**
++   * Checks the facet's global "limit_active_items" settings.
++   *
++   * @return int
++   *   Whether or not to limit active items to one per facet.
++   */
++  public function limitActiveItems(array $facet) {
++    if (!isset($this->limitActiveItems[$facet['name']])) {
++      $settings = $this->adapter->getFacetSettingsGlobal($facet);
++      $this->limitActiveItems[$facet['name']] = $settings->settings['limit_active_items'];
++    }
++    return $this->limitActiveItems[$facet['name']];
++  }
++
++  /**
+    * Implements FacetapiUrlProcessor::setBreadcrumb().
+    */
+   public function setBreadcrumb() {
+@@ -98,4 +130,33 @@ class FacetapiUrlProcessorStandard extends FacetapiUrlProcessor {
+     // Sets the breadcrumb trail with the keys and filters.
+     drupal_set_breadcrumb($breadcrumb);
+   }
++
++  /**
++   * Allows for processor specific overrides to the settings form.
++   */
++  public function settingsForm(&$form, &$form_state) {
++    $facet = $form['#facetapi']['facet'];
++    $settings = $this->adapter->getFacetSettingsGlobal($facet);
++
++    $form['global']['limit_active_items'] = array(
++      '#type' => 'checkbox',
++      '#title' => t('Limit to one active item'),
++      '#prefix' => '<div class="facetapi-global-setting">',
++      '#suffix' => '</div>',
++      '#default_value' => !empty($settings->settings['limit_active_items']),
++      '#description' => t('Enabling this option allows only one item to be active at a time.'),
++    );
++  }
++
++  /**
++   * Provides default values for the backend specific settings.
++   *
++   * @return array
++   *   The defaults keyed by setting name to value.
++   */
++  public function getDefaultSettings() {
++    return array(
++      'limit_active_items' => 0
++    );
++  }
+ }

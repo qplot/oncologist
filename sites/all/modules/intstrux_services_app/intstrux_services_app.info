@@ -1,0 +1,13 @@
+name = Intstrux Services App
+description = Intstrux services module to support the various applications
+package = Intstrux
+core = 7.x
+dependencies[] = services
+files[] = Mobile_Detect.php.inc
+
+; Information added by drupal.org packaging script on 2011-12-27
+version = "7.x-1.0"
+core = "7.x"
+project = "intstrux_services_app"
+datestamp = "1324989090"
+

@@ -1,0 +1,87 @@
+
+screenshot  = screenshot.png
+name        = News Center - Fully Responsive Premium Drupal 7.x Theme v 1.1
+description = An awesome premium theme for building responsive <strong>Magazines, Editorials, online NewsPapers, Blogs, Comunity and Articles sites</strong> for Drupal 7.x. It was built for <a href="http://www.themesnap.com/"><strong>ThemeSnap</strong></a> by <a href="http://www.doublemthemes.com/"><strong>DoubleMThemes</strong></a>. <br /><br />For theme FAQs, info & "How to..." visit <a href="http://demos.doublemthemes.com/newscenter/documentation/"><strong>News Center Documentation</strong></a> or contact us via <a href="http://support.doublemthemes.com"><strong>our support forums</strong></a>. 
+
+core        = 7.x
+base theme  = zen
+
+stylesheets[screen,projection][]        = css/blueprint/screen.css
+stylesheets[all][]        = css/wireframes.css
+stylesheets[all][]        = css/layout-fixed.css
+stylesheets[all][]        = css/page-backgrounds.css
+stylesheets[all][]        = css/tabs.css
+stylesheets[all][]        = css/pages.css
+stylesheets[all][]        = css/blocks.css
+stylesheets[all][]        = css/navigation.css
+stylesheets[all][]        = css/views-styles.css
+stylesheets[all][]        = css/nodes.css
+stylesheets[all][]        = css/comments.css
+stylesheets[all][]        = css/forms.css
+stylesheets[all][]        = css/fields.css	
+stylesheets[all][]        = css/mobile-portrait-layout.css
+stylesheets[all][]        = css/news_center.css
+stylesheets[print][]      = css/blueprint/print.css
+stylesheets[all][] = css/royalslider.css
+stylesheets[all][] = css/royalslider-skins/default/default.css
+stylesheets[all][] = css/promo_carousel.css
+stylesheets[all][] = css/videohub_slider.css
+
+stylesheets[(min-width: 479px)][] = css/mobile-landscape-layout.css
+stylesheets[(min-width: 767px)][] = css/tablet-layout.css
+stylesheets[all and (min-width: 980px) and (min-device-width: 980px), all and (max-device-width: 1024px) and (min-width: 1024px) and (orientation:landscape)][] = css/screen-layout.css
+
+
+stylesheets-conditional[lt IE 9][all][]  = css/blueprint/ie.css
+stylesheets-conditional[lt IE 9][all][]  = css/ie-mobile-landscape-layout.css
+stylesheets-conditional[lt IE 9][all][]  = css/ie-tablet-layout.css
+stylesheets-conditional[lt IE 9][all][]  = css/ie-screen-layout.css 
+
+scripts[] = js/news_center.js
+scripts[] = js/royal-slider-8.1.js
+scripts[] = js/jquery.easing.1.3.min.js
+scripts[] = js/promo_carousel.js
+scripts[] = js/videohub_library.js
+scripts[] = js/challenging_case.js
+
+regions[top_advertisement]           = Top Advertisement
+regions[help]           = Help
+regions[sidebar_first]  = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[navigation]     = Navigation bar
+regions[slideshow]    	= SlideShow
+regions[highlighted]    = Highlighted
+regions[content0]        = Content Area 0
+regions[content1]        = Content Area 1
+regions[content2]        = Content Area 2
+regions[content]        = Content
+regions[header]         = Header
+regions[top_area]       = Top Area
+regions[footer]         = Footer
+regions[footer_first_column] = Footer First Column
+regions[footer_second_column] = Footer Second Column
+regions[footer_third_column] = Footer Third Column
+regions[footer_fourth_column] = Footer Fourth Column
+regions[footer_closure] = Footer Closure
+regions[bottom]         = Page bottom
+regions[page_top]       = Page top
+regions[page_bottom]    = Page bottom
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = favicon
+features[] = main_menu
+features[] = secondary_menu
+
+
+settings[zen_breadcrumb]           = yes
+settings[zen_breadcrumb_separator] = ' › '
+settings[zen_breadcrumb_home]      = 1
+settings[zen_breadcrumb_trailing]  = 1
+settings[zen_breadcrumb_title]     = 0
+settings[zen_jump_link_target]     = main-menu
+settings[zen_rebuild_registry]     = 1
+settings[zen_wireframes]           = 0

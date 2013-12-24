@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the AMP Tester feature.
+ */
+
+include_once 'amp_tester.features.inc';

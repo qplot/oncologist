@@ -1,0 +1,44 @@
+diff --git a/sites/all/modules/patched/facetapi_select/facetapi_select.module b/sites/all/modules/patched/facetapi_select/facetapi_select.module
+index 46e5dbc..fc0f82c 100644
+--- a/sites/all/modules/patched/facetapi_select/facetapi_select.module
++++ b/sites/all/modules/patched/facetapi_select/facetapi_select.module
+@@ -2,7 +2,7 @@
+ 
+ function facetapi_select_facet_form($form_state, $options, $count = 0) {
+   drupal_add_js(drupal_get_path('module', 'facetapi_select') .'/js/facetapi_select.js');
+-  
++
+   $name = 'facetapi_select_facet_form_' . $count;
+   $form['facets'] = array(
+     '#type' => 'select',
+@@ -56,17 +56,24 @@ class FacetapiSelectDropdowns extends FacetapiWidgetLinks {
+     $element = &$this->build[$this->facet['field alias']];
+ 
+     $settings = $this->settings;
+-    if (!empty($settings->settings['default_option_label'])) {
+-      $options[] = $settings->settings['default_option_label'];
+-    } else {
+-      $options[] = t('--Choose--');
+-    }
+-
++    $facet_active = FALSE;
+     foreach ($element as $value => $item) {
+       $path = !empty($this->settings->settings['submit_page']) ? $this->settings->settings['submit_page'] : $item['#path'];
+       $url = url($path, array('query' => $item['#query']));
+       $options[$url] = $item['#markup'].' ('.$item['#count'].')';
++      if ($item['#active']) {
++        $facet_active = TRUE;
++      }
+     }
++
++    if (!$facet_active) {
++      if (!empty($settings->settings['default_option_label'])) {
++        array_unshift($options, $settings->settings['default_option_label']);
++      } else {
++        array_unshift($options, t('--Choose--'));
++      }
++    }
++
+     // We keep track of how many facets we're adding, because each facet form
+     // needs a different form id.
+     if (end($options) !== '(-)') {

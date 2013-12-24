@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * @file
+ * Main functions for the FacetAPI Chosen module.
+ */
+
+/**
+ * Implements hook_facetapi_widgets().
+ */
+function facetapi_chosen_facetapi_widgets() {
+  return array(
+    'facetapi_chosen_facetapi_select' => array(
+      'handler' => array(
+        'label' => t('Chosen'),
+        'class' => 'ChosenFacetapiSelect',
+        'query types' => array('term', 'date'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_facetapi_sort_info().
+ */
+function facetapi_chosen_facetapi_sort_info() {
+  $sorts = array();
+
+  $sorts['random'] = array(
+    'label' => t('Random'),
+    'callback' => 'facetapi_chosen_facetapi_sort_random',
+    'description' => t('Random sorting.'),
+    'weight' => -50,
+  );
+
+  return $sorts;
+}
+
+/**
+ * Sorts randomly.
+ */
+function facetapi_chosen_facetapi_sort_random(array $a, array $b) {
+  return rand(-1, 1);
+}
+
+/**
+ * Implements hook_facetapi_filters().
+ */
+function facetapi_chosen_facetapi_filters() {
+  return array(
+    'exclude_items' => array(
+      'handler' => array(
+        'label' => t('Exclude specified items'),
+        'class' => 'ChosenFacetapiFilterExcludeItems',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_forms().
+ *
+ * Sets callbacks for select facet forms.
+ */
+function facetapi_chosen_forms() {
+  $forms = array();
+  foreach (facetapi_get_searcher_info() as $searcher => $searcher_info) {
+    foreach (facetapi_get_facet_info($searcher) as $facet) {
+      $forms['facetapi_chosen_facetapi_select_' .  $facet['name']]['callback'] = 'facetapi_chosen_facetapi_select';
+    }
+  }
+  return $forms;
+}

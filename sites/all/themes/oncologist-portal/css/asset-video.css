@@ -1,0 +1,4 @@
+/*By default hide the comment form - js will show it when needed*/
+.node-type-asset-video .comment-form{
+	display:none;
+}

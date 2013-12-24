@@ -1,0 +1,155 @@
+/*
+@GLOBAL VARIABLES
+* This file contains global variables and settings f
+* When adding new variables, be sure to use `!default` to allow over-riding at the project level
+
+// TABLE OF CONTENTS ---------------------
+
+	GLOBAL VALUES
+	COMPASS EXPERIMENTAL SUPPORT SETTINGS
+	FONT STACK
+	BASE VARIABLES
+	GRID SETTINGS
+	SPRITE SETTINGS
+	REMOVED
+
+//---------------------------------------- */
+
+
+
+/*------------------------------------*\
+			$COLORS
+\*------------------------------------*/
+
+/* @LINKS  
+-----------------*/
+$linkColor:             #08c !default;
+$linkColorHover:        darken($linkColor, 15) !default;
+
+/* @GRAYS 
+-----------------*/
+$black:                 #000 !default;
+$grayDarker:            #222 !default;
+$grayDark:              #333 !default;
+$gray:                  #555 !default;
+$grayLight:             #D9D9D9 !default;
+$grayLighter:           #e6e7e8;
+$grayLightest:          #eee !default;
+$white:                 #fff !default;
+
+/* @ACCENT COLORS 
+-----------------*/
+$blue:                  #049cdb !default;
+$blueDark:              #0064cd !default;
+$green:                 #46a546 !default;
+$red:                   #9d261d !default;
+$yellow:                #ffc40d !default;
+$orange:                #f89406 !default;
+$pink:                  #c3325f !default;
+
+
+/* @BRANDING COLORS
+-----------------*/
+$purpleDark:            #7A527A !default;
+$purple:                #996699 !default;
+$purpleLight:			#9E6B9E !default;
+
+
+$purpleHighlightLightest: 		#dbd2df !default;
+$purpleHighlightLighter: 		#ded6e2 !default;
+$purpleHighlightLight:          #aa8ab7 !default;
+$purpleHighlightDark:			#a282af !default;
+
+
+/*------------------------------------*\
+$COMPASS EXPERIMENTAL SUPPORT SETTINGS
+\*------------------------------------*/
+
+$experimental-support-for-khtml: false !default;
+$experimental-support-for-microsoft: false !default;
+
+
+/*------------------------------------*\
+			$FONT STACK
+\*------------------------------------*/
+
+$lucida-font-stack: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+
+
+/*------------------------------------*\
+			$TYPOGRAPHY
+\*------------------------------------*/
+
+$base-font-size: 14px !default;
+$body-font-family: $lucida-font-stack;
+$base-background: white !default;
+$base-line-height: 18px;
+
+
+/*------------------------------------*\
+            $GRID SETTINGS
+\*------------------------------------*/
+
+$_columns: 14;         // Total number of columns
+$_column-width: 60px;  // Width of a single column
+$_gutter: 20px;        // Width of the gutter
+
+
+/*------------------------------------*\
+            $SPRITE SETTINGS
+\*------------------------------------*/
+
+@import "spr/*.png";
+@include all-spr-sprites;
+
+
+$icn-android-height: spr-sprite-height(icn-android);
+$icn-android-width: spr-sprite-width(icn-android);
+
+$icn-apple-height: spr-sprite-height(icn-apple);
+$icn-apple-width: spr-sprite-width(icn-apple);
+
+$icn-kindle-height: spr-sprite-height(icn-kindle);
+$icn-kindle-width: spr-sprite-width(icn-kindle);
+
+$oncApp-logo-height: spr-sprite-height(oncApp-logo);
+$oncApp-logo-width: spr-sprite-width(oncApp-logo);
+
+$oncApp-logo-height: spr-sprite-height(oncApp-logo);
+$oncApp-logo-width: spr-sprite-width(oncApp-logo);
+
+$onc-logo-height: spr-sprite-height(onc-logo);
+$onc-logo-width: spr-sprite-width(onc-logo);
+
+$logo-sanofi-height: spr-sprite-height(logo-sanofi);
+$logo-sanofi-width: spr-sprite-width(logo-sanofi);
+
+
+
+/*------------------------------------*\
+            $TEXT SHADOW
+\*------------------------------------*/
+
+$default-text-shadow-color: rgba(black, 0.6);
+$default-text-shadow-blur: 1px;
+$default-text-shadow-v-offset: 1px;
+
+
+/*------------------------------------*\
+			$BORDER RADIOUS
+\*------------------------------------*/
+
+$default-border-radius:	3px; 
+
+
+/*------------------------------------*\
+            $REMOVED
+\*------------------------------------*/
+
+#navigation
+{
+	.title
+	{
+		display: none;
+	}
+}

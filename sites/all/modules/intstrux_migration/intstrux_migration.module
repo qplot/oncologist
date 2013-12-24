@@ -1,0 +1,163 @@
+<?php
+
+define('NODE_ACCESS_EXAMPLE_GRANT_ALL', 23);
+
+/**
+ * init hook
+ */
+function intstrux_migration_init() {
+}
+
+
+/*
+ * Implementation of hook_permission().
+ */
+function intstrux_migration_permission() {
+  return array(
+  	
+  	'intstrux_migration_admin' => array(
+      'title' => t('intstrux migration'),
+    ),
+    
+  );
+}
+
+/*
+ * Implementation of hook_menu().
+ */
+function intstrux_migration_menu() {
+  $items = array();
+  
+  $items['admin/migrate/profile'] = array(
+    'title' => 'Migrate Profiles', 
+    'page callback' => 'intstrux_migration_profiles', 
+    'access arguments' => array('intstrux_migration_admin'), 
+    'weight' => 10, 
+  );
+  
+   $items['admin/migrate/multigroup'] = array(
+    'title' => 'Migrate Multigroups', 
+    'page callback' => 'intstrux_migration_multigroup', 
+    'access arguments' => array('intstrux_migration_admin'), 
+    'weight' => 10, 
+  );
+  
+  return $items;
+}
+
+function intstrux_migration_multigroup(){
+ // Get all the nodes that have value in the multigroup.
+  $query = db_select('content_field_content_bydomain', "d");
+  $query->join('node', 'n', 'n.nid = d.nid');
+  $query->condition('n.type', 'page_html');
+  //$query->addExpression('DISTINCT n.nid', 'nid');
+  $query->fields('n', array('nid', 'type'))->distinct()->range(20, 10);
+  $nodes_result = $query->execute();
+
+  $ret = "";
+  foreach ($nodes_result as $record) {
+  	
+	$ret .= "NODE: ".$record->nid."<br>";
+	
+	$collection = array();
+	
+	
+	$queryD = db_select('content_field_content_bydomain', "d")->fields('d', array('nid', 'delta', 'field_content_bydomain_value'))->condition('d.nid', $record->nid);
+	$field_result = $queryD->execute();
+
+	foreach ($field_result as $field) {
+			$collection[$field->delta]['field_content_bydomain_value'] = $field->field_content_bydomain_value;
+  		
+	}
+	
+	$queryD = db_select('content_field_multisite_featured', "d")->fields('d', array('nid', 'delta', 'field_multisite_featured_value'))->condition('d.nid', $record->nid);
+	$field_result = $queryD->execute();
+
+	foreach ($field_result as $field) {
+			$collection[$field->delta]['field_multisite_featured_value'] = $field->field_multisite_featured_value === NULL ? 0 : $field->field_multisite_featured_value;
+  		
+	}
+	
+	$queryD = db_select('content_field_multisite_weight', "d")->fields('d', array('nid', 'delta', 'field_multisite_weight_value'))->condition('d.nid', $record->nid);
+	$field_result = $queryD->execute();
+
+	foreach ($field_result as $field) {
+			$collection[$field->delta]['field_multisite_weight_value'] = $field->field_multisite_weight_value === NULL ? 0: $field->field_multisite_weight_value;
+  		
+	}
+	
+	$node = node_load($record->nid);
+	
+	if(!empty($node->field_collection_multisite[LANGUAGE_NONE][0]['value'])){
+		$ret.="value exists<br>";	
+		continue;
+	}
+	
+	for($i=0; $i < count($collection); $i++){
+		$field_collection_item = entity_create('field_collection_item', array('field_name' => 'field_collection_multisite'));
+		$field_collection_item->setHostEntity('node', $node);
+		$field_collection_item->field_multisite_filter[LANGUAGE_NONE][]['value'] = $collection[$i]['field_content_bydomain_value'];
+		$field_collection_item->field_multisite_featured[LANGUAGE_NONE][]['value'] = !empty($collection[$i]['field_multisite_featured_value'])? $collection[$i]['field_multisite_featured_value']: 0;
+		$field_collection_item->field_multisite_weight[LANGUAGE_NONE][]['value'] = !empty($collection[$i]['field_multisite_weight_value'])? $collection[$i]['field_multisite_weight_value']: 0;
+		$field_collection_item->save();
+		
+		$ret .= "Created Collection: ".$field_collection_item->item_id."<br>";
+		
+	}
+	
+	//dpm($collection);
+	
+  }
+  return $ret;
+
+}
+
+
+
+function intstrux_migration_profiles(){
+	
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type','node')->entityCondition('bundle','profile')->range(500, 10);
+	
+	//$count = $query->count()->execute();
+	
+	$result = $query->execute();
+
+	if (isset($result['node'])) {
+	  $items_nids = array_keys($result['node']);
+	  $news_items = entity_load('node', $items_nids);
+	}
+	
+	$updated = "";
+	foreach ($news_items as $key => $value) {
+		$newprofile =  user_load($value->uid, TRUE);
+		
+		dpm($newprofile);
+		
+		//if (!$newprofile) {
+			//$newprofile = profile2_create(array('type'=>'profile','uid'=>$value->uid));
+		//}
+
+		//$newprofile->field_name['und'][0]['value'] = $node->title;	
+		//$newprofile->field_bio = $node->body;
+		$name = explode("@",$newprofile->mail);
+		$name = $name[0];
+		$pos = 0;
+		while (user_load_by_name($name."_".$pos)) {
+    		$pos++;
+		}
+		$newprofile->name = $name."_".$pos;
+		
+		$newprofile->field_user_firstname = $value->field_user_firstname;
+		$newprofile->field_user_lastname = $value->field_user_lastname;
+		//$newprofile->field_weight = $node->field_weight;
+		
+		user_save($newprofile);
+		
+		$updated .= $value->uid.", ";
+	}
+	
+		
+	
+	return "migrate profiles: 	--> ".$updated;
+}

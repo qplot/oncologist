@@ -1,0 +1,195 @@
+<?php
+$link =  "/".$_GET[q]."/view_items_videoasset_categories/";
+
+foreach ($view->args as $key => $value) {
+
+	$link .= $value ."/";
+}
+
+?>
+
+<script language="JavaScript">
+
+	function loadPage(page){
+
+		var isiPad = (navigator.userAgent.match(/iPad/i) != null);
+		var isSafari = navigator.userAgent.match(/Safari/i) != null;
+
+		if(isiPad && !isSafari){
+			nativeFunction('app://navigateTo/{"path":"<?php print $link;?>?page='+page+'"}');
+		}
+		else{
+			window.location = "/"+page;
+		}
+
+	};
+
+</script>
+
+
+<?php
+
+$page 	= $_GET['page'];
+
+?>
+
+
+
+<?php
+
+print "<div class='disclaimer_box'></div>";
+
+?>
+<div class="asset-video-container">
+
+	<div class="view-container menu-active">
+
+	<?php foreach ($rows as $id => $row): ?>
+
+		<div id class="item">
+
+
+	 		<?php print $row; ?>
+
+	 	</div>
+
+	<?php endforeach; ?>
+
+	</div>
+</div>
+
+	<?php
+		//-------  EVEN --------------------------------------------
+		//This is for every even page except page 0
+		elseif($page>0 && $page%2 == 0):
+
+	?>
+<div class="asset-video-container">
+
+	<div class="view-container menu-inactive">
+
+		<div class="view-container-inner view-container-left-even">
+
+			<?php if(!empty($rows[0])): ?>
+
+			<div id class="view-item">
+
+
+		 		<?php print $rows[0]; ?>
+
+		 	</div>
+		 	<?php endif; ?>
+
+		 	<?php if(!empty($rows[1])): ?>
+
+		 	<div id class="view-item">
+
+		 		<?php print $rows[1]; ?>
+
+		 	</div>
+	        <?php endif; ?>
+
+
+		</div>
+
+		<?php if(!empty($rows[2])): ?>
+
+		<div class="view-container-inner view-container-right-even">
+
+	     	<div id class="view-item">
+
+		 		<?php print $rows[2]; ?>
+
+		 	</div>
+
+
+			<?php if(!empty($rows[3])): ?>
+
+			<div id class="view-item">
+
+		 		<?php print $rows[3]; ?>
+
+		 	</div>
+
+		 	<?php endif; ?>
+
+		 	<?php if(!empty($rows[4])): ?>
+
+		 	<div id class="view-item">
+
+		 		<?php print $rows[4]; ?>
+
+		 	</div>
+
+		 	<?php endif; ?>
+
+		</div>
+
+		<?php endif; ?>
+
+	</div>
+</div>
+
+
+
+	<?php
+		//-------  UNEVEN --------------------------------------------
+		//This is for every uneven page except page 0
+		elseif($page>0 && $page%2 == 1):
+
+	?>
+<div class="asset-video-container">
+
+	<div class="view-container menu-inactive">
+		<div class="view-container-inner view-container-left">
+
+			<?php if(!empty($rows[0])): ?>
+			<div id class="view-item">
+
+		 		<?php print $rows[0]; ?>
+
+		 	</div>
+		 	<?php endif; ?>
+
+		 	<?php if(!empty($rows[1])): ?>
+		 	<div id class="view-item">
+
+		 		<?php print $rows[1]; ?>
+
+		 	</div>
+		 	<?php endif; ?>
+
+		 	<?php if(!empty($rows[2])): ?>
+		 	<div id class="view-item">
+
+		 		<?php print $rows[2]; ?>
+
+		 	</div>
+		 	<?php endif; ?>
+
+		</div>
+
+		<?php if(!empty($rows[3])): ?>
+		<div class="view-container-inner view-container-right">
+
+		 	<div id class="view-item">
+
+		 		<?php print $rows[3]; ?>
+
+		 	</div>
+
+		 	<?php if(!empty($rows[4])): ?>
+		 	<div id class="view-item">
+
+		 		<?php print $rows[4]; ?>
+
+		 	</div>
+			<?php endif; ?>
+		</div>
+	   <?php endif; ?>
+	</div>
+</div>
+
+<?php 
+	endif;	// page 0
+?>

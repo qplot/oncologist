@@ -1,0 +1,93 @@
+<?php
+
+/**
+  * @file
+  * Installation file for Intstrux HighWire module.
+  */
+
+/**
+ * Implements hook_schema().
+ */
+function intstrux_highwire_schema() {
+  // create cache table for highwire
+  $schema['cache_highwire'] = drupal_get_schema_unprocessed('system', 'cache');
+  
+
+
+  return $schema;
+}
+  
+/**
+ * Implements hook_uninstall().
+ */
+function intstrux_highwire_uninstall() {
+  variable_del('intstrux_highwire_api_url');
+  variable_del('intstrux_highwire_api_key');
+  variable_del('intstrux_highwire_cache_type');
+  variable_del('intstrux_highwire_cache_lifetime');
+  
+  if (db_table_exists('cache_highwire')) {
+    db_drop_table('cache_highwire');
+  }
+}
+
+/**
+ * Create cache_highwire table
+ */
+function intstrux_highwire_update_7000() {
+  if (!db_table_exists('cache_highwire')) {
+    drupal_install_schema('intstrux_highwire');
+  }
+}
+
+/**
+ * Create cache_highwire table
+ */
+function intstrux_highwire_update_7001() {
+  if (!db_table_exists('highwire_history')) {
+    
+    switch ($GLOBALS['db_type']) {
+        case 'mysql':
+        case 'mysqli':
+          // the {tablename} syntax is so multisite installs can add a
+          // prefix to the table name as set in the settings.php file
+          db_query("CREATE TABLE {highwire_history} (
+
+            id int(11) NOT NULL AUTO_INCREMENT,
+            operation varchar(32) NOT NULL,
+            suboperation int(2) NOT NULL,
+            message text,
+            link varchar(255) DEFAULT NULL,
+            severity varchar(32) NOT NULL,
+            timestamp int(11) NOT NULL,
+            PRIMARY KEY (`id`)
+            ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
+          break;
+        }
+
+  }
+}
+
+
+
+/*
+ * Implementation of hook_requirements().
+ */
+function intstrux_highwire_requirements($phase) {
+  $reqs = array();
+  if (!module_exists('intstrux_highwire')) {
+    return $reqs;
+  }
+  
+  $status = variable_get('intstrux_highwire_state', "init");
+  $severity = variable_get('intstrux_highwire_state', "init") == "error" ? REQUIREMENT_ERROR : REQUIREMENT_OK;
+  $desc = variable_get('intstrux_highwire_state', "init") == "error" ? "Immediate action required" : "Importer up and running";
+  
+  $reqs['intstrux_snapshot'] = array(
+    'title' => 'Intstrux Highwire',
+    'value' => $status,
+    'severity' => $severity,
+    'description' => $desc,
+    );
+  return $reqs;
+}

@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function intstrux_services_app_install() {
+	
+	switch ($GLOBALS['db_type']) {
+    case 'mysql':
+    case 'mysqli':
+      // the {tablename} syntax is so multisite installs can add a
+      // prefix to the table name as set in the settings.php file
+      db_query("CREATE TABLE {password_recovery_tokens} (
+          hash varchar(255) NOT NULL default '',
+          mail varchar(255) NOT NULL default '',
+          token varchar(8) NOT NULL default '',
+          timestamp int,
+          PRIMARY KEY  (hash)
+        ) /*!40100 DEFAULT CHARACTER SET utf8 */;");
+      break;
+  	}
+	
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function intstrux_services_app_uninstall() {
+}
+
+/*
+ * Implementation of hook_requirements().
+ */
+function intstrux_services_app_requirements($phase) {
+  $reqs = array();
+  if (!module_exists('intstrux_services_app')) {
+    return $reqs;
+  }
+  
+  $status = 'Configured';
+  $severity = REQUIREMENT_OK;
+  $desc = 'please unistall if needed anymore';
+  
+  $reqs['intstrux_services_app'] = array(
+    'title' => 'Intstrux Services App',
+    'value' => $status,
+    'severity' => $severity,
+    'description' => $desc,
+    );
+  return $reqs;
+}
+

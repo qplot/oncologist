@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rdf:RDF
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+
+ xmlns:content="http://purl.org/rss/1.0/modules/content/"
+ xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:syn="http://purl.org/rss/1.0/modules/syndication/"
+ xmlns:prism="http://purl.org/rss/1.0/modules/prism/"
+ xmlns:admin="http://webns.net/mvcb/"
+>
+
+<channel rdf:about="http://theoncologist.alphamedpress.org">
+<title>THE ONCOLOGIST EXPRESS</title>
+<link>http://theoncologist.alphamedpress.org</link>
+<description>The Oncologist RSS feed -- Early Online Editions of Accepted Articles </description>
+<eIssn>1549-490X</eIssn>
+<publicationName>The Oncologist</publicationName>
+<issn>1083-7159</issn>
+<items>
+ <rdf:Seq>
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0369v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0239v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0145v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0085v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0392v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0323v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0237v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0101v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0077v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2012-0335v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0349v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0230v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0297v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0321v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0381v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0111v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0093v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0292v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0253v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0226v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0250v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0202v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0138v1?rss=1" />
+  <rdf:li rdf:resource="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0186v1?rss=1" />
+ </rdf:Seq>
+</items>
+<image rdf:resource="http://hwmaint.theoncologist.alphamedpress.org/icons/banner/title.gif" />
+</channel>
+<image rdf:about="http://hwmaint.theoncologist.alphamedpress.org/icons/banner/title.gif">
+<title>The Oncologist</title>
+<url>http://hwmaint.theoncologist.alphamedpress.org/icons/banner/title.gif</url>
+<link>http://theoncologist.alphamedpress.org</link>
+</image>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0369v1?rss=1">
+<title><![CDATA[Zollinger-Ellison Syndrome: Classical Considerations and Current Controversies]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0369v1?rss=1</link>
+<description><![CDATA[<p>Surgery plays a key role in the management of Zollinger-Ellison syndrome; however, extent of resection, timing of intervention, performance of prophylactic adjunctive procedures, and reoperation for recurrent disease are topics of controversy. Historical considerations as well as evidence-based recommendations are summarized in this review.</p>]]></description>
+<creator><![CDATA[Epelboym, I., Mazeh, H.]]></creator>
+<date>2013-12-06T13:06:29-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0369</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0369</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Zollinger-Ellison Syndrome: Classical Considerations and Current Controversies]]></title>
+<publicationDate>2013-12-06</publicationDate>
+<section>ENDOCRINOLOGY</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0239v1?rss=1">
+<title><![CDATA[New Oral Anticoagulants and the Cancer Patient]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0239v1?rss=1</link>
+<description><![CDATA[<p>New oral anticoagulants are now available that offer increased options for anticoagulation beyond the traditional vitamin K antagonists. In this report, the basic pharmacology, current clinical indications, and approach to the use of new oral anticoagulants in the cancer patient have been reviewed.</p>]]></description>
+<creator><![CDATA[Short, N. J., Connors, J. M.]]></creator>
+<date>2013-12-06T13:06:29-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0239</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0239</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[New Oral Anticoagulants and the Cancer Patient]]></title>
+<publicationDate>2013-12-06</publicationDate>
+<section>NEW DRUG DEVELOPMENT AND CLINICAL PHARMACOLOGY</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0145v1?rss=1">
+<title><![CDATA[Prediction of Post-Chemotherapy Ovarian Function Using Markers of Ovarian Reserve]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0145v1?rss=1</link>
+<description><![CDATA[<p>Chemotherapy results in transient or permanent ovarian failure in the majority of women. Prechemotherapy assessment of serum anti-M&uuml;llerian hormone may be useful for predicting postchemotherapy ovarian function. This finding has implications for decision making about adjuvant endocrine therapy in premenopausal women treated with chemotherapy.</p>]]></description>
+<creator><![CDATA[Henry, N. L., Xia, R., Schott, A. F., McConnell, D., Banerjee, M., Hayes, D. F.]]></creator>
+<date>2013-12-06T13:06:28-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0145</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0145</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Prediction of Post-Chemotherapy Ovarian Function Using Markers of Ovarian Reserve]]></title>
+<publicationDate>2013-12-06</publicationDate>
+<section>GYNECOLOGIC ONCOLOGY</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0085v1?rss=1">
+<title><![CDATA[Reducing Lung Cancer and Other Tobacco-Related Cancers in Europe: Smoking Cessation Is the Key]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0085v1?rss=1</link>
+<description><![CDATA[]]></description>
+<creator><![CDATA[Clancy, L.]]></creator>
+<date>2013-12-06T13:06:28-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0085</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0085</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Reducing Lung Cancer and Other Tobacco-Related Cancers in Europe: Smoking Cessation Is the Key]]></title>
+<publicationDate>2013-12-06</publicationDate>
+<section>EUROPEAN PERSPECTIVES</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0392v1?rss=1">
+<title><![CDATA[A New Model for Reimbursing Genome-Based Cancer Care]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0392v1?rss=1</link>
+<description><![CDATA[]]></description>
+<creator><![CDATA[Ramsey, S. D., Sullivan, S. D.]]></creator>
+<date>2013-12-05T10:54:28-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0392</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0392</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[A New Model for Reimbursing Genome-Based Cancer Care]]></title>
+<publicationDate>2013-12-05</publicationDate>
+<section>COMMENTARY</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0323v1?rss=1">
+<title><![CDATA[Local and Regional Staging of Invasive Breast Cancer With Sonography: 25 Years of Practice at MD Anderson Cancer Center]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0323v1?rss=1</link>
+<description><![CDATA[<p>It has been observed that sonography is rarely used by many institutions in the local or regional staging of breast cancer. Findings suggest, however, that sonography has shown sufficient accuracy in clinical practice to stage most invasive breast cancers.</p>]]></description>
+<creator><![CDATA[Fornage, B. D.]]></creator>
+<date>2013-12-05T10:54:28-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0323</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0323</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Local and Regional Staging of Invasive Breast Cancer With Sonography: 25 Years of Practice at MD Anderson Cancer Center]]></title>
+<publicationDate>2013-12-05</publicationDate>
+<section>BREAST CANCER</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0237v1?rss=1">
+<title><![CDATA[Hypothyroidism After a Cancer Diagnosis: Etiology, Diagnosis, Complications, and Management]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0237v1?rss=1</link>
+<description><![CDATA[<p>This paper highlights the role that hypothyroidism can play in the diagnosis, treatment, and recovery of cancer. Timely diagnosis and treatment is pertinent to minimize the complications of hypothyroidism, to optimize cancer therapy, and to minimize recurrence. The authors discuss newer therapies associated with hypothyroidism and the negative impact that hypothyroidism can have in patients with a malignancy.</p>]]></description>
+<creator><![CDATA[Carter, Y., Sippel, R. S., Chen, H.]]></creator>
+<date>2013-12-05T10:54:28-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0237</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0237</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Hypothyroidism After a Cancer Diagnosis: Etiology, Diagnosis, Complications, and Management]]></title>
+<publicationDate>2013-12-05</publicationDate>
+<section>ENDOCRINOLOGY</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0101v1?rss=1">
+<title><![CDATA[Low Incidence of Pseudoprogression by Imaging in Newly Diagnosed Glioblastoma Patients Treated With Cediranib in Combination With Chemoradiation]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0101v1?rss=1</link>
+<description><![CDATA[<p>This study sought to determine whether the addition of a vascular endothelial growth factor signaling inhibitor (cediranib) to conventional chemoradiation had an impact on the frequency of pseudoprogression. The results show that administration of a VEGF inhibitor during and after chemoradiation modifies the expression of pseudoprogression by imaging.</p>]]></description>
+<creator><![CDATA[Pinho, M. C., Polaskova, P., Kalpathy-Cramer, J., Jennings, D., Emblem, K. E., Jain, R. K., Rosen, B. R., Wen, P. Y., Sorensen, A. G., Batchelor, T. T., Gerstner, E. R.]]></creator>
+<date>2013-12-05T10:54:28-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0101</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0101</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Low Incidence of Pseudoprogression by Imaging in Newly Diagnosed Glioblastoma Patients Treated With Cediranib in Combination With Chemoradiation]]></title>
+<publicationDate>2013-12-05</publicationDate>
+<section>NEURO-ONCOLOGY</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0077v1?rss=1">
+<title><![CDATA[U.S. Food and Drug Administration Approval Summary: Omacetaxine Mepesuccinate as Treatment for Chronic Myeloid Leukemia]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0077v1?rss=1</link>
+<description><![CDATA[<p>The authors report relevant clinical information regarding the U.S. Food and Drug Administration approval of a new drug, omacetaxine mepesuccinate (Synribo), for the treatment of adult patients with chronic or accelerated phase chronic myeloid leukemia with resistance and/or intolerance to two or more tyrosine kinase inhibitors. Omacetaxine mepesuccinate has shown activity and a favorable benefit to risk profile for the studied population. Further evidence of response durability to verify clinical benefit is pending.</p>]]></description>
+<creator><![CDATA[Alvandi, F., Kwitkowski, V. E., Ko, C.-W., Rothmann, M. D., Ricci, S., Saber, H., Ghosh, D., Brown, J., Pfeiler, E., Chikhale, E., Grillo, J., Bullock, J., Kane, R., Kaminskas, E., Farrell, A. T., Pazdur, R.]]></creator>
+<date>2013-12-05T10:54:28-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0077</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0077</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[U.S. Food and Drug Administration Approval Summary: Omacetaxine Mepesuccinate as Treatment for Chronic Myeloid Leukemia]]></title>
+<publicationDate>2013-12-05</publicationDate>
+<section>REGULATORY ISSUES: FDA</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2012-0335v1?rss=1">
+<title><![CDATA[Active Smoking May Negatively Affect Response Rate, Progression-Free Survival, and Overall Survival of Patients With Metastatic Renal Cell Carcinoma Treated With Sunitinib]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2012-0335v1?rss=1</link>
+<description><![CDATA[<p>An international multicenter retrospective study of sunitinib-treated metastatic renal cell carcinoma patients was performed to determine the association between outcome and the pretreatment status of smoking, body mass index, hypertension, diabetes, and other known prognostic factors. The results showed that active smoking may negatively affect the progression-free and overall survival of these patients.</p>]]></description>
+<creator><![CDATA[Keizman, D., Gottfried, M., Ish-Shalom, M., Maimon, N., Peer, A., Neumann, A., Hammers, H., Eisenberger, M. A., Sinibaldi, V., Pili, R., Hayat, H., Kovel, S., Sella, A., Boursi, B., Weitzen, R., Mermershtain, W., Rouvinov, K., Berger, R., Carducci, M. A.]]></creator>
+<date>2013-12-05T10:54:27-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2012-0335</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2012-0335</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Active Smoking May Negatively Affect Response Rate, Progression-Free Survival, and Overall Survival of Patients With Metastatic Renal Cell Carcinoma Treated With Sunitinib]]></title>
+<publicationDate>2013-12-05</publicationDate>
+<section>GENITOURINARY CANCER: RENAL, BLADDER, AND TESTICULAR</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0349v1?rss=1">
+<title><![CDATA[On Being a Doll]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0349v1?rss=1</link>
+<description><![CDATA[]]></description>
+<creator><![CDATA[Montero, A. J.]]></creator>
+<date>2013-12-04T06:52:15-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0349</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0349</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[On Being a Doll]]></title>
+<publicationDate>2013-12-04</publicationDate>
+<section>REFLECTIONS</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0230v1?rss=1">
+<title><![CDATA[Reducing Tobacco-Related Cancer Incidence and Mortality: Summary of an Institute of Medicine Workshop]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0230v1?rss=1</link>
+<description><![CDATA[<p>It has been observed that tobacco use remains a serious and persistent national problem. This report summarizes a public workshop convened by the Institute of Medicine's National Cancer Policy Forum that examined current issues in tobacco control, tobacco cessation, and implications for cancer patients.</p>]]></description>
+<creator><![CDATA[Balogh, E. P., Dresler, C., Fleury, M. E., Gritz, E. R., Kean, T. J., Myers, M. L., Nass, S. J., Nevidjon, B., Toll, B. A., Warren, G. W., Herbst, R. S.]]></creator>
+<date>2013-12-04T06:52:15-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0230</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0230</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Reducing Tobacco-Related Cancer Incidence and Mortality: Summary of an Institute of Medicine Workshop]]></title>
+<publicationDate>2013-12-04</publicationDate>
+<section>CANCER PREVENTION</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0297v1?rss=1">
+<title><![CDATA[Adjuvant Therapy for a 3.9-cm Adenocarcinoma of the Lung]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0297v1?rss=1</link>
+<description><![CDATA[<p>After routine staging tests, including a FDG-PET scan and MRI of the brain, a 59-year-old mother of four, never smoker, undergoes uncomplicated right lower lobectomy of the lung to remove a 3.9 cm adenocarcinoma with visceral pleural invasion (pIB, T2N0M0). Should she receive adjuvant chemotherapy? If so, what drug, dose, and schedule?</p>]]></description>
+<creator><![CDATA[Heist, R., Azzoli, C. G.]]></creator>
+<date>2013-11-25T10:35:45-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0297</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0297</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Adjuvant Therapy for a 3.9-cm Adenocarcinoma of the Lung]]></title>
+<publicationDate>2013-11-25</publicationDate>
+<section>CHALLENGING CASES</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0321v1?rss=1">
+<title><![CDATA[Breast Cancer in Young Women in Latin America: An Unmet, Growing Burden]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0321v1?rss=1</link>
+<description><![CDATA[<p><b>Background.</b> Breast cancer (BC) is the leading cause of malignancy-related deaths among women aged &le;45 years. There are unexplored and uncertain issues for BC in this particular group in Latin America. The aim of this study is to evaluate BC incidence and mortality among young women and related clinicopathological and survivorship aspects in this region.</p><p><b>Materials and Methods.</b> Data were obtained from Globocan 2008 and the International Agency for Research on Cancer&rsquo;s <I>Cancer Incidence in Five Continents</I> series plus databases. We requested collaboration from the 12 different national cancer institutes in Latin America through SLACOM, the Latin American and Caribbean Society of Medical Oncology, and conducted a systematic literature review to obtain local data regarding the prevalence of BC among young women and their characteristics, outcomes, and survivorship-related issues.</p><p><b>Results.</b> BC incidence and mortality proportions for Latin American women aged &lt;44 years were higher when compared with those of developed countries (20% vs. 12% and 14% vs. 7%, respectively). We found only a few Latin American series addressing this topic, and prevalence varied between 8% and 14%. Stage II and III disease, high histological grade, and triple-negative and HER2 BC were features frequently observed among young Latin American BC patients.</p><p><b>Conclusion.</b> The rising incidence and mortality of BC in young Latin American women is a call to action in the region. It is necessary to monitor the epidemiological and clinical data through reliable cancer registries and to consider the implementation of protocols for education of patients and health professionals. This unmet, growing burden must be considered as a top priority of the national programs in the fight against BC, and models of specialized units should be implemented for this particular group of patients to provide better care for this emergent challenge.</p>]]></description>
+<creator><![CDATA[Villarreal-Garza, C., Aguila, C., Magallanes-Hoyos, M. C., Mohar, A., Bargallo, E., Meneses, A., Cazap, E., Gomez, H., Lopez-Carrillo, L., Chavarri-Guerra, Y., Murillo, R., Barrios, C.]]></creator>
+<date>2013-11-25T10:35:45-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0321</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0321</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Breast Cancer in Young Women in Latin America: An Unmet, Growing Burden]]></title>
+<publicationDate>2013-11-25</publicationDate>
+<section>GLOBAL HEALTH AND CANCER</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0381v1?rss=1">
+<title><![CDATA[Metformin: Are Potential Benefits on Cancer Risk Extended to Cancer Survival?]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0381v1?rss=1</link>
+<description><![CDATA[]]></description>
+<creator><![CDATA[La Vecchia, C., Bosetti, C.]]></creator>
+<date>2013-11-20T13:31:09-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0381</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0381</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Metformin: Are Potential Benefits on Cancer Risk Extended to Cancer Survival?]]></title>
+<publicationDate>2013-11-20</publicationDate>
+<section>COMMENTARY</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0111v1?rss=1">
+<title><![CDATA[Metformin Is Associated With Survival Benefit in Cancer Patients With Concurrent Type 2 Diabetes: A Systematic Review and Meta-Analysis]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0111v1?rss=1</link>
+<description><![CDATA[<p><b>Purpose.</b> Patients with type 2 diabetes have increased cancer risk and cancer-related mortality, which can be reduced by metformin treatment. However, it is unclear whether metformin can also modulate clinical outcomes in patients with cancer and concurrent type 2 diabetes.</p><p><b>Patients and Methods.</b> A meta-analysis of 20 publications that included 13,008 subjects was performed to investigate the association between metformin and overall survival (OS) as well as cancer-specific survival (CSS) in patients with cancer and concurrent type 2 diabetes.</p><p><b>Results.</b> We found that there was a relative survival benefit associated with metformin treatment compared with treatment with other glucose-lowering medications in both OS and CSS (hazard ratio [HR] = 0.66; 95% confidence interval [CI]: 0.55&ndash;0.79 and HR = 0.62; 95% CI: 0.46&ndash;0.84, respectively). These associations were also observed in subgroups by cancer type and country.</p><p><b>Conclusion.</b> These results suggest that metformin is the drug of choice in the treatment of patients with cancer and concurrent type 2 diabetes.</p>]]></description>
+<creator><![CDATA[Yin, M., Zhou, J., Gorak, E. J., Quddus, F.]]></creator>
+<date>2013-11-20T13:31:09-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0111</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0111</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Metformin Is Associated With Survival Benefit in Cancer Patients With Concurrent Type 2 Diabetes: A Systematic Review and Meta-Analysis]]></title>
+<publicationDate>2013-11-20</publicationDate>
+<section>CANCER PREVENTION</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0093v1?rss=1">
+<title><![CDATA[Metronomic Capecitabine in Advanced Hepatocellular Carcinoma Patients: A Phase II Study]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0093v1?rss=1</link>
+<description><![CDATA[<p><b>Background.</b> Anti-angiogenic treatment with targeted agents is effective in advanced hepatocellular carcinoma (HCC). This trial evaluated the safety and efficacy of metronomic capecitabine in patients with HCC.</p><p><b>Methods.</b> This single-institution phase II trial included 59 previously untreated patients with advanced HCC and 31 patients resistant to or intolerant of sorafenib. The treatment schedule was capecitabine 500 mg twice daily until progression of disease, unacceptable toxicity level, or withdrawal of informed consent. Progression-free survival (PFS) was chosen as the primary endpoint.</p><p><b>Results.</b> A total of 59 previously untreated and 31 previously treated patients with HCC were enrolled. The first cohort achieved a median PFS of 6.03 months and an overall survival (OS) of 14.47 months. Two patients achieved a complete response, 1 patient achieved partial response, and in 30 patients, stable disease was the best outcome. The second cohort achieved a median PFS of 3.27 months and a median OS of 9.77 months. No complete or partial responses were observed, but 10 patients had stable disease. An unscheduled comparison of the first cohort of patients with 3,027 untreated patients with HCC from the Italian Liver Cancer (ITA.LI.CA) database was performed. One-to-one matching according to demographic/etiologic/oncologic features was possible for 50 patients. The median OS for these 50 capecitabine-treated patients was 15.6 months, compared with a median OS of 8.0 months for the matched untreated patients (<I>p</I> = .043).</p><p><b>Conclusion.</b> Metronomic capecitabine is well tolerated by patients with advanced HCC and appears to have activity both in treatment-naive patients and in those previously treated with sorafenib.</p>]]></description>
+<creator><![CDATA[Brandi, G., De Rosa, F., Agostini, V., Di Girolamo, S., Andreone, P., Bolondi, L., Serra, C., Sama, C., Golfieri, R., Gramenzi, A., Cucchetti, A., Pinna, A. D., Trevisani, F., Biasco, G., for the ITALIAN LIVER CANCER (ITA.LI.CA) GROUP]]></creator>
+<date>2013-11-13T19:44:58-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0093</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0093</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Metronomic Capecitabine in Advanced Hepatocellular Carcinoma Patients: A Phase II Study]]></title>
+<publicationDate>2013-11-13</publicationDate>
+<section>CLINICAL TRIAL RESULTS</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0292v1?rss=1">
+<title><![CDATA[Advancing Cervical Cancer Prevention in India: Implementation Science Priorities]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0292v1?rss=1</link>
+<description><![CDATA[<p>Cervical cancer is the leading cause of cancer mortality in India, accounting for 17% of all cancer deaths among women aged 30 to 69 years. At current incidence rates, the annual burden of new cases in India is projected to increase to 225,000 by 2025, but there are few large-scale, organized cervical cancer prevention programs in the country. We conducted a review of the cervical cancer prevention research literature and programmatic experiences in India to summarize the current state of knowledge and practices and recommend research priorities to address the gap in services. We found that research and programs in India have demonstrated the feasibility and acceptability of cervical cancer prevention efforts and that screening strategies requiring minimal additional human resources and laboratory infrastructure can reduce morbidity and mortality. However, additional evidence generated through implementation science research is needed to ensure that cervical cancer prevention efforts have the desired impact and are cost-effective. Specifically, implementation science research is needed to understand individual- and community-level barriers to screening and diagnostic and treatment services; to improve health care worker performance; to strengthen links among screening, diagnosis, and treatment; and to determine optimal program design, outcomes, and costs. With a quarter of the global burden of cervical cancer in India, there is no better time than now to translate research findings to practice. Implementation science can help ensure that investments in cervical cancer prevention and control result in the greatest impact.</p>]]></description>
+<creator><![CDATA[Krishnan, S., Madsen, E., Porterfield, D., Varghese, B.]]></creator>
+<date>2013-11-11T10:48:05-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0292</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0292</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Advancing Cervical Cancer Prevention in India: Implementation Science Priorities]]></title>
+<publicationDate>2013-11-11</publicationDate>
+<section>GLOBAL HEALTH AND CANCER</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0253v1?rss=1">
+<title><![CDATA[Screen-and-Treat Approach to Cervical Cancer Prevention Using Visual Inspection with Acetic Acid and Cryotherapy: Experiences, Perceptions, and Beliefs From Demonstration Projects in Peru, Uganda, and Vietnam]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0253v1?rss=1</link>
+<description><![CDATA[<p>Cervical cancer is preventable but continues to cause the deaths of more than 270,000 women worldwide each year, most of them in developing countries where programs to detect and treat precancerous lesions are not affordable or available. Studies have demonstrated that screening by visual inspection of the cervix using acetic acid (VIA) is a simple, affordable, and sensitive test that can identify precancerous changes of the cervix so that treatment such as cryotherapy can be provided. Government partners implemented screening and treatment using VIA and cryotherapy at demonstration sites in Peru, Uganda, and Vietnam. Evaluations were conducted in the three countries to explore the barriers and facilitating factors for the use of services and for incorporation of screen-and-treat programs using VIA and cryotherapy into routine services. Results showed that use of VIA and cryotherapy in these settings is a feasible approach to providing cervical cancer prevention services. Activities that can help ensure successful programs include mobilizing and educating communities, organizing services to meet women&rsquo;s schedules and needs, and strengthening systems to track clients for follow-up. Sustainability also depends on having an adequate number of trained providers and reducing staff turnover. Although some challenges were found across all sites, others varied from country to country, suggesting that careful assessments before beginning new secondary prevention programs will optimize the probability of success.</p>]]></description>
+<creator><![CDATA[Paul, P., Winkler, J. L., Bartolini, R. M., Penny, M. E., Huong, T. T., Nga, L. T., Kumakech, E., Mugisha, E., Jeronimo, J.]]></creator>
+<date>2013-11-11T10:48:05-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0253</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0253</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Screen-and-Treat Approach to Cervical Cancer Prevention Using Visual Inspection with Acetic Acid and Cryotherapy: Experiences, Perceptions, and Beliefs From Demonstration Projects in Peru, Uganda, and Vietnam]]></title>
+<publicationDate>2013-11-11</publicationDate>
+<section>GLOBAL HEALTH AND CANCER</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0226v1?rss=1">
+<title><![CDATA[Venous Thromboembolism Risk in Patients With Cancer Receiving Chemotherapy: A Real-World Analysis]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0226v1?rss=1</link>
+<description><![CDATA[<p><b>Introduction.</b> The occurrence of malignant disease increases the risk for venous thromboembolism (VTE). Here we evaluate the risk for VTE in a large unselected cohort of patients with cancer receiving chemotherapy.</p><p><b>Methods.</b> The United States IMPACT health care claims database was retrospectively analyzed to identify patients with a range of solid tumors who started chemotherapy from January 2005 through December 2008. International Classification of Diseases, 9th revision, Clinical Modification Codes were used to identify cancer location, presence of VTE 3.5 months and 12 months after starting chemotherapy, and incidence of major bleeding complications. Health care costs were assessed one year before initiation of chemotherapy and one year after initiation of chemotherapy.</p><p><b>Results.</b> The overall incidence of VTE 3.5 months after starting chemotherapy was 7.3% (range 4.6%&ndash;11.6% across cancer locations) rising to 13.5% at 12 months (range 9.8%&ndash;21.3%). The highest VTE risk was identified in patients with pancreatic, stomach, and lung cancer. Patients in whom VTE developed had a higher risk for major bleeding at 3.5 months and at 12 months (11.0% and 19.8% vs. 3.8% and 9.6%, respectively). Health care costs were significantly higher in patients in whom VTE developed.</p><p><b>Conclusion.</b> Those undergoing chemotherapy as outpatients are at increased risk for VTE and for major bleeding complications. Thromboprophylaxis may be considered for such patients after carefully assessing the risks and benefits of treatment.</p>]]></description>
+<creator><![CDATA[Lyman, G. H., Eckert, L., Wang, Y., Wang, H., Cohen, A.]]></creator>
+<date>2013-11-08T07:26:49-08:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0226</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0226</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Venous Thromboembolism Risk in Patients With Cancer Receiving Chemotherapy: A Real-World Analysis]]></title>
+<publicationDate>2013-11-08</publicationDate>
+<section>SYMPTOM MANAGEMENT AND SUPPORTIVE CARE</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0250v1?rss=1">
+<title><![CDATA[Clinical Efficacy of Targeted Biologic Agents as Second-Line Therapy of Advanced Thyroid Cancer]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0250v1?rss=1</link>
+<description><![CDATA[<p><b>Introduction.</b> Targeted biologic agents showed clinically meaningful efficacy as front-line therapy for advanced radioiodine-refractory and medullary thyroid cancer. The clinical benefit of these agents beyond the front line has yet to be established.</p><p><b>Methods.</b> We assessed the clinical benefit of targeted agents in patients with advanced differentiated and medullary thyroid cancer treated at a single academic cancer center. We determined efficacy and compared front-line and second-line benefit using biochemical and anatomic response, time to treatment failure, and progression-free survival (PFS). Statistical differences were assessed by <I>t</I> test and chi-square test. Survival curves were generated by the Kaplan-Meier method. Differences in survival were assessed using the log-rank test, and a <I>p</I> value &lt;.05 was considered significant.</p><p><b>Results.</b> We identified 39 patients with advanced differentiated and medullary thyroid cancer treated with targeted biologic agents. Median age was 56.3 years. Overall, 25 men and 14 women participated. Histology showed 23% medullary and 77% differentiated cancer. Nineteen patients progressed on front-line therapy and subsequently received second-line therapy. Targeted agents conferred clinically meaningful benefit in the second-line setting in terms of biochemical response (13.3%), clinical benefit (83.3%), median time to treatment failure (4.0 months; 95% confidence interval: 2.6&ndash;8.2), and median PFS (4.6 months; 95% confidence interval: 3.2&ndash;8.2). Second-line benefit (median PFS) was more modest in comparison to the front-line setting in both genders (women: 3 months vs. 12.2 months; men: 6 months vs. 19.7 months), in differentiated cancers (4.1 months vs. 15.7 months), and with vascular targeting agents (4.4 months vs. 20.1 months).</p><p><b>Conclusion.</b> Patients with advanced thyroid cancer derived meaningful clinical benefit from additional therapy with a biologic agent following disease progression on front-line targeted therapy.</p>]]></description>
+<creator><![CDATA[Owonikoko, T. K., Chowdry, R. P., Chen, Z., Kim, S., Saba, N. F., Shin, D. M., Khuri, F. R.]]></creator>
+<date>2013-10-23T09:40:23-07:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0250</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0250</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Clinical Efficacy of Targeted Biologic Agents as Second-Line Therapy of Advanced Thyroid Cancer]]></title>
+<publicationDate>2013-10-23</publicationDate>
+<section>ENDOCRINOLOGY</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0202v1?rss=1">
+<title><![CDATA[Barriers to Study Enrollment in Patients With Advanced Cancer Referred to a Phase I Clinical Trials Unit]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0202v1?rss=1</link>
+<description><![CDATA[<p><b><I>Background. </I></b>We conducted this retrospective study to identify reasons that patients referred to a phase I clinical trial failed to enroll or delayed enrollment onto the trial.</p><p><b><I>Materials and Methods. </I></b>Outcome analyses were conducted independently on data collected from electronic medical records of two sets of consecutive patients referred to a phase I clinical trial facility at MD Anderson Cancer Center. Data from the first set of 300 patients were used to determine relevant variables affecting enrollment; data from the second set of 957 patients were then analyzed for these variables.</p><p><b><I>Results. </I></b>Results from the two sets of patients were similar. Approximately 55% of patients were enrolled in a phase I trial. Patients referred from within MD Anderson were more likely to be enrolled than patients seen originally outside the institution (<I>p</I> = .006); black patients were more likely than white patients to enroll (69% vs. 43%; <I>p</I> = .04). The median interval from the initial visit to initiation of treatments was 19 days. Major reasons for failure to enroll included failure to return to the clinic (36%), opting for treatment in another clinic (17%), hospice referral (11%), early death (10%), and lack of financial clearance (5%). Treatment was delayed for three weeks or more in 250 patients; in 85 patients (34%), the delay was caused by financial and insurance issues.</p><p><b><I>Conclusion. </I></b>Failure to return to the clinic, pursuit of other therapy, and rapid deterioration were the major reasons for failure to enroll; lengthy financial clearance was the most common reason for delayed enrollment onto a phase I trial. </p>]]></description>
+<creator><![CDATA[Fu, S., McQuinn, L., Naing, A., Wheler, J. J., Janku, F., Falchook, G. S., Piha-Paul, S. A., Tu, D., Howard, A., Tsimberidou, A., Zinner, R., Hong, D. S., Kurzrock, R.]]></creator>
+<date>2013-10-23T09:40:22-07:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0202</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0202</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Barriers to Study Enrollment in Patients With Advanced Cancer Referred to a Phase I Clinical Trials Unit]]></title>
+<publicationDate>2013-10-23</publicationDate>
+<section>OUTCOMES RESEARCH</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0138v1?rss=1">
+<title><![CDATA[Anti-Mullerian Hormone and Antral Follicle Count Reveal a Late Impairment of Ovarian Reserve in Patients Undergoing Low-Gonadotoxic Regimens for Hematological Malignancies]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0138v1?rss=1</link>
+<description><![CDATA[<p>The impact of cancer therapy on the reproductive potential of patients is increasingly recognized because survival rates of patients have clearly improved in recent years. Different fertility preservation methods, either generally accepted or still experimental, are currently available, and counseling of patients requires a delicate balance between the efficacy and side effects of the proposed method and the characteristics of both the tumor and the therapy. Deeper knowledge of the effects of cancer therapy on the reproductive potential of patients over time is required to identify the most appropriate fertility preservation method. In this paper, we report a case-control study in which female patients who were diagnosed with hematological malignancies and treated with chemotherapy and/or radiotherapy were compared with age-matched controls in terms of ovarian reserve, as measured by ultrasound examination and hormonal status. By stratifying patients for gonadotoxicity of the therapy received and time elapsed from the end of the therapy, we report that patients treated with low gonadotoxic therapies, while being similar to age-matched controls in their ovarian reserve when evaluated within few years from the end of the therapy, show a clear impairment over longer times. We also report that anti-M&uuml;llerian hormone is the most sensitive hormonal parameter in detecting changes in ovarian reserve when compared with follicle-stimulating hormone or inhibin-B. This study stresses the importance of accurate counseling at the time of diagnosis of cancer and emphasizes the risks of infertility with low gonadotoxic therapies that may reduce the reproductive window of survivors.</p>]]></description>
+<creator><![CDATA[Di Paola, R., Costantini, C., Tecchio, C., Salvagno, G. L., Montemezzi, R., Perandini, A., Pizzolo, G., Zaffagnini, S., Franchi, M.]]></creator>
+<date>2013-10-22T12:02:55-07:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0138</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0138</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Anti-Mullerian Hormone and Antral Follicle Count Reveal a Late Impairment of Ovarian Reserve in Patients Undergoing Low-Gonadotoxic Regimens for Hematological Malignancies]]></title>
+<publicationDate>2013-10-22</publicationDate>
+<section>GYNECOLOGIC ONCOLOGY</section>
+</item>
+<item rdf:about="http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0186v1?rss=1">
+<title><![CDATA[Impact of Molecular Alterations and Targeted Therapy in Appendiceal Adenocarcinomas]]></title>
+<link>http://theoncologist.alphamedpress.org/cgi/content/short/theoncologist.2013-0186v1?rss=1</link>
+<description><![CDATA[<p><b>Background.</b> Appendiceal adenocarcinomas (AAs) are rare and this has limited their molecular understanding. The purpose of our study was to characterize the molecular profile of AA and explore the role of targeted therapy against cyclooxygenase-2 (COX-2) and epidermal growth factor receptor (<I>EGFR</I>).</p><p><b>Patients and Methods.</b> We performed a retrospective review of 607 patients with AA at a single institution. A total of 149 patients underwent molecular testing for at least one of the following: activating mutations in <I>KRAS, BRAF</I>, cKIT, <I>EGFR,</I> or <I>PI3K</I>; protein expression of c-KIT or COX-2; or microsatellite instability (MSI) status by immunohistochemistry. Kaplan-Meier product limit method and log-rank test were used to estimate overall survival (OS) and to determine associations among OS, COX-2 expression, <I>KRAS</I> mutations, and other characteristics.</p><p><b>Results.</b> Age, grade, stage, signet ring cells, mucinous histology, and completeness of cytoreduction score correlated with survival outcomes. COX-2 expression, <I>KRAS, PI3K</I>, and <I>BRAF</I> mutations were seen in 61%, 55%, 17%, and 4% of patients, respectively. High MSI was seen in 6% of patients. <I>KRAS</I> mutation was strongly associated with well differentiated or moderately differentiated AA (<I>p</I> &lt; .01). COX-2 expression (<I>p</I> = .33) and the presence of <I>KRAS</I> mutation (<I>p</I> = .91) had no impact on OS. The use of celecoxib in patients whose tumors expressed COX-2 (<I>p</I> = .84) and the use of cetuximab or panitumumab in patients with <I>KRAS</I> wild-type tumors (<I>p</I> = .83) also had no impact on OS.</p><p><b>Conclusion.</b> In this cohort, we demonstrated that COX-2 expression and <I>KRAS</I> mutations were frequently seen in AA, although neither exhibited any prognostic significance. MSI was infrequent in AA. Targeted therapy against COX-2 and <I>EGFR</I> appeared to provide no clinical benefit. Well and moderately differentiated AA were molecularly distinct from poorly differentiated AA.</p>]]></description>
+<creator><![CDATA[Raghav, K. P. S., Shetty, A. V., Kazmi, S. M. A., Zhang, N., Morris, J., Taggart, M., Fournier, K., Royal, R., Mansfield, P., Eng, C., Wolff, R. A., Overman, M. J.]]></creator>
+<date>2013-10-22T12:02:55-07:00</date>
+<identifier>info:doi/10.1634/theoncologist.2013-0186</identifier>
+<identifier>hwp:master-id:theoncologist;theoncologist.2013-0186</identifier>
+<publisher>AlphaMed Press</publisher>
+<title><![CDATA[Impact of Molecular Alterations and Targeted Therapy in Appendiceal Adenocarcinomas]]></title>
+<publicationDate>2013-10-22</publicationDate>
+<section>GASTROINTESTINAL CANCER</section>
+</item>
+</rdf:RDF>

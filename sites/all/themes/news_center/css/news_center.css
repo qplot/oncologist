@@ -1,0 +1,2135 @@
+/* BluePrint Reset */
+
+.container-inline .form-wrapper {
+	padding-top: 10px;
+}
+
+#superfish-2-toggle {
+	display:none !important;
+}
+
+p + p {
+    margin-top: 0;
+    text-indent: 0;
+}
+
+a{
+	color: #333333;
+}
+
+a:hover, a:focus{
+	color: #666666;	
+}
+
+/* General Layout & Theme Styles */
+
+
+/* Homepage post-template rewrite style tweaks */
+#mySlider .overlay {
+	cursor: pointer;
+}
+
+.item-article .section {
+font-size: 1em;
+text-transform: uppercase;
+}
+
+.perspective_row_title {
+	font-size:15px;
+	color:#333;
+	margin-bottom:10px;
+}
+
+.perspective_row_author {
+	color:#222;
+	font-style:italic;
+	margin:0 6px 12px 6px;
+}
+
+.perspective_viewlink {
+margin-top: 6px;
+}
+
+.item {
+	margin-top:10px;
+}
+
+
+.item-article .title {
+	font-size:1.25em;
+	color:#333;
+	margin-bottom:10px;
+	text-decoration:none;
+}
+
+.front .item-article .date {
+/* font-size: 12px;
+color: #444;
+margin-bottom: 10px;
+font-weight: bold; */
+display:none;
+}
+
+.item-article .author {
+	color:#222;
+	font-style:italic;
+	margin:0 6px 12px 6px;
+}
+
+
+/* end homepage styles */
+
+h1, h2, h3 {
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {    
+    line-height: 1.3em;}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a{	
+	text-decoration: none;
+}
+
+#block-system-main {
+    clear: both;
+}
+
+.region-top-area {
+    float: right;
+    margin-right: 12px;
+    margin-top: 5px;
+}
+
+.region-top-area .block {
+    float: left;
+}
+
+#content .region {   
+   /* float:left;
+	clear:both;*/
+	background: none;   
+	width:100%; 
+    
+}
+
+#content .region .node-title{   
+   /* float:left;
+	clear:both;*/
+
+    
+}
+
+
+
+
+#content .section .node-title{
+	
+}
+
+.view-view-cancerportal-currentissue {
+	
+}
+
+.field-name-field-tax-section {
+font-size: 9pt;
+text-transform: uppercase;
+}
+
+.field-name-field-sections {
+	text-transform:uppercase;
+}
+
+#content .region-content0, #content .region-slideshow{
+    background: none;   
+	width:100%; 
+}
+
+#content .region-content1, #content .region-content2,{
+    background: none;   
+	width:100%; 
+}
+
+.sidebar-second h2.block-title, .footer h2.block-title {
+	border-bottom: 1px solid #CCCCCC;
+	font-size: 1.5em;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	margin-top: 10px;
+}
+#block-search-form .block-title {
+	display: none;
+}
+.region-sidebar-second  .block h3 {
+    margin-bottom: 7px;
+}
+
+.region-sidebar-second  .block{
+    background: none repeat scroll 0 0 #EEEEEE;
+    padding: 10px;
+}
+
+
+.with-navigation #content, .with-navigation .region-sidebar-first, .with-navigation .region-sidebar-second {
+    margin-top: 0;
+}
+
+
+
+/* Main Menu Block */
+
+#block-system-main-menu {
+    background:#A685A2;
+    margin-bottom: 0;
+}
+
+#block-system-main-menu ul {
+    margin-bottom: 0;
+    padding-left: 40px;
+}
+
+#block-system-main-menu ul li {
+    display: inline-block;
+    margin-left: 0;
+    padding-right: 0;
+	
+}
+
+#block-system-main-menu ul li a {
+    color: #222;
+    display: block;
+    font-size: 0.75em;
+    height: 30px;
+    margin-bottom: 0;
+    padding: 8px 8px 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+	font-weight:bold;
+	text-shadow:1px 1px 1px #ccc;
+}
+
+#block-system-main-menu ul li a.active, #block-system-main-menu ul li a:hover {
+    color: #e2e2e2;
+	text-shadow:1px 1px 1px #333;
+}
+
+
+/* User Login Block Styles */
+
+#block-user-login label{
+	/*display: none;*/
+}
+
+#block-user-login input {
+    font-size: 0.9em;
+    padding: 3px;
+    width: 110px;
+}
+
+#block-user-login .form-item {
+    float: left;
+    margin: 0 7px 0 0;
+}
+
+#block-user-login .form-item, #block-user-login .form-actions {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+#block-user-login .form-actions .form-submit {
+background: none repeat scroll 0 0 #666666;
+border: 1px solid #888888;
+color: #FFFFFF;
+cursor: pointer;
+font-family: Tahoma,sans-serif;
+font-size: 0.88em;
+font-weight: bold;
+height: 21px;
+margin-top: 25px;
+padding-top: 0;
+width: 50px;
+margin-right: 8px;
+border-radius: 4px;
+}
+
+#block-user-login .form-actions .form-submit:hover {
+    background: none repeat scroll 0 0 #FFFFFF;    
+    color: #666666;
+}
+
+#block-user-login {
+    /*background: none repeat scroll 0 0 #444444;*/
+    padding: 4px 12px 24px;
+}
+
+.region-top-area a{
+    color: #CCCCCC;
+}
+
+#block-user-login .item-list {
+    font-size: 0.9em;
+    margin-top: 0;  /* bn was 30px */
+    /*position: absolute;*/
+}
+
+#block-user-login .item-list ul {
+   padding: 0;
+}
+
+#block-user-login .item-list ul li {
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 15px;
+}
+
+#block-user-login .item-list ul li.first a{
+    font-style:italic;
+	color:#666;
+}
+
+#block-user-login .item-list ul li.first a:hover{
+    font-style:italic;
+	color:#222;
+}
+
+
+
+
+/*     Dropdown Behavior & Styles */
+
+/*
+#block-menu-menu-news-categories ul li:hover {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+
+#block-menu-menu-news-categories ul li:hover a{
+    color: #333333;
+}
+*/
+#block-menu-menu-news-categories ul.expanded li ul {
+    background: none repeat scroll 0 0 #FFFFFF;
+    box-shadow: 3px 3px 3px #000000;
+    color: #333333;
+    display: none;
+    height: auto;
+    opacity: 0.9;
+    padding-left: 0;
+    position: absolute;
+    width: 150px;
+    z-index: 100;
+}
+
+#block-menu-menu-news-categories ul.expanded li ul li{	
+	display: block;
+	height: auto;
+}
+
+#block-menu-menu-news-categories ul.expanded li ul li a{	
+	color: #333333;
+}
+
+#block-menu-menu-news-categories ul.expanded li:hover ul.menu{
+    display: block;		
+}
+
+#block-menu-menu-news-categories ul.expanded li ul li:hover{
+    background: none;
+}
+
+#block-menu-menu-news-categories ul.expanded li ul li a:hover {
+    background: none;
+    box-shadow: none;
+    color: #333333;   
+	padding-top: 0;
+}
+
+/* Sidebar Default Styles*/
+
+.region-sidebar-second {   
+    font-size: 0.8em;    
+}
+
+#block-views-ads-sidebar-block-block{
+	font-size: 1.2em;
+	background: none;
+	padding: 0;
+}
+
+/* Content Areas General Styles */
+
+.region-content0 .block, .region-content1 .block, .region-content2 .block {
+	color: #666666;   	
+    font-size: 0.85em;
+}
+
+.region-content0 h2.block-title, .region-content1 h2.block-title, .region-content2 h2.block-title {
+    border-bottom: 1px solid #CCCCCC;
+    font-size: 1.65em;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+.region-content0 .block-views img, .region-content1 .block-views img, .region-content2 .block-views img {
+    border: 1px solid #CCCCCC;
+    float: left;
+    margin-right: 10px;
+    padding: 3px;
+	-moz-transition: background-color 0.5s ease-out;
+	-o-transition: background-color 0.5s ease-out;
+	-webkit-transition: background-color 0.5s ease-out;
+	transition: background-color 0.5s ease-out;
+}
+
+.region-content0 .block-views img:hover, .region-content1 .block-views img:hover, .region-content2 .block-views img:hover {
+    background: none repeat scroll 0 0 #EEEEEE;
+}
+
+.region-content0 .block-views h3, .region-content1 .block-views h3, .region-content2 .block-views h3 {   
+    margin-bottom: 4px;
+}
+
+.region-content0 .block-views h4 , .region-content1 .block-views h4 , .region-content2 .block-views h4{
+    font-size: 1.3em;
+    margin-bottom: 7px;
+}
+
+
+  
+
+/* 
+ * CONTENT AREA BLOCKS 
+ *
+ * These are the styles from the blocks located in the main content area
+ * of the Page. It's recommended to use them all on the front page as
+ * "Articles Dashboard" and in inner pages depending of their purpose.
+ *
+ */
+ 
+/* 
+ * Featured Article Styles 
+ */
+
+#block-views-featured-article-block .views-row {
+    clear: both;
+    margin-bottom: 16px;
+    min-height: 166px;
+    padding-bottom: 17px;
+}
+
+#block-views-featured-article-block .views-row-first {
+    border-bottom: 1px dashed #CCCCCC;    
+}
+
+#block-views-featured-article-block .views-field-body-1{   
+    margin-top: 8px;
+}
+
+
+/* 
+ * Last Week Most Popular Styles 
+ */
+
+#block-views-most-popular-block .views-row-last {
+    border-bottom: none !important;    
+}
+
+
+/*
+ * Articles Blocks Styles 
+ */
+
+#block-views-articles-block-3-block, #block-views-articles-block-6-block {   
+    margin-right: 0;    
+}
+
+#block-views-articles-categories-block-block .attachment .views-row,
+#block-views-articles-block-2-block .attachment .views-row,
+#block-views-articles-block-3-block .attachment .views-row,
+#block-views-articles-block-4-block .attachment .views-row,
+#block-views-articles-block-5-block .attachment .views-row,
+#block-views-articles-block-6-block .attachment .views-row,
+#block-views-most-popular-block .views-row{
+    border-bottom: 1px dashed #CCCCCC;
+    clear: both;
+    margin-bottom: 10px;
+    min-height: 62px;
+    padding-bottom: 10px;
+	padding-left: 71px;
+}
+
+#block-views-articles-categories-block-block .attachment img,
+#block-views-articles-block-2-block .attachment img, 
+#block-views-articles-block-3-block .attachment img,
+#block-views-articles-block-4-block .attachment img,
+#block-views-articles-block-5-block .attachment img,
+#block-views-articles-block-6-block .attachment img,
+#block-views-most-popular-block img{
+    margin-left: -71px;
+}
+
+
+#block-views-articles-categories-block-block .views-field-body-1, 
+#block-views-articles-block-2-block .views-field-body-1, 
+#block-views-articles-block-3-block .views-field-body-1,
+#block-views-articles-block-4-block .views-field-body-1,
+#block-views-articles-block-5-block .views-field-body-1,
+#block-views-articles-block-6-block .views-field-body-1{
+    border-bottom: 1px dashed #CCCCCC;
+    margin-bottom: 9px;
+    margin-top: 8px;
+    padding-bottom: 17px;
+}
+
+#block-views-articles-categories-block-block .view-footer, 
+#block-views-articles-block-2-block .view-footer, 
+#block-views-articles-block-3-block .view-footer,
+#block-views-articles-block-4-block .view-footer,
+#block-views-articles-block-5-block .view-footer,
+#block-views-articles-block-6-block .view-footer{
+    padding-bottom: 0;
+    padding-right: 7px;
+    padding-top: 0;
+    text-align: right;
+}
+
+#footer h4 {
+	border-bottom:solid 1px#999;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+}
+#footer ul {
+	margin-bottom: 20px;
+}
+/*  
+ * Articles Images Block 
+ */
+
+#block-views-articles-images-block img{
+	float: none;
+}
+
+#block-views-articles-images-block .views-row-5, #block-views-articles-images-block .views-row-10, #block-views-articles-images-block .views-row-15, #block-views-articles-images-block .views-row-20{
+	margin-right: 0px;
+}
+
+#block-views-articles-images-block .views-field-field-image {
+    height: 68px;
+}
+
+#block-views-articles-images-block .views-field-title {
+    background: none repeat scroll 0 0 #000000;
+    margin-left: 4px;
+    margin-top: -64px;
+    opacity: 0.6;
+    padding: 0 3px 3px;
+    position: absolute;
+    width: 119px;
+	display: none;
+}
+
+#block-views-articles-images-block .views-field-title a{
+    color: #FFFFFF;
+}
+
+
+
+
+/* 
+ * RIGHT SIDEBAR REGION BLOCKS 
+ *
+ * These are the blocks located at the right side of every page. 
+ *
+ */ 
+ 
+/* 
+ * Sidebar Advertisement Styles 
+ */
+
+#block-views-ads-sidebar-block-block a {
+    font-size: 0.8em;   
+}
+
+#block-views-ads-sidebar-block-block .view-header a {
+    color: #333333;    
+    font-size: 0.9em;    
+}
+
+#block-views-ads-sidebar-block-block .view-header p {
+    margin-bottom: 2px;
+}
+
+#block-views-ads-sidebar-block-block .view-header em.advertisement {
+    color: #888888;
+    display: block;
+    float: left;
+    font-size: 0.9em;
+    font-style: normal;
+    margin-top: -4px;
+}
+
+#block-views-ads-sidebar-block-block .views-field-title {
+    font-size: 1.1em;    
+}
+ 
+ 
+/*
+ * Today's Most Popular
+ */
+
+#block-views-most-popular-today-block .views-field-field-image {
+    float: left;
+    margin-left: -51px;
+    margin-right: 8px;
+}
+
+#block-views-most-popular-today-block .views-field-field-image img {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 3px;
+}
+#block-views-most-popular-today-block h4 {
+	font-size: 1.3em;
+    margin-bottom: 7px;
+}
+
+#block-views-most-popular-today-block .views-row {
+    border-bottom: 1px dashed #CCCCCC;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    padding-left: 51px;
+}
+
+#block-views-most-popular-today-block .views-row-last{
+	border-bottom: none;
+}
+
+
+/*  
+ * All time Most Popular
+ */
+
+#block-views-most-popular-all-time-block .views-field-field-image {
+    float: left;
+    margin-left: -51px;
+    margin-right: 8px;
+}
+
+#block-views-most-popular-all-time-block .views-field-field-image img {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 3px;
+}
+#block-views-most-popular-all-time-block h4 {
+	font-size: 1.3em;
+    margin-bottom: 7px;
+}
+
+#block-views-most-popular-all-time-block .views-row {
+    border-bottom: 1px dashed #CCCCCC;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    padding-left: 51px;
+}
+
+#block-views-most-popular-all-time-block .views-row-last{
+	border-bottom: none;
+}
+
+
+/*  
+ * Most Commented Block
+ */
+
+#block-views-most-commented-block .views-field-field-image {
+    float: left;
+    margin-left: -51px;
+    margin-right: 8px;
+}
+
+#block-views-most-commented-block .views-field-field-image img {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 3px;
+}
+#block-views-most-commented-block h4 {
+	font-size: 1.3em;
+    margin-bottom: 7px;
+}
+
+#block-views-most-commented-block .views-row {
+    border-bottom: 1px dashed #CCCCCC;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    padding-left: 51px;
+}
+
+#block-views-most-commented-block .views-row-last{
+	border-bottom: none;
+}
+
+
+/*  
+ * Top Rated Articles 
+ */
+
+#block-views-top-rated-articles-block .views-field-field-image {
+    float: left;
+    margin-left: -51px;
+    margin-right: 8px;
+}
+
+#block-views-top-rated-articles-block .views-field-field-image img {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 3px;
+}
+#block-views-top-rated-articles-block h4 {
+	font-size: 1.3em;
+    margin-bottom: 7px;
+}
+
+#block-views-top-rated-articles-block .views-row {
+    border-bottom: 1px dashed #CCCCCC;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    padding-left: 51px;
+}
+
+#block-views-top-rated-articles-block .views-row-last{
+	border-bottom: none;
+}
+
+#block-views-top-rated-articles-block .views-field-field-rate .description{
+	font-size: 1em;
+}
+
+#block-views-top-rated-articles-block .views-field-field-rate .fivestar-outline {
+    margin-bottom: 2px;
+}
+
+
+
+
+
+
+
+
+
+
+/* Articles Styles */
+
+.node-article.node-teaser img {
+    border: 1px solid #CCCCCC;
+    float: left;
+    margin-right: 10px;
+    padding: 6px;
+}
+
+.node-article.node-teaser h2 a{
+	text-decoration: none;
+}
+
+.node-article {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+}
+
+h2.node-title {
+	
+}
+
+.node-article.node-teaser ul.links a {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border: 1px solid #333333;
+    color: #333333;
+    display: inline-block;
+    padding: 6px;
+    text-decoration: none;
+}
+
+.node-article.node-teaser ul.links a:hover{
+    background: none repeat scroll 0 0 #333333;    
+    color: #EEEEEE;    
+}
+
+.node-article.node-teaser ul.links .node-readmore a{
+	
+}
+
+.node-article.node-teaser .comment-add a{
+	
+}
+
+
+/* Footer Region General Styles */
+
+
+#footer h2, #footer h3, #footer h4, #footer h5, #footer h6{    
+    color: #CCCCCC;
+}
+
+#footer a{    
+    color: #EEEEEE;
+	font-size:99%;
+}
+
+.footer-logo {
+    background: url("../images/footer_logo.png") no-repeat scroll 0 0 transparent;
+    height: 80px;
+    width: 200px;
+}
+
+
+
+
+
+/* Footer: Common Footer Region */
+
+.region-footer {    
+    margin-right: 0;    
+}
+
+.region-footer-closure{
+	clear: both;
+}
+
+
+
+/* Follow Us Block */
+
+#block-block-2{
+	margin-top: 40px;
+	color:#ccc;
+	text-align:center;
+}
+
+#block-block-2 .content a {
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 7px;
+    padding: 5px 4px 4px 25px;
+    text-decoration: none;
+}
+
+#block-block-2 .content .rss a {
+    background: url("../images/follow_feed.png") no-repeat scroll 0 4px transparent;
+}
+
+#block-block-2 .content .twitter a {
+    background: url("../images/follow_twitter.png") no-repeat scroll 0 4px transparent;
+}
+
+#block-block-2 .content .fb a {
+    background: url("../images/follow_facebook.png") no-repeat scroll 0 4px transparent;
+}
+
+#block-block-2 .content .mail a {
+    background: url("../images/follow_newsletter.png") no-repeat scroll 0 4px transparent;
+}
+
+
+/* Recent Posts Block */
+
+#block-views-recent-posts-block .views-field-field-image img {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #444444;
+    padding: 3px;
+}
+
+#block-views-recent-posts-block .views-field-field-image{
+	float: left;
+	margin-left: -51px;
+    margin-right: 8px;
+}
+
+#block-views-recent-posts-block .views-row {
+    border-bottom: 1px dashed #444444;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    padding-left: 51px;
+}
+
+#block-views-recent-posts-block .views-row-last {
+    border-bottom: medium none;
+}
+
+
+/* Last Viewed Posts Block */
+
+
+#block-views-last-viewed-block .views-field-field-image img {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #444444;
+    padding: 3px;
+}
+
+#block-views-last-viewed-block .views-field-field-image{
+	float: left;
+	margin-left: -51px;
+    margin-right: 8px;
+}
+
+#block-views-last-viewed-block .views-row {
+    border-bottom: 1px dashed #444444;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    padding-left: 51px;
+}
+
+#block-views-last-viewed-block .views-row-last {
+    border-bottom: medium none;
+}
+
+
+
+
+/* NewsLetter (SimpleNews Module) Block Styles */
+
+.block-simplenews .form-submit {
+    background: none repeat scroll 0 0 #666666;
+    border: 1px solid #888888;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Tahoma,sans-serif;
+    font-size: 0.9em;
+    font-weight: bold;
+    height: 26px;
+    margin-top: 5px;
+    padding-top: 0;
+    width: 73px;
+}
+
+.block-simplenews label{
+	display: none;
+}
+
+.block-simplenews .form-item {
+    margin-bottom: 7px;
+    margin-top: 14px;
+}
+
+
+/* Copyright Block */
+
+#block-block-1 {
+    border-top: 1px solid #CCCCCC;
+    clear: both;
+    margin: 12px -12px 0;
+    padding: 10px 10px 0;
+}
+
+#block-block-1 p{    
+    margin: 0;
+}
+
+
+
+/* SF Menu Overides for topnav */
+.sf-menu ul{
+	/*width:auto !important;*/
+}
+.sf-menu > li > ul > li{
+	white-space:nowrap;
+}
+
+.sf-navbar > li a, .sf-navbar > li .nolink, .sf-menu  > li a,.sf-menu > li .sf-depth-1.nolink{
+		color: #fff;  /* 7/26 !important */
+}
+.sf-menu.sf-style-default a, .sf-menu .nolink {
+	border:1px solid rgba(255,255,255, 0);
+	cursor:pointer;
+	display: block;
+	font-family:"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+	font-size:15px;
+    font-weight: 300;
+	letter-spacing:1px;
+	margin: 0;
+	padding:8px 10px 11px 10px;
+	text-decoration: none;
+}
+.sf-menu.sf-style-default a:first-child {
+	/*border-left: none;*/
+}
+.sf-menu > li a.menuparent:hover, .sf-menu .sf-depth-1.nolink:hover {  /* top nav menu items */
+	background:#f8f8f8 !important;
+	border: 1px solid #7e6178 !important;
+	border-bottom:none !important;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+.sf-menu.sf-style-default a:hover, .sf-menu .nolink:hover {  /* sub nav menu items */
+	color:#333 !important;
+	text-decoration:none;
+}
+.sf-menu.sf-style-default li, .sf-menu.sf-style-default.sf-navbar {
+	background: none;
+	/*margin-left:10px;*/
+	padding-top:1px;
+}
+.sf-menu > li > ul {
+	background: none repeat scroll 0 0 #f8f8f8 !important;
+	border: 1px solid #7e6178 !important;
+	border-top: none !important;
+	padding: 10px!important;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius: 5px;
+}
+.sf-menu > li > ul a{
+	color: #72566D !important;
+	font-size: 0.94em !important;
+	padding: 5px !important;
+}
+.sf-menu > li > ul a:hover{
+	border-color:transparent !important;
+	text-decoration:underline !important;
+}
+.sf-menu li:hover > ul, .sf-menu li.sfHover > ul {
+	left:auto !important;
+	top: 35px !important;
+}
+/* speciality menu */
+#menu-15161-2 .sf-megamenu{
+	width:550px;
+}
+#menu-15161-2 .sf-megamenu-wrapper{
+	width:100%;
+}
+#menu-15161-2 .sf-megamenu-wrapper ol li {
+	width: 50%;
+}
+.sf-megamenu-wrapper li.first, #menu-15270-2, #menu-15284-2{  /* Specialities and Topics headers in Speciality drop down */
+	width:100% !important;
+}
+ #menu-15270-2, #menu-15284-2{
+	 margin-top:10px;
+ }
+ /* current issue menu */
+#menu-15271-2 ul, #menu-15286-2 ul{
+	width:170px;
+}
+ 
+.sf-megamenu-wrapper li .nolink:hover {  
+	background:inherit !important;
+	border: 1px solid rgba(255,255,255, 0) !important;
+	border-bottom: 1px solid #ccc !important;
+	color: black !important;
+}
+
+.sf-megamenu-wrapper  li .nolink{
+	border-bottom: 1px solid #ccc;
+	color: black !important;
+	font-size: 1em;
+	margin-top: 5px;
+	padding: 0 0 5px;
+	text-transform:uppercase;
+}
+
+.sf-hidden {
+	display:none;
+}
+
+/*.sf-megamenu  {
+	display:none !important;
+}*/
+
+
+#header .region-header {
+	background-color: #ddb7d7;
+	background-image: -moz-linear-gradient(#ddb7d7,#b395ad 26px,#71546a 59px);
+	background-image: -webkit-linear-gradient(#ddb7d7,#b395ad 26px,#71546a 59px);
+	background-image: -o-linear-gradient(#ddb7d7,#b395ad 26px,#71546a 59px);
+	background-image: -ms-linear-gradient(#ddb7d7,#b395ad 26px,#71546a 59px);
+	background-image: linear-gradient(#ddb7d7,#b395ad 26px,#71546a 59px);
+	padding-bottom: 14px;
+	position: relative;
+	z-index: 999;
+	min-height: 32px !important;
+	float:left;
+}
+
+.view-mode-web_cancer_portal_perspectives .field-type-brightcove-video{
+	display:none;
+}
+
+
+/* homepage styles */
+.front .field-type-text-long {
+	height: 93px;
+	overflow:hidden;
+}
+	/* homepage global focus styles */
+.front .view-id-view_cancerportal_perspectives .field-type-text-with-summary {
+	height: 105px;
+	overflow:hidden;
+}
+	/* end global focus */
+h2 {
+	margin-left: 0 !important;
+}
+.front #content .section .node-title {
+	float: none !important;
+	font-size: 1.2em;
+	font-weight: normal;
+	margin-bottom: 0;
+	margin-left:0 !important;
+}
+.front .field-name-field-article-id {  /* article id on homepage */
+	font-size: 1.2em;
+	display:none;
+}
+.front .field.field-name-field-perspective-htmlfile {
+	display: none;
+}
+.front h2.node-title {
+	padding-right: 10px;
+}
+.front .field-type-brightcove-video {
+	background:#eee;
+	border: 1px solid #ccc;
+	height: 100px;
+	width: 200px;
+	float:left;
+}
+.front .node-article {
+    margin-bottom: 10px;
+}
+	/* place holder */
+.front #node-55666{
+	display:none;
+}
+	/* current issue EU */
+.front #block-views-4db0c11e13b7926c208651abab504ba5 {
+	display: none;
+}
+	/* end current issue EU */
+	/* video library block */
+.front #block-views-70e601e62709c5c9229319aadd244fa2 {
+	/*padding-left: 15px;*/
+	margin-bottom: 50px;
+}	
+
+.front .view-mode-web_cancer_portal_video_library .field-type-text-with-summary{
+	margin-top:-10px;
+}
+	/* end video library block */
+	
+	/* first block on next row in content0 area (breast cancer block, CME block) */
+.front #block-views-1eb623ba9e36ddbed10884d054800e15{
+	padding-left:0;
+} 
+.front #block-views-d86508a5c6bd1f047f8ea19e0a8ca661, .front #block-block-23{
+	clear: left;
+	padding-left: 0;
+}
+/* journal menu */
+#menu-15182-2 ul, #menu-15160-2 ul{
+	
+}
+
+/* menu enhancement for STO CME */
+#menu-15185-2 a, #menu-15186-2 a, #menu-15165-2 a, #menu-15164-2 a{
+	background-color:rgba(255,255,255, 0.5);
+	border-radius:5px;
+	color:#555 !important;
+	padding: 5px;
+	margin: 3px 12px 0 6px;
+}
+#menu-15185-2 a:hover, #menu-15186-2 a:hover, #menu-15165-2 a:hover, #menu-15164-2 a:hover {
+	background-color:rgba(255,255,255, 1);
+	color:#222 !important;
+}
+#menu-15185-2 a:after, #menu-15186-2 a:after, #menu-15165-2 a:after, #menu-15164-2 a:after{
+	/*content:"*";*/
+	font-size:xx-small; 
+	position:absolute;
+	vertical-align:top;
+	z-index:900;
+}
+/*
+#menu-15185-2 a:hover:after, #menu-15186-2 a:hover:after, #menu-15165-2 a:hover:after, #menu-15164-2 a:hover:after{
+	color:black;
+	content:"Opens in New Window";
+	left: -5px;
+	position:absolute;
+	top: 50px;
+	width:200px;
+	z-index:900;
+}
+*/
+/* end menu enhancement STO CME */
+
+/* CME homepage block */
+.front .cmeBlock{
+	border-bottom: 1px dashed #CCCCCC;
+	margin-bottom: 20px;
+	padding-bottom: 8px;
+}
+.cmeBlock img{
+	margin-right:10px;
+	margin-top: 5px;
+	width: 50px;
+}
+/* end CME homepage block */
+
+.sf-navbar li li {
+	width: 50%;
+	float: left;
+	display:block;
+	white-space: nowrap;
+}
+
+.front .page-title{
+	display:none;
+}
+
+/*  homepage blocks display abstract for first article in each block */
+.front .item-article .section {
+	font-size:.9em;
+	line-height: 1.3em;
+	margin-bottom: 5px;
+}
+.front .title, .front .perspective_row_title, .front .node-title, .front .views-field-title {
+	line-height: 1.3em;
+}
+.front .abstract,
+.front .perspective_row_abstract
+{
+	line-height:1.3em;
+}
+.front .date{
+	display:none;
+}
+.front .view-view-cancerportal-featuredarticlesqueue .date{
+	display: block !important;
+}
+
+.front .view-view-cancerportal-currentissue .abstract,
+.front .view-view-cancerportal-currentissue .author,
+.front .view-view-cancerportal-currentissue .date,
+.front .view-clinical-trials .abstract,
+.front .view-clinical-trials .author,
+.front .view-view-cancerportal-portals .author,
+.front .view-view-cancerportal-portals .item-article section,
+.front .view-view-cancerportal-portals .abstract,
+.front .view-view-cancerportal-express .author,
+.front .view-view-cancerportal-express .abstract
+{
+	display:none;
+}
+
+.front .view-clinical-trials .views-row-first .abstract,
+.front .view-clinical-trials .views-row-first .author,
+.front .view-view-cancerportal-currentissue .view-container>div:nth-child(2) .abstract,
+.front .view-view-cancerportal-currentissue .view-container>div:nth-child(2) .author,
+.front .view-view-cancerportal-portals .views-row-1 .author,
+.front .view-view-cancerportal-portals .views-row-1 .abstract,
+.front .view-view-cancerportal-express .view-container>div:nth-child(2) .author,
+.front .view-view-cancerportal-express .view-container>div:nth-child(2) .abstract
+ {
+	display: block !important;
+}
+
+.front region-content0 .submitted, 
+.front .region-content0 .content
+{
+	display:none;
+}
+.front .region-content0 .block .views-row:first-child .content, .front .region-content0 .first .content{
+	display:block !important;
+}
+.front .region-content0 .view .views-row-first .contributors{
+	display:none;
+}
+.front .views-label {
+	display: none;
+}
+	  /* challenging cases view block  specific */
+.front .region-content0 .view-view-challengingcases .views-row .views-field-nid, .front .region-content0 .view-view-challengingcases .views-row .views-field-field-cc-pro-kol-image, .front .region-content0 .view-view-challengingcases .views-row .views-field-field-cc-pro-kol-name, .front .region-content0 .view-view-challengingcases .views-row .views-field-field-cc-abstract,
+.front #block-views-amp-challenging-cases-block-1 .case-left, 
+.front #block-views-amp-challenging-cases-block-1 .abstract{
+	display:none;
+}
+.front .region-content0 .view-view-challengingcases .views-row-first .views-field-field-cc-abstract, 
+.front .region-content0 .view-view-challengingcases .views-row-first .views-field-field-cc-pro-kol-name,
+.front .region-content0 .view-view-challengingcases .views-row-first .views-field-field-cc-pro-kol-image,
+.front #block-views-amp-challenging-cases-block-1 .views-row-1 .case-left, 
+.front #block-views-amp-challenging-cases-block-1 .views-row-1 .abstract {
+	display:block !important;
+}
+.front #block-views-amp-challenging-cases-block-1 .case-right h3 a {
+	font-weight: normal;
+	line-height: 17px;
+}
+.front #block-views-amp-challenging-cases-block-1 .case-left span {
+	display: block;
+	float: left;
+	width: 90px;
+}
+.front #block-views-amp-challenging-cases-block-1 .case-left img {
+	width: 60px;
+	height:60px;
+}
+.front #block-views-amp-challenging-cases-block-1 .pro-name {
+	float: none !important;
+	font-size: 10px;
+}
+.front #block-views-amp-challenging-cases-block-1 .con-image {
+	margin-left: 100px;
+	margin-top: -82px;
+	margin-bottom: 0;
+}
+.front #block-views-amp-challenging-cases-block-1 .con-name {
+	font-size: 10px;
+	margin-left: 100px;
+	margin-top: -14px;
+}
+.front #block-views-amp-challenging-cases-block-1 .case-right{
+	clear:both;
+}
+.front p + p {
+	text-indent: 0;
+}
+.front .view-id-view_cancerportal_currentissue .item,
+.front .view-id-view_cancerportal_express .item,
+.front .view-id-view_cancerportal_perspectives .item {
+	padding: 1px 0 10px;
+	margin-bottom: 10px;
+}
+
+
+.front .view-view-challengingcases .views-field-field-cc-pro-kol-name {
+	clear: both;
+	float: left;
+}
+.front .region-content0 .view-view-challengingcases .views-row {
+	border-bottom: 1px dashed #ccc;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	padding-right:12px;
+}
+.front .region-content0 .view-view-challengingcases .views-label.views-label-field-cc-abstract {
+	display:none;
+}
+.front .region-content0 .view-view-challengingcases .views-field-title {
+	font-size: 1.2em;
+}
+.front .view-view-challengingcases img {  /* photo */
+	width: 50px;
+	height: 60px;
+	margin-right: 20px !important;
+	margin-top: 10px;
+}
+.views-field.views-field-field-cc-pro-kol-name {  /* name under photo */
+	font-size: 0.8em;
+	margin-top: 3px;
+	margin-right: 10px;
+}
+	  /* end challenging cases view block  specific */
+/*  end homepage blocks display abstract for first article in each block */
+
+/* right nav banner ads */
+#block-block-7, #block-block-21 {
+	background: #fff;
+}
+
+
+/* current issue page */
+.node-type-article #page-title{
+	display:none;
+}
+.node-type-article .title{
+	font-size:1.4em;
+}
+
+
+.node-type-article .field-name-field-abstract h1 {
+	display: none;
+}
+.node-type-article .pos-float {
+float: left;
+margin: 10px;
+width: 100%;
+}
+.node-type-article .large {
+	margin-bottom: 0;
+	
+}
+/* .item-article */
+.not-front .title {
+	line-height: 1.4em;
+	margin-bottom: 10px;
+}
+.page-current-issue-us .item-article.date {
+	display: none;
+}
+.not-front .author {
+	line-height: 1.3em;
+	margin-bottom: 5px;
+}
+.not-front .abstract {
+	line-height: 1.3em;
+	max-height: 122px;  /* oct 02 2013 - was 129px, made need to make page specific if still not working */
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+.section-article .abstract{
+	max-height:none !important;
+}
+
+
+.not-front .item-article .section {
+	margin-bottom: 0 !important;
+	opacity: 0.8;
+}
+
+/* video library page */
+.page-video-library .videolibrary_abstract:after {
+	clear: both;
+	content: "";
+	display: table;
+	margin-bottom: 15px;
+}
+.page-video-library .videolibrary_thumb img {
+	margin-right: 15px;
+}
+/*
+.page-video-library .videolibrary_abstract, .page-view-cancerportal-videolibrary .videolibrary_abstract {
+	clear: both;
+}
+*/
+.page-video-library .views-row, .page-view-cancerportal-videolibrary .views-row {
+	margin-bottom: 20px;
+	border-bottom: 1px dashed #ddd;
+}
+.page-video-library .videolibrary_title, .page-view-cancerportal-videolibrary .videolibrary_title {
+	margin-left: 170px;
+	padding-top: 0px;
+	font-size: 13pt;
+}
+.page-video-library .videolibrary_speaker, .page-view-cancerportal-videolibrary .videolibrary_speaker{
+	margin-left: 170px;
+}
+#videolibrary_item_52361{
+	clear:both;
+}
+/* end video library page */
+/* video player page */
+.node-type-asset-video #page-title{
+	display:none;
+}
+.node-type-asset-video .videolibrary_event {
+	font-size: 16pt;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 20px;
+}
+.node-type-asset-video .videolibrary_title {
+	font-size: 14pt;
+}
+/* end video player page */
+
+.front .videolibrary_item {
+	margin-bottom: 10px;
+	padding-top: 10px;
+}
+
+/* styles for desktop */
+@media screen and (min-width: 767px){
+body{
+	margin-top:0 !important;
+}
+#block-user-login .form-actions {
+	margin-top: -24px;
+}
+#logo {
+	margin-bottom:5px !important;
+	margin-top:3px !important;
+}
+#logo img {
+	
+	padding-top: 12px;
+}
+#stoLogo{
+	margin:-4px 20px 10px 10px;
+	padding:0; 
+}
+.region-top-area{
+	margin-right:0 !important;
+	margin-bottom: 5px !important;
+}
+.mysocial {
+	padding: 0;
+	position: absolute;
+	right:-24px;
+	top: 7px;
+	width: 23px;
+	z-index: 99;
+}
+
+.mysocial ul {
+	background: #fff;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	height: 85px;
+	list-style: none;
+	padding-top: 2px;
+	top: 7px;
+	z-index: 99;
+}
+.mysocial ul li {
+	margin-left: -4px;
+}
+#block-node-recent{
+	background-color:#eee;
+}
+.region-sidebar-second .block {
+	background-color: inherit;
+}
+
+
+/* content blocks on homepage */
+.front .region-content0 .first{
+	margin-bottom:50px !important;
+}
+#block-views-1eb623ba9e36ddbed10884d054800e15{  /* current issue block */
+	clear:both;
+}
+#block-views-0e407b59b7b1b4151bef461e1a8619e0,
+#block-views-acaa0dc215a325c1730bca3fb6ec0b30 { /* express block */
+	clear:both;
+}
+.front #block-views-d86508a5c6bd1f047f8ea19e0a8ca661{  /* breast cancer block so CME will align left below it. */
+	margin-bottom:50px !important;
+}
+.front #block-views-clinical-trials-block-2, 
+.front #block-views-db86075b23370e8072ac9fa57a567dd1,
+.front #block-views-amp-challenging-cases-block-1{
+	border-right:none;
+}
+/* video library block on homepage */
+.front .videolibrary_title {
+	clear: both;
+	font-size: 11pt;
+}
+.front .videolibrary_thumb {
+	margin-top: 5px;
+	text-align: left;
+	width: 200px;
+}
+.front .videolibrary_thumb img {
+	display: inline;
+	float: none !important;
+	text-align: center;
+	width: 150px;
+}
+
+
+
+/* features and journal menu 
+#menu-15338-2 ul, .sf-total-children-6 ul, .sf-total-children-5 ul, #menu-15160-2 ul, #menu-15158-2 ul, #menu-8173-2 ul, #menu-15181-2 ul{
+	width: 240px !important;
+}
+#menu-15338-2 ul, #menu-15166-2 ul, #menu-8173-2 ul{  /* features 
+	left: 426px !important
+}
+#menu-15182-2 ul, #menu-15160 ul, #menu-15160-2 ul{ /* journal 
+	left: 210px !Important;
+}
+#menu-15181-2 ul, #menu-15158-2 ul{  /* current issue 
+	left: 68px !important;
+}
+*/
+#menu-15338-2 ul li, .sf-total-children-6 ul li, sf-total-children-5 ul li, #menu-15160-2 ul li, #menu-15158-2 ul li, #menu-8173-2 ul li, #menu-15181-2 ul li{
+	width: inherit !important;
+	float: none !important;
+}
+.bottomContentBanner{
+	height:90px;
+	margin-top: 30px;
+	text-align:center;
+	width: 100%;  /* 1050px */
+}
+
+.not-front .view, .not-front .view-mode-full {
+	margin-left: 20px;
+}
+
+/*videa player page */
+.node-type-asset-video object{
+	width:700px !important;
+}
+
+} /* end media screen min-width: 767px */
+
+/* styles for articles */
+.field-type-file {
+	display: none;
+}
+.node-type-article .field-name-field-issue-label {
+	position: absolute;
+	top: 0;
+}
+.node-type-article h1 {
+	margin-top: 10px !important;
+}
+.node-type-article .field .field-label {
+	display: none;
+}
+.node-type-article .contributor-list {
+	list-style-type: none !important;
+}
+.node-type-article .contributor-list li {
+	float: left;
+	margin-right: 6px;
+}
+.node-type-article .history-list {
+	display: none;
+}
+.node-type-article .corresp-list {
+	display: none;
+}
+.node-type-article #p-1 {
+	clear: both;
+}
+.node-type-article p + p {
+	
+}
+.node-type-article .copyright-statement {
+	background-color: #eee;
+	padding: 10px;
+}
+.node-type-article .rev-xref-ref {
+	display: none;
+}
+.node-type-article .ref-cit {
+	
+}
+.node-type-article .field-name-field-article-id {
+	display: none;
+}
+.node-type-article .field-name-field-tax-section, .node-type-article .node-type-article .field-type-text, .node-type-article .field-name-field-article-year-int, .node-type-article .field-name-field-release-date, .node-type-article .field-name-field-article-issue, .node-type-article .field-name-field-tax-edition, .node-type-article .field-name-field-article-published-date {
+	display: none;
+}
+.table-caption{
+	font-size: 0.75em;
+	margin-left: 20px;
+}
+/* end styles for articles */
+
+
+/* updates to homepage carousel slider */
+@media screen and (min-width: 767px){
+
+} /* end media rule */
+
+p {
+margin: 0 0 1.5em;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+
+#logo img {
+height: auto;
+width: 90%;
+padding-top: 12px;
+}
+
+/* end updates to carousel slider /*  
+
+
+/* search results updates */
+.block-apachesolr-search h2 {
+	font-size: 12pt !important;
+	border-bottom: none !Important;
+	margin-bottom: 5px !important;
+}
+.block-apachesolr-search ul {
+	list-style: none;
+	margin: -10px 0 0 -20px;
+}
+/* .block-apachesolr-search ul li {
+	float: left;
+	border-right: 1px solid #ccc;
+	padding-right: 15px;
+	margin-left: 20px;
+}
+*/
+/* related articles in right nav */
+.region-sidebar-second .block-apachesolr-search ul li {
+	float: left;
+	padding-right: 15px;
+	margin-top: 5px;
+	padding-top: 5px;
+	width: 90%;
+}
+
+.region-sidebar-second .block-apachesolr-search ul li.last {
+	border-bottom: 1px solid #ddd;;
+	margin-bottom:20px;
+	padding-bottom:5px;
+}
+
+.block-apachesolr-search ul li.last {
+	border-right:none;
+}
+#main .search-form{
+	clear:both;
+	margin-top: 40px;
+}
+.search-results .title {
+	clear: both;
+}
+
+/* us and eu edition views pages */
+.switchto {
+	float: right;
+	margin-top: -44px;
+	margin-right: 20px;
+}
+
+.item-list .pager li {
+	padding: 0 !important;
+}
+
+/* challenging cases list */
+.page-challenging-cases #page-title {
+	width: 100%;
+}
+.page-challenging-cases p + p {
+	text-indent: 0;
+}
+.page-challenging-cases .views-field-field-cc-pro-kol-image {
+	float: left;
+}
+.page-challenging-cases .views-field-field-cc-abstract {
+	min-height: 100px;
+	margin-left: 110px;
+	margin-right: 20px;
+}
+.page-challenging-cases .case-left img {
+	width: 80px;
+	height: 80px;
+}
+.page-challenging-cases .views-label {
+	display: none;
+}
+.page-challenging-cases .views-field.views-field-title {
+	float: right;
+	margin-bottom: 5px;
+	width: 84%;
+}
+.page-challenging-cases .views-field.views-field-title a {
+	font-size: 13pt;
+	line-height: 16pt;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+.page-challenging-cases .views-field.views-field-nid {
+	display: none;
+}
+.page-challenging-cases .case-left {
+	float: left;
+}
+.page-challenging-cases .pro-image {
+	float: left;
+}
+.page-challenging-cases .con-image {
+	margin-left: 10px;
+}
+.page-challenging-cases .pro-name, .page-challenging-cases .con-name {
+	clear: left;
+	float: left;
+	font-size: 8pt;
+	overflow: hidden;
+	padding-left: 3px;
+	width: 80px;
+	white-space: nowrap;
+}
+
+.page-challenging-cases .con-name {
+	margin-left: 88px;
+	margin-top: -16px;
+}
+
+.page-challenging-cases .case-right {
+	margin-left: 190px;
+}
+
+.page-challenging-cases .views-row {
+	border-bottom: 1px dashed #ccc;
+	clear: both;
+	padding: 10px 0;
+}
+.page-challenging-cases .more {
+	font-style: italic;
+	text-align: right;
+}
+/* end challenging cases list */
+/* challenging case article */
+.node-type-challenging-case article{
+	background:#fff;
+}
+.node-type-challenging-case .field-name-field-tax-section {
+	font-size: 20px;
+}
+/*
+.node-type-challenging-case .field-type-text-long .field-item p:first-child{
+	margin-top: -2.5em;
+}
+*/
+.node-type-challenging-case p{
+	margin-bottom: 2em !important;
+}
+.node-type-challenging-case .node-challenging-case .content{
+	background:#FFF !important;
+}
+.node-type-challenging-case .field-name-field-tax-edition {
+	display: none;
+}
+		/* tabs */
+.node-type-challenging-case .cc_tab {
+	/*-webkit-box-shadow: inset 0px 0px 15px 0px #999;
+	-moz-box-shadow: inset 0px 0px 15px 0px #999;
+	-o-box-shadow: inset 0px 0px 15px 0px #999;
+	-ms-box-shadow: inset 0px 0px 15px 0px #999;
+	box-shadow: inset 0px 0px 15px 0px #999;
+	border: 1px solid #999;*/
+	border-bottom: 0 !important;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	cursor: pointer;
+	float: left;
+	height: 25px;
+	margin-right: 5px;
+	padding: 5px 15px 0;
+}
+.node-type-challenging-case .active {
+	border-bottom: 0px;
+	background: white;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
+	-ms-box-shadow: none;
+	box-shadow: none;
+	cursor:default;
+	position: relative;
+	top: 2px;
+	/*z-index: 3;*/
+}
+.node-type-challenging-case #tab1 {
+	background:#eee;
+}
+.node-type-challenging-case #tab2 {    /* pro tab */
+	background-color: #578DAF;
+	color:#fff;
+}
+.node-type-challenging-case #tab3 {  /* con tab */
+	background-color: #8D6B87;
+	color:#fff;
+}
+.node-type-challenging-case #tab4{
+	background-color: #818385;
+	color:#fff;	
+}
+.node-type-challenging-case .cc_tab_text {
+	float: left;
+}
+.node-type-challenging-case .cc_tab_image {
+	float: left;
+	margin: -5px 6px;
+}
+/* tab content */
+.node-type-challenging-case #cc_page_tab1{
+	background: #eee;
+	padding: 15px;
+}
+.node-type-challenging-case .cc_header_con{
+	background:#8D6B87 url(../images/challengingCaseScale.png) 97% 11px no-repeat;
+	background-size:100px 100px;
+	color:#fff;
+}
+.node-type-challenging-case .cc_header_pro {
+	background: #578DAF url(../images/challengingCaseScale.png) 97% 11px no-repeat;
+	background-size:100px 100px;
+	color:#fff;
+}
+.node-type-challenging-case #cc_page_tab4{
+	/*background-color: #818385;*/
+	background: url(../images/cc_discussionbg.gif) top left no-repeat;
+	background-size: 100% 130px;
+}
+#cc_page_tab4 a .title, #cc_page_tab4 .title {
+	color: #fff !important;
+}
+.node-type-challenging-case .cc_header {
+	height: 130px;
+	margin-bottom: 20px;
+	padding: 15px;
+}
+.node-type-challenging-case .cc_header_thumb {
+	float: left;
+	margin-right: 20px;
+}
+.cc_header_thumb img {
+	height: 100px;
+	width: 100px;
+}
+.cc_kol_name {
+	font-size: 1.3em;
+}
+.cc_kol_info {
+	width: 480px;
+}
+.cc_vote_btn {
+	background-color: #ffffff;
+	background-image: -moz-linear-gradient(180deg, #ffffff, #dedede 15%,#b3b3b3 95.0%);
+	background-image: -webkit-linear-gradient(-90deg, #ffffff, #dedede 15%,#b3b3b3 95.0%);
+	background-image: -o-linear-gradient(180deg, #ffffff, #dedede 15%,#b3b3b3 95.0%);
+	background-image: -ms-linear-gradient(180deg, #ffffff, #dedede 15%,#b3b3b3 95.0%);
+	background-image: linear-gradient(180deg, #ffffff, #dedede 55%,#b3b3b3 95.0%);
+	border-radius: 5px;
+	box-shadow: 2px 2px 5px #666;
+	color:#222;
+	text-align: center;
+	font-size: 1.1em;
+	margin-left: 120px;
+	margin-top: 5px;
+	padding: 3px 10px;
+	text-shadow: 1px 1px #eee;
+	width: 140px;
+}
+.cc_kol_body{
+	padding:15px;
+}
+
+.cc_page{
+	clear:both;
+	/*border: 1px solid #999;*/
+	margin-right: 20px;
+}
+.cc_tab {
+	float: left;
+}
+.node-type-challenging-case tbody tr:nth-child(even) td, tbody tr.even td {
+	background: inherit !important;
+}
+	/* discussion tab */
+#cc_page_tab4 {
+	padding: 15px;
+	
+}
+.comment-add .active{
+	border-bottom:1px solid;
+}
+
+
+
+
+.node-type-challenging-case .field-name-field-cc-pro-kol-name, .node-type-challenging-case .field-name-field-cc-pro-kol-affiliation,
+.node-type-challenging-case .field-name-field-cc-con-kol-name, .node-type-challenging-case .field-name-field-cc-con-kol-affiliation  {
+	color:#fff;
+	margin-left: 100px;
+}
+.node-type-challenging-case .field-name-field-cc-con-kol-name,
+.node-type-challenging-case .field-name-field-cc-pro-kol-name {
+	font-size: 20px;
+}
+ .node-type-challenging-case .field-name-field-cc-pro-kol-affiliation,
+.node-type-challenging-case .field-name-field-cc-con-kol-affiliation  {
+	font-size: 16px;	
+}
+.node-type-challenging-case .field-name-field-cc-pro-kol-image{
+	float: left;
+	margin-top: -30PX;
+}
+.node-type-challenging-case .field-name-field-cc-pro-kol-image img,
+.node-type-challenging-case .field-name-field-cc-con-kol-image img{
+	height: 80px;
+	width: 65px;
+}
+
+.node-type-challenging-case .field-name-field-cc-con-kol-image {
+	float: left;
+}
+.node-type-challenging-case .field-type-text-long {
+	background-color: #fff;
+	float: left;
+	margin-right: 0;
+	margin-left: -20px;
+	padding: 20px;
+	width: 100%;
+}
+.node-type-challenging-case .group-cc-pro .fieldset-title{
+	background-color:#568dae;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	color:white;
+	padding: 4px 20px;
+}
+.node-type-challenging-case .group-cc-con .fieldset-title{
+	background-color:#886782;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	color:white;
+	padding: 4px 20px;
+}
+.node-type-challenging-case fieldset.collapsible .fieldset-legend{
+	background:none !important;
+}
+.node-type-challenging-case #node_challenging_case_full_group_cc_pro {
+	background-color: #568dae;
+	background-image: -moz-linear-gradient(180deg, #568dae, #8aaec8 150px,#ffffff 161px);
+	background-image: -webkit-linear-gradient(180deg, #568dae, #8aaec8 150px,#ffffff 161px);
+	background-image: -o-linear-gradient(180deg, #568dae, #8aaec8 150px,#ffffff 161px);
+	background-image: -ms-linear-gradient(180deg, #568dae, #8aaec8 150px,#ffffff 161px);
+	background-image: linear-gradient(180deg, #568dae, #8aaec8 150px,#ffffff 161px);
+}
+.node-type-challenging-case #node_challenging_case_full_group_cc_con {
+	background-color:#886782;
+	background-image: -moz-linear-gradient(180deg, #886782, #a17d99 150px,#ffffff 161px);
+	background-image: -webkit-linear-gradient(180deg, #886782, #a17d99 150px,#ffffff 161px);
+	background-image: -o-linear-gradient(180deg, #886782, #a17d99 150px,#ffffff 161px);
+	background-image: -ms-linear-gradient(180deg, #886782, #a17d99 150px,#ffffff 161px);
+	background-image: linear-gradient(180deg, #886782, #a17d99 150px,#ffffff 161px)
+}
+.node-type-challenging-case .comments.comment-wrapper {
+	background-color: #818385;
+	background-image: -moz-linear-gradient(180deg, #818385, #9b9ea2 150px,#ffffff 161px);
+	background-image: -webkit-linear-gradient(180deg, #818385, #9b9ea2 150px,#ffffff 161px);
+	background-image: -o-linear-gradient(180deg, #818385, #9b9ea2 150px,#ffffff 161px);
+	background-image: -ms-linear-gradient(180deg, #818385, #9b9ea2 150px,#ffffff 161px);
+	background-image: linear-gradient(180deg, #818385, #9b9ea2 150px,#ffffff 161px);
+}
+/* end challenging case article */
+
+/* clinical trials results and all pages */
+.field-name-field-article-published-date {
+	display: none;
+}
+/* end clinical trials results */
+
+.page-taxonomy-term .node{
+	border-bottom: 1px dashed #CCCCCC;
+	margin-left: 20px;
+}
+
+/* end clinical trials results */
+/* meetings */
+.view-header {
+	padding-right: 20px;
+}
+/* end meetings */
+/* speciality pages */
+.field-name-field-abstract h1 {
+	display: none;
+}
+.contributor-list {
+	list-style-type: none;
+}
+.contributor-list li {
+	float: left;
+	margin-left:3px;
+}
+.contributor-list li.last {
+	margin-left: 5px;
+}
+.page-views .xref-aff {
+	display: none;
+}
+/* end speciality pages */
+
+.views-field-title {
+	font-size: 13pt;
+}
+
+.views-row {
+border-bottom: 1px #ccc dashed;
+margin: 10px 0 10px 0;
+padding-bottom: 10px;
+}
+
+/* Hide challenging cases tabs from speciality landing pages */
+.page-specialty-breast-cancer fieldset { 
+	display:none;
+}
+.page-specialty-breast-cancer .field-name-field-tax-edition {
+	display: none;
+}
+
+/*  European Perspectives landing page */
+.page-european-perspectives .perspective_author {
+	float: left;
+	margin-right: 20px;
+}
+.page-european-perspectives .perspective_row_title {
+	margin-bottom: 3px;
+	line-height: 1.3em;
+}
+.page-european-perspectives .perspective_row_author {
+	margin-bottom: 4px !important;
+}
+.page-european-perspectives .perspective_viewlink {
+	text-align: right;
+	margin-bottom: 4px;
+}
+.page-european-perspectives ..item {
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+}
+
+.front .perspective_author img {
+	width: 50px;
+	height: 50px;
+}
+.front .perspective_viewlink, .front .read-more, .front .more{
+	text-align:right;
+}
+
+
+/* Global Perspectives Article */
+.node-type-perspective .perspective_title,
+.node-type-perspective .perspective_bnts
+{
+	display: none;
+}
+.node-type-perspective .assetvideo_article h1{
+	font-size: 1.25em;
+	margin-top: 20px;
+}
+.node-type-perspective .assetvideo_article p + p {
+	text-indent: 0;
+}
+.node-type-perspective .assetvideo_article p {
+	margin-bottom:10px;
+}
+/* Global Perspectives Article end */
+
+/* search box animated icon */
+html.js input.form-autocomplete {
+  background-position: 100% 8px; /* LTR */
+}
+html.js input.throbbing {
+  background-position: 100% -12px; /* LTR */
+}
+#block-search-form .form-submit {
+	display: none;
+}
+
+.section-clinical-trials .field-items {
+	padding-bottom: 20px;
+}
+
+.section-current-issue-us .abstract, {
+	max-height: 122px;
+}
+.section-current-issue-us .item {
+	padding-bottom: 6px;
+}
+.section-current-issue-us .read-more {
+	text-align: right;
+}
+.read-more {
+	text-align: right;
+}

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Latest Content Type feature.
+ */
+
+include_once 'amp_latest_ctype.features.inc';

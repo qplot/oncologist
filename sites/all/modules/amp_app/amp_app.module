@@ -1,0 +1,36 @@
+<?php
+/**
+ * @file
+ * Code for the AMP App feature.
+ */
+
+include_once 'amp_app.features.inc';
+
+/**
+ * set current issues menu to have default latest year and month
+ */
+// function amp_app_views_pre_view(&$view, &$display_id, &$args) {
+//   if ($view->name == 'amp_current_issues_menu') {
+//   	// get all the values
+// 	$amp_articles_alt_view = views_get_view_result('amp_articles_alt','page','all','Journal');
+// 	$month = $amp_articles_alt_view[0]->field_data_field_article_month_field_article_month_value;
+// 	$year = $amp_articles_alt_view[0]->field_data_field_article_year_int_field_article_year_int_val;
+// 	$label = $amp_articles_alt_view[0]->field_data_field_issue_label_field_issue_label_value;
+
+// 	// change filter values
+//     $filters = $view->display_handler->get_option('filters');
+//     $filters['field_article_year_int_value']['value']['value'] = $year;
+//     $filters['field_article_month_value']['value']['value'] = $month;
+//     $view->display_handler->override_option('filters', $filters);
+
+//     // change header values
+//     // $header = '123';
+//     // $url = l($label, 'Journal/' . $year . '/' . $month);
+
+//     // $view->set_item_option('default', 'header', 'area', 'content', $header);
+//     // dsm($view->display_handler->default_display);
+
+//     // dsm($month); // 8
+//     // dsm($year); // 2013
+//   }
+// }

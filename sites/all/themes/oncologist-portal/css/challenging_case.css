@@ -1,0 +1,30 @@
+/*By default hide the comment form - js will show it when needed*/
+.node-type-challenging-case .comment-form{
+	display:none;
+}
+
+.node-type-challenging-case .cc_row_voting_chart{
+	height:200px;
+	width:30%;
+	position:relative;
+	color:white;
+	font-weight:bold;
+	margin:top:
+}
+
+.node-type-challenging-case .cc_row_con{
+	background-color:#DC143C;
+	width:50%;
+	margin-left:50%;
+	position:absolute;
+	bottom:0px;
+}
+
+.node-type-challenging-case .cc_row_pro{
+	background-color:#000080;
+	width:50%;
+	float:left;
+	position:absolute;
+	bottom:0px;
+}
+

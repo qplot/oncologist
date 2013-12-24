@@ -1,0 +1,14 @@
+name = Intstrux Customized content using SOLR
+package = Intstrux
+project = intstrux_customized
+core = 7.x
+description = customized content module
+
+; Information added by drupal.org packaging script on 2011-04-17
+
+; Information added by drupal.org packaging script on 2011-07-05
+version = "7.x-1.0"
+core = "7.x"
+project = "intstrux_customized"
+datestamp = "1309860118"
+

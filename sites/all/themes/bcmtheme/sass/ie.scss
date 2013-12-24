@@ -1,0 +1,61 @@
+/* Welcome to Compass. Use this file to write IE specific override styles.
+ * Import this file using the following HTML or equivalent:
+ * <!--[if IE]>
+ *   <link href="/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+ * <![endif]--> */
+
+
+   
+          #block-menu-menu-pcm-main-menu  a:hover
+          {
+             background-image: url('../images/menu-background-hover.jpg');
+             background-repeat: repeat-x;
+          }	
+    
+
+    
+         #header #block-menu-menu-pcm-main-menu .menu
+	     {
+	         background-image: url('../images/menu-background.jpg');
+	         
+	     }
+	     
+	     
+	     
+	     //ie7
+	     
+	     #block-menu-menu-pcm-main-menu li
+	     {
+	         float:left;
+	         display:block;
+	         width:175px;
+	         list-style-image: none;
+	         text-align: center;
+	     }	
+	     
+	    .btn-learnMore a
+	     {
+	     	background: #e6e7e8;
+			background-image: url('../images/btn-ie-bckg.png');
+			background-repeat: repeat-x;
+			height:15px;
+	     }
+	     
+	     .front .panels-flexible-row
+	     {
+	     	background-image: url('../images/header-ie-bckg.gif');
+	   		background-repeat: repeat-x;
+	   		background-color:#E1E1E1;
+	     }
+	     
+	     .royalWrapper
+	     {
+		     border: 5px solid #E1E1E1;
+	     }
+	     
+	     
+	     .podcast_info
+	     {
+	     	display:inline;
+	     	margin-top:-100px;
+	     }

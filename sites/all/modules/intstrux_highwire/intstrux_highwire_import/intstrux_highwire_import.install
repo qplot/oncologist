@@ -1,0 +1,25 @@
+<?php
+
+function intstrux_highwire_import_schema_alter(&$schema) {
+  // Add field to existing schema.
+  $schema['highwire_migrate']['fields']['type'] = array(
+    'type' => 'varchar',
+    'length' => '128',
+    'default' => '',
+    'not null' => TRUE,
+    'description' => 'Node content type.',
+  );
+}
+
+function intstrux_highwire_import_install() {
+  $table = 'highwire_migrate';
+  
+  $schema = drupal_get_schema($table);
+  
+  // Check if field already have this table
+  if (!db_field_exists($table, 'type')) {
+    db_add_field($table, 'type', $schema['fields']['type']);
+    
+    db_update($table)->fields(array('type' => 'article'))->execute();
+  }
+}

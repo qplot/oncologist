@@ -1,0 +1,8 @@
+name = Intstrux HighWire Import
+description = Import HighWire Articles via Cron Job.
+package = Intstrux
+version = 7.x-1.0
+core = 7.x
+
+dependencies[] = intstrux_highwire
+dependencies[] = intstrux_highwire_migrate

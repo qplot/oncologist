@@ -1,0 +1,63 @@
+<?php
+
+
+
+
+
+/**
+ * Implementation of hook_install().
+ */
+function intstrux_migration_multigroup_install() {
+    
+  // delete unused existing fields
+  $fields = array(
+    'field_page_type',
+    'field_reference_html',
+    'field_image_portrait',
+    'field_reference_interactive',
+    'field_reference_interactive_ad',
+    'field_image_horizontal',
+    'field_reference_video',
+    'field_reference_mutablevideo',
+    'field_reference_int_html',
+    'field_videos_mp4videos',
+    'field_bc_multiple_filesize',
+    'field_interactive_file_id',
+    'field_interactive_file_source',
+    'field_interactive_parameter_id',
+    'field_interactive_parameter_val',
+    'field_reference_videoasset',
+    'field_reference_videothumb',
+    'field_reference_videopageasset',
+    'field_reference_videopageasset',
+    'field_article',    
+  );
+  
+  foreach($fields as $field) {
+    $field_info = field_info_field($field);
+    
+    if(!isset($field_info['bundles']['field_collection_item'])) {
+      field_delete_field($field);
+    }
+  }
+  
+  $field = field_info_instance('node', 'field_multisite_featured', 'challenging_case');
+  if($field) {
+    field_delete_instance($field, false);
+  }
+  
+  $field = field_info_instance('node', 'field_multisite_featured', 'asset_video');
+  if($field) {
+    field_delete_instance($field, false);
+  }
+
+  $field = field_info_instance('node', 'field_multisite_weight', 'challenging_case');
+  if($field) {
+    field_delete_instance($field, false);
+  }
+  
+  $field = field_info_instance('node', 'field_multisite_weight', 'asset_video');
+  if($field) {
+    field_delete_instance($field, false);
+  }
+}

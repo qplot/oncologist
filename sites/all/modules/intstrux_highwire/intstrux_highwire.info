@@ -1,0 +1,9 @@
+name = Intstrux HighWire
+description = HighWire integration module - basic API
+package = Intstrux
+version = 7.x-1.0
+core = 7.x
+php = 5.3
+
+configure = admin/config/content/highwire
+

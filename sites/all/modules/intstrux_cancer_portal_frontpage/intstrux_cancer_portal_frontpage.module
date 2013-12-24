@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Intstrux Cancer Portal Frontpage feature.
+ */
+
+include_once 'intstrux_cancer_portal_frontpage.features.inc';

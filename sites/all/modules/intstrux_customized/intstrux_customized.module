@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * init hook
+ */
+function intstrux_customized_init() {
+}
+
+
+/*
+ * Implementation of hook_permission().
+ */
+function intstrux_customized_permission() {
+  return array(
+  	
+  	'intstrux_customized_admin' => array(
+      'title' => t('intstrux snapshot'),
+    ),
+    
+  );
+}
+
+/*
+ * Implementation of hook_menu().
+ */
+function intstrux_customized_menu() {
+  $items = array();
+  
+  $items['view_customized'] = array(
+    'title' => 'Customized Content', 
+    'page callback' => '_intstrux_customized_callback_view',
+    'page arguments' =>  array(1), 
+    'access callback' => "_intstrux_customized_menu_access", 
+    'weight' => 10, 
+  );
+  
+  $items['view_personalized'] = array(
+    'title' => 'Customized Content', 
+    'page callback' => '_intstrux_customized_callback_view',
+    'page arguments' =>  array(1), 
+    'access callback' => "_intstrux_customized_menu_access", 
+    'weight' => 10, 
+  );
+  
+  return $items;
+}
+
+function _intstrux_customized_menu_access(){
+	return TRUE;
+}
+
+function intstrux_customized_search($edition, $user, $page=0, $rows=5){
+	
+	$editionsterm = taxonomy_get_term_by_name($edition, "editions");
+
+	$editionsterm = array_pop($editionsterm);
+
+	$searchterm = "";
+	$i = 0;
+	
+	foreach ($user->p as $key => $tid) {
+		
+		if($i>0)
+			$searchterm .= " OR ";
+			
+		$searchterm .= "im_vid_22:".$tid;
+		
+		$i++;
+	}
+	
+	$customized = apachesolr_drupal_query("customized", array("rows"=>$rows, "q"=>$searchterm, "fq"=> "im_vid_16:(".$editionsterm->tid.") AND bundle:(article* OR page_html* OR asset_video* OR challenging_case* OR perspective*)", "fl"=>"entity_id,entity_type,im_vid_22,tm_vid_22_names,bundle_name"), "is_unified_sorting_date desc");
+	
+	watchdog("intstrux_customized", print_r(array("rows"=>$rows, "q"=>$searchterm, "fq"=> "im_vid_16:(".$editionsterm->tid.") AND bundle:(article* OR page_html* OR asset_video* OR challenging_case* OR perspective*)", "fl"=>"entity_id,entity_type,im_vid_22,tm_vid_22_names,bundle_name"), true));
+
+	$customized->page=$page;
+	
+	$result = apachesolr_do_query($customized);
+
+	watchdog("intstrux_customized", print_r($result, true));
+
+	return $result;
+}
+
+function _intstrux_customized_callback_view($edition = ""){
+	
+	if(empty($_GET['user']))
+		return "No customization information provided";
+	
+	$user = $_GET['user'];
+	$page = isset($_GET['page']) ? $_GET['page'] : 0;
+	
+	if($user[strlen($user)-1] == "?")
+		$user = substr($user,0, -1);
+	
+	
+	$user = json_decode(urldecode($user));
+	
+	$result = intstrux_customized_search($edition, $user, $page);
+	
+	return theme('customized', array('result' => $result[1]->response, 'page'=> $page, 'user'=> $user, 'edition'=> $edition));
+	
+	//return "CUSTOM PAGE(".$page.") BASED ON: ".print_r($user, true)." SEARCH FOR: ".$searchterm. "RESULT: <pre>".print_r($result, true)."</pre>";
+}
+
+function intstrux_customized_apachesolr_query_prepare($query) {
+	$query->setAvailableSort('is_unified_sorting_date', array(
+    'title' => t('Unified Sorting Date'), 
+    'default' => 'desc',
+  ));
+}
+
+function intstrux_customized_theme(){
+  return array(
+    'customized' => array(
+      'variables' => array('result' => NULL, 'page' => NULL, 'user' => NULL, 'edition' => NULL),
+      'template' => 'customized', 
+      'path' => drupal_get_path('module', 'intstrux_customized') .'/theme'
+    )
+  );
+}

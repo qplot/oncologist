@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Intstrux Migration HighWire Feature feature.
+ */
+
+include_once 'intstrux_migration_highwire_feature.features.inc';

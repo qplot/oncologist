@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function intstrux_customized_install() {
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function intstrux_customized_uninstall() {
+}
+
+/*
+ * Implementation of hook_requirements().
+ */
+function intstrux_customized_requirements($phase) {
+  $reqs = array();
+  if (!module_exists('intstrux_customized')) {
+    return $reqs;
+  }
+  
+  $status = 'Configured';
+  $severity = REQUIREMENT_OK;
+  $desc = 'please unistall if needed anymore';
+  
+  $reqs['intstrux_customized'] = array(
+    'title' => 'Intstrux Customized',
+    'value' => $status,
+    'severity' => $severity,
+    'description' => $desc,
+    );
+  return $reqs;
+}
+

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Intstrux Services Endpoint Feature feature.
+ */
+
+include_once 'intstrux_services_endpoint_feature.features.inc';

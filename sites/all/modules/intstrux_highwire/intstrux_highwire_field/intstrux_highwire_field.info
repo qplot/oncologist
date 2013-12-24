@@ -1,0 +1,9 @@
+name = Intstrux HighWire Field
+description = A field allowing to attach HighWire resource or article to nodes.
+package = Intstrux
+version = 7.x-1.0
+core = 7.x
+
+dependencies[] = intstrux_highwire
+dependencies[] = field
+dependencies[] = entity

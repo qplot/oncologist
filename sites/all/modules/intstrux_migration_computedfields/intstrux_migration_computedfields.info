@@ -1,0 +1,14 @@
+name = Intstrux D6 Migration Computed Fields
+package = Intstrux
+project = intstrux_migration_computedfields
+core = 7.x
+description = migration module computed fields
+
+; Information added by drupal.org packaging script on 2011-04-17
+
+; Information added by drupal.org packaging script on 2011-07-05
+version = "7.x-1.0"
+core = "7.x"
+project = "intstrux_migration_computedfields"
+datestamp = "1309860118"
+

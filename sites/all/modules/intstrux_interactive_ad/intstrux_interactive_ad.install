@@ -1,0 +1,11 @@
+<?php
+
+function intstrux_interactive_ad_install() {
+  // Set interactive ad to a higher weight, it should load after Multistep module loads.
+  db_update('system')
+    ->fields(array(
+      'weight' => 60,
+    ))
+    ->condition('name', 'intstrux_interactive_ad')
+    ->execute();
+}

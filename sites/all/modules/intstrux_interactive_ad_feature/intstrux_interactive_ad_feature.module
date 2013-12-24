@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Intstrux Interactive Ad Feature feature.
+ */
+
+include_once 'intstrux_interactive_ad_feature.features.inc';

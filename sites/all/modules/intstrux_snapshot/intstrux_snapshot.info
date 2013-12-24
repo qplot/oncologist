@@ -1,0 +1,14 @@
+name = Intstrux Snapshot Generation for App previews
+package = Intstrux
+project = intstrux_snapshot
+core = 7.x
+description = snapshot module
+
+; Information added by drupal.org packaging script on 2011-04-17
+
+; Information added by drupal.org packaging script on 2011-07-05
+version = "7.x-1.0"
+core = "7.x"
+project = "intstrux_snapshot"
+datestamp = "1309860118"
+

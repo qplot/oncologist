@@ -1,0 +1,1383 @@
+<?php
+
+// Device Types.
+//
+define('intstrux_apns_TYPE_ID_IOS', variable_get('intstrux_apns_type_id_ios', 0));
+define('intstrux_apns_TYPE_ID_ANDROID', variable_get('intstrux_apns_type_id_anroid', 1));
+
+//
+// Apple Variables
+//
+// Apple Server
+define('intstrux_apns_APNS_HOST', variable_get('intstrux_apns_apns_host', 'gateway.sandbox.push.apple.com'));
+// Apple Server port.
+define('intstrux_apns_APNS_PORT', 2195);
+// Apple Feedback Server, initially set to development server.
+define('intstrux_apns_APNS_FEEDBACK_HOST', variable_get('intstrux_apns_apns_feedback_host', 'feedback.push.apple.com'));
+// Apple Feedback Server port.
+define('intstrux_apns_APNS_FEEDBACK_PORT', 2196);
+// Name of certificate, initially set to development certificate.
+define('intstrux_apns_APNS_CERTIFICATE', variable_get('intstrux_apns_apns_certificate', 'apns-development.pem'));
+// Size limit for individual payload, in bytes.
+define('intstrux_apns_APNS_PAYLOAD_SIZE_LIMIT', 255);
+// Payload sound
+define('intstrux_apns_APNS_NOTIFICATION_SOUND', variable_get('intstrux_apns_apns_notification_sound', 'default'));
+// Boolean value to indicate wether Apple's feedback service should be called
+// on cron to remove unused tokens from our database.
+define('intstrux_apns_APNS_QUERY_FEEDBACK_SERVICE', variable_get('intstrux_apns_apns_query_feedback_service', 1));
+// Maximum of messages to send per stream context.
+define('intstrux_apns_APNS_STREAM_CONTEXT_LIMIT', variable_get('intstrux_apns_apns_stream_context_limit', 1));
+
+function intstrux_apns_menu() {
+  $items = array();
+
+  $items['admin/config/services/apns'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'Push Notifications',
+    'access arguments' => array('send push notifications'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_apns_admin_overview_form'),
+    'description' => 'Push Notifications Settings.',
+    'file' => 'apns.admin.inc',
+    'file path' => drupal_get_path('module', 'intstrux_apns') . '/includes',
+  );
+
+  $items['admin/config/services/apns/overview'] = array(
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'title' => 'Overview',
+    'weight' => -50,
+    'access arguments' => array('send push notifications'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_apns_admin_overview_form'),
+    'description' => 'Push Notifications Settings.',
+    'file' => 'apns.admin.inc',
+    'file path' => drupal_get_path('module', 'intstrux_apns') . '/includes',
+  );
+
+  $items['admin/config/services/apns/configure'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'title' => 'Configuration',
+    'access arguments' => array('administer site configuration'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_apns_admin_form'),
+    'description' => 'Push Notifications Settings.',
+    'file' => 'apns.admin.inc',
+    'file path' => drupal_get_path('module', 'intstrux_apns') . '/includes',
+  );
+
+  $items['admin/config/services/apns/message'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'title' => 'Send Push',
+    'access arguments' => array('send push notifications'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('intstrux_apns_mass_push_form'),
+    'description' => 'Send a Push Notification',
+    'file' => 'apns.admin.inc',
+    'file path' => drupal_get_path('module', 'intstrux_apns') . '/includes',
+  );
+
+  return $items;
+}
+
+
+/**
+ * Implements of hook_cron().
+ */
+function intstrux_apns_cron() {
+  if (PUSH_NOTIFICATIONS_APNS_QUERY_FEEDBACK_SERVICE) {
+    intstrux_apns_apns_feedback_service();
+  }
+}
+
+
+/**
+ * Implements hook_permission().
+ */
+function intstrux_apns_permission() {
+  return array(
+    'register device token' => array(
+      'title' => t('Register Device Token'),
+      'description' => t('Allows users to register a device token.'),
+    ),
+    'remove device token' => array(
+      'title' => t('Remove Device Token'),
+      'description' => t('Allows users to remove a device token.'),
+    ),
+    'send push notifications' => array(
+      'title' => t('Send push notifications'),
+      'description' => t('Allow users to send a push notification to devices'),
+    ),
+  );
+}
+
+
+
+/**
+ * Implements hook_services_resources().
+ */
+function intstrux_apns_services_resources() {
+  return array(
+    'intstrux_apns_shortened_url' => array(
+      'retrieve' => array(
+        'help' => 'Retrieves a full url for a shortened one',
+        'callback' => '_intstrux_apns_service_retrieve_shortened_url',
+        'file' => array(
+          'type' => 'inc',
+          'module' => 'intstrux_apns',
+          'name' => 'includes/apns.service'
+        ),
+        'access arguments' => array('register device token'),
+        'access arguments append' => FALSE,
+        'args' => array(
+          'shortened_url' => array(
+            'name' => 'shortened_url',
+            'type' => 'string',
+            'description' => 'The shortended url',
+            'source' => array('path' => '0'),
+            'optional' => FALSE,
+          ),
+      
+        ),
+      ),
+    ),
+    'intstrux_apns' => array(
+      'create' => array(
+        'help' => 'Registers a device token. For type, pass \'ios\' for iOS devices and \'android\' for Android devices.',
+        'callback' => '_intstrux_apns_service_create_device_token',
+        'file' => array(
+          'type' => 'inc',
+          'module' => 'intstrux_apns',
+          'name' => 'includes/apns.service'
+        ),
+        'access arguments' => array('register device token'),
+        'access arguments append' => FALSE,
+
+        'args' => array(
+          array(
+            'name' => 'token',
+            'type' => 'string',
+            'description' => 'Device Token',
+            'optional' => FALSE,
+            'source' => 'data',
+          ),
+          array(
+            'name' => 'type',
+            'type' => 'string',
+            'description' => 'Device Type',
+            'optional' => FALSE,
+            'source' => 'data',
+          ),
+          array(
+            'name' => 'iosVersion',
+            'type' => 'string',
+            'description' => 'iOS Version',
+            'optional' => TRUE,
+            'source' => 'data',
+          ),
+          array(
+            'name' => 'app',
+            'type' => 'string',
+            'description' => 'Name of the Application',
+            'optional' => TRUE,
+            'source' => 'data',
+          ),
+          array(
+            'name' => 'appVersion',
+            'type' => 'string',
+            'description' => 'The version of the application',
+            'optional' => TRUE,
+            'source' => 'data',
+          ),
+          array(
+            'name' => 'uid',
+            'type' => 'int',
+            'description' => 'The user id',
+            'optional' => TRUE,
+            'source' => 'data',
+          ),
+          array(
+            'name' => 'edition',
+            'type' => 'string',
+            'description' => 'the edition',
+            'optional' => TRUE,
+            'source' => 'data',
+          ),
+          array(
+            'name' => 'country',
+            'type' => 'string',
+            'description' => 'ISO country code',
+            'optional' => TRUE,
+            'source' => 'data',
+          ),
+          array(
+            'name' => 'speciality',
+            'type' => 'string',
+            'description' => 'Speciality',
+            'optional' => TRUE,
+            'source' => 'data',
+          ),
+          array(
+            'name' => 'preferences',
+            'type' => 'array',
+            'description' => 'Preferences object',
+            'optional' => TRUE,
+            'source' => 'data',
+          ),
+          array(
+            'name' => 'language',
+            'type' => 'string',
+            'description' => 'Language',
+            'optional' => TRUE,
+            'source' => 'data',
+          ),
+        ),
+      ),
+      'delete' => array(
+        'help' => 'Removes a registered a device token. Only needs the token.',
+        'callback' => '_intstrux_apns_service_delete_device_token',
+        'file' => array(
+          'type' => 'inc',
+          'module' => 'intstrux_apns',
+          'name' => 'includes/apns.service'
+        ),
+        'access arguments' => array('remove device token'),
+        'access arguments append' => FALSE,
+        'args' => array(
+          array(
+            'name' => 'token',
+            'type' => 'string',
+            'description' => 'Device Token',
+            'optional' => FALSE,
+            'source' => array('path' => '0'),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+
+
+/**
+* Implements hook_privatemsg_message_insert.
+*/
+function intstrux_apns_privatemsg_message_insert($message) {
+  if (variable_get('intstrux_apns_privatemsg_integration', 0)) {
+    // Compose the payload. If the body is empty, just use the subject line.
+    // Otherwise, combine subject and body.
+    $payload = (empty($message->body)) ? $message->subject : $message->subject . ' ' . $message->body;
+    $payload = 'From ' . $message->author->name . ': ' . $payload;
+
+    // Compose an array of recipients.
+    $recipients = array();
+    foreach ($message->recipients as $recipient) {
+      $recipients[] = $recipient->uid;
+    }
+
+    intstrux_apns_send_message($recipients, $payload);
+  }
+}
+
+
+
+/**
+ * Determine if this user has already stored a token
+ * in the database. The same device token can be
+ * registered for multiple users, because multiple
+ * users can login from the same device.
+ *
+ * @param $token
+ *   Device Token.
+ * @param $uid
+ *   User ID.
+ * @param $exclude
+ *   Set this to true to find (at least one) other user(s) who have this
+ *   token stored. Optional, defaults to false.
+ *
+ * @return
+ *   User ID of token, if found.
+ */
+function intstrux_apns_find_token($token = '', $uid = '', $exclude = FALSE) {
+  if ($token == '') {
+    return FALSE;
+  }
+
+  $query = db_select('intstrux_apns_tokens', 'pnt');
+  $query->fields('pnt', array('token'));
+  $query->condition('pnt.token', $token);
+  if ($exclude) {
+    $query->condition('pnt.uid', $uid, '!=');
+    $query->range(0, 1);
+  }
+  else {
+    $query->condition('pnt.uid', $uid);
+  }
+
+  $result = $query->execute();
+  return $result->fetchField();
+}
+
+
+
+/**
+ * Store a token in the database.
+ * Removes all spaces in the token.
+ *
+ * @param $token
+ *   Device token.
+ * @param $type_id
+ *   Device type id.
+ * @param $uid
+ *   User ID.
+ * @param $language
+ *   Language that this token is registered for, optional.
+ *
+ * @return
+ *   Failure to write a record will return FALSE, Otherwise SAVED_NEW.
+ */
+function intstrux_apns_store_token($token, $type_id, $iosVersion="", $app="", $appVersion="", $uid=0, $edition="", $country="", $speciality="", $preferences="", $language="") {
+  
+  if (!is_string($token) || !is_numeric($type_id) || !is_numeric($uid)) {
+    return FALSE;
+  }
+
+  // Default language to site default.
+  if ($language == '') {
+    $default_language = language_default();
+    $language = $default_language->language;
+  }
+
+  // Write record.
+  $table = 'intstrux_apns_tokens';
+  $record = new stdClass();
+  
+  $record->token = $token;
+  $record->type = $type_id;
+  $record->iosVersion = $iosVersion;
+  $record->app = $app;
+  $record->appVersion = $appVersion;
+  $record->uid = $uid;
+  $record->edition = $edition;
+  $record->country = $country;
+  $record->speciality = $speciality;
+  $record->preferences = $preferences;
+  $record->language = $language;
+  
+  $record->timestamp = time();
+  
+  //Cleanup work... before we stored tokens user specific, which results in old records
+  db_delete($table)
+  ->condition('token', $token)
+  ->condition('uid', $uid, "<>")
+  ->execute();
+
+
+  // Determine if this token is already registered INDEPENDENT OF USER
+  if (intstrux_apns_find_token($token, '', true)) {
+    //update
+    return drupal_write_record($table, $record, array('token'));
+
+  }
+  else{
+    //insert
+    return drupal_write_record($table, $record);
+  }
+  
+}
+
+
+
+/**
+ * Open an APNS connection.
+ * Should be closed by calling fclose($connection) after usage.
+ */
+function intstrux_apns_open_apns() {
+  // Determine the absolute path of the certificate.
+  // @see http://stackoverflow.com/questions/809682
+  $apns_cert = _intstrux_apns_get_apns_certificate();
+
+  // Create a stream context.
+  $stream_context = stream_context_create();
+  // Set options on the stream context.
+  stream_context_set_option($stream_context, 'ssl', 'local_cert', $apns_cert);
+
+  //If the user has a passphrase stored, we use it.
+  $passphrase = variable_get('intstrux_apns_apns_passphrase', '');
+  if(strlen($passphrase)) {
+    stream_context_set_option($stream_context, 'ssl', 'passphrase', $passphrase);
+  }
+
+
+  // Open an Internet socket connection.
+  $apns = stream_socket_client('ssl://' . intstrux_apns_APNS_HOST . ':' . intstrux_apns_APNS_PORT, $error, $error_string, 2, STREAM_CLIENT_CONNECT, $stream_context);
+  if (!$apns) {
+    watchdog('intstrux_apns', 'Connection to Apple Notification Server failed.', NULL, WATCHDOG_ERROR);
+    return FALSE;
+  }
+  else {
+    return $apns;
+  }
+}
+
+
+
+/**
+ * Check size of a push notification payload.
+ * Payload can't exceed intstrux_apns_APNS_PAYLOAD_SIZE_LIMIT.
+ *
+ * @param $payload
+ *   Message.
+ *
+ * @return
+ *   Returns true if message is below the limit, false otherwise.
+ */
+function intstrux_apns_check_payload_size($payload = '') {
+  if ($payload == '') {
+    return FALSE;
+  }
+
+  // JSON-encode the payload.
+  $payload = json_encode($payload);
+
+  // Verify that the payload doesn't exceed limit.
+  $payload_size = mb_strlen($payload, '8bit');
+  $size_valid = ($payload_size > intstrux_apns_APNS_PAYLOAD_SIZE_LIMIT) ? FALSE : TRUE;
+  return $size_valid;
+}
+
+
+
+/**
+* Send out push notifications, switch automatically between delivery method.
+*
+* @param $recipients
+*   Array of user ids.
+* @param $message
+*   Payload to send.
+*/
+function intstrux_apns_send_message($recipients, $message) {
+  if (!is_array($recipients) || !is_string($message)) {
+    return FALSE;
+  }
+
+  // Let modules modify the message before it is sent.
+  foreach(module_implements('intstrux_apns_send_message') as $module) {
+    $function = $module . '_intstrux_apns_send_message';
+    $function($message);
+  }
+
+  // Shorten the message to 255 characters / 8 bit.
+  $message = truncate_utf8($message, intstrux_apns_APNS_PAYLOAD_SIZE_LIMIT, TRUE, TRUE);
+
+  // Convert the payload into the correct format for delivery.
+  $payload = array('alert' => $message);
+
+  // Determine if any of the recipients have one or multiple tokens stored.
+  $tokens = array();
+  foreach ($recipients as $uid) {
+    $user_tokens = push_notification_get_user_tokens($uid);
+    if (!empty($user_tokens)) {
+      $tokens = array_merge($tokens, $user_tokens);
+    }
+  }
+
+  // Stop right here if none of these users have any tokens.
+  if (empty($tokens)) {
+    return FALSE;
+  }
+
+  // Group tokens into types.
+  $tokens_ios = array();
+  $tokens_android = array();
+  foreach ($tokens as $token) {
+    switch ($token['type']) {
+      case intstrux_apns_TYPE_ID_IOS:
+      $tokens_ios[] = $token['token'];
+      break;
+
+      case intstrux_apns_TYPE_ID_ANDROID:
+      $tokens_android[] = $token['token'];
+      break;
+    }
+  }
+
+  // Send payload to iOS recipients.
+  if (!empty($tokens_ios)) {
+    // Convert the payload into the correct format for APNS.
+    $payload_apns = array('aps' => $payload);
+    $result = intstrux_apns_apns_send_message($tokens_ios, $payload_apns);
+  }
+  // Send payload to Android recipients if configured correctly.
+  if (!empty($tokens_android) && ((intstrux_apns_C2DM_USERNAME && intstrux_apns_C2DM_PASSWORD) || intstrux_apns_GCM_API_KEY)) {
+    // Determine which method to use for Google push notifications.
+    switch (intstrux_apns_GOOGLE_TYPE) {
+      case intstrux_apns_GOOGLE_TYPE_C2DM:
+      $result = intstrux_apns_c2dm_send_message($tokens_android, $payload);
+      break;
+
+      case intstrux_apns_GOOGLE_TYPE_GCM:
+      $result = intstrux_apns_gcm_send_message($tokens_android, $payload);
+      break;
+    }
+  }
+}
+
+
+
+/**
+ * Send out push notifications through APNS.
+ *
+ * @param $tokens
+ *   Array of iOS tokens
+ * @param $payload
+ *   Payload to send. Minimum requirement
+ *   is a nested array in this format:
+ *   $payload = array(
+ *     'aps' => array(
+ *       'alert' => 'Push Notification Test',
+ *     );
+ *   );
+ *
+ * @return
+ *   Array with the following keys:
+ *   - count_attempted (# of attempted messages sent)
+ *   - count_success   (# of successful sends)
+ *   - success         (# boolean)
+ *   - message         (Prepared result message)
+ */
+function intstrux_apns_apns_send_message($tokens, $payload) {
+  if (!is_array($tokens) || empty($payload) || (is_array($tokens) && empty($tokens))) {
+    return FALSE;
+  }
+
+  $payload_apns = array();
+  $payload_apns_no_url = array();
+
+  // Allow for inclusion of custom payloads.
+  foreach ($payload as $key => $value) {
+    if ($key != 'aps') {
+      $payload_apns[$key] = $value;
+      $payload_apns_no_url[$key] = $value;
+    }
+  }
+
+  // Add the default 'aps' key for the payload.
+  $payload_apns['aps'] = $payload['aps'];
+  $payload_apns_no_url['aps'] = $payload['aps'];
+
+  // Set the default sound if no sound was set.
+  if (!isset($payload_apns['aps']['sound'])) {
+    $payload_apns['aps']['sound'] = intstrux_apns_APNS_NOTIFICATION_SOUND;
+    $payload_apns_no_url['aps']['sound'] = intstrux_apns_APNS_NOTIFICATION_SOUND;
+  }
+  
+
+  //CREATE payload without URL
+  unset($payload_apns_no_url['aps']['url']);
+
+
+  // JSON-encode the payload.
+  $payload_apns = json_encode($payload_apns);
+  $payload_apns_no_url = json_encode($payload_apns_no_url);
+
+  $result = array(
+    'count_attempted' => 0,
+    'count_success' => 0,
+    'success' => 0,
+    'message' => '',
+  );
+
+  // Send a push notification to every recipient.
+  $stream_counter = 0;
+  foreach ($tokens as $token) {
+    // Open an apns connection, if necessary.
+    if ($stream_counter == 0) {
+      $apns = intstrux_apns_open_apns();
+      if (!$apns) {
+        $result['message'] = t('APNS connection could not be established. Check to make sure you are using a valid certificate file.');
+        return $result;
+      }
+    }
+
+    //Get the token inofrmation
+    $query = db_select('intstrux_apns_tokens', 'pnt');
+    $query->fields('pnt', array('token', 'uid', 'type', 'iosVersion', 'timestamp'));
+    $query->condition('pnt.token', $token);
+    $queryresult = $query->execute();
+
+    $version = "";
+    $timestamp = 0;
+    foreach ($queryresult as $record) {
+      if($record->timestamp > $timestamp){
+        $timestamp = $record->timestamp;
+        $version = $record->iosVersion;
+      }
+      
+    }
+
+    $stream_counter++;
+
+    $result['count_attempted']++;
+
+    //For version 5.0.4 and higher. This filters the URL from the messages and avoids the application crash when app is closed and launched by APNS
+    if(intstrux_apns_compare_versions($version, "5.0.3") == 1){
+      $apns_message = chr(0) . chr(0) . chr(32) . pack('H*', $token) . chr(0) . chr(strlen($payload_apns)) . $payload_apns;
+    }
+    else{
+      $apns_message = chr(0) . chr(0) . chr(32) . pack('H*', $token) . chr(0) . chr(strlen($payload_apns_no_url)) . $payload_apns_no_url;
+    }
+    // Write the payload to the currently active streaming connection.
+    $success = fwrite($apns, $apns_message);
+    if ($success) {
+      $result['count_success']++;
+    }
+    elseif ($success == 0 || $success == FALSE || $success < strlen($apns_message)) {
+      $error_message = array(
+        'message' => t('APNS message could not be sent.'),
+        'token' => 'Token: ' . $token,
+        'data' => 'fwrite returned: ' . $success,
+      );
+      watchdog('intstrux_apns', implode($error_message, '<br />'));
+    }
+
+    // Reset the stream counter if no more messages should
+    // be sent with the current stream context.
+    // This results in the generation of a new stream context
+    // at the beginning of this loop.
+    if ($stream_counter >= intstrux_apns_APNS_STREAM_CONTEXT_LIMIT) {
+      $stream_counter = 0;
+    }
+  }
+
+  // Close the apns connection.
+  fclose($apns);
+
+  $result['message'] = t('Successfully sent !count_success iOS push messages (attempted to send !count messages).', array('!count_success' => $result['count_success'], '!count' => $result['count_attempted']));
+  $result['success'] = TRUE;
+  return $result;
+}
+
+//1: A > B, 
+//-1: A < B, 
+//0: A == B
+function intstrux_apns_compare_versions($versiona, $versionb) {
+  $arrA = explode(".", $versiona);
+  $arrB = explode(".", $versionb);
+  
+  $ret = TRUE;
+
+  for($i=0; $i < count($arrA); $i++) {
+      
+    //Greater
+    if($arrA[$i] >  $arrB[$i]){
+      return 1;
+    }
+    //Smaller
+    if($arrA[$i] <  $arrB[$i]){
+      return -1;
+    }
+
+  }
+ 
+  //Equal last case
+  return 0;
+  
+}
+
+
+/**
+ * Determine the auth string from C2DM server.
+ */
+function intstrux_apns_c2dm_token() {
+  $data = array(
+    'Email'         => intstrux_apns_C2DM_USERNAME,
+    'Passwd'        => intstrux_apns_C2DM_PASSWORD,
+    'accountType'   => 'HOSTED_OR_GOOGLE',
+    'source'        => 'Company-AppName-Version',
+    'service'       => 'ac2dm',
+  );
+
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_URL, intstrux_apns_C2DM_CLIENT_LOGIN_ACTION_URL);
+  curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+  curl_setopt($curl, CURLOPT_POST, TRUE);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+  $response = curl_exec($curl);
+  curl_close($curl);
+
+  // Get the auth token.
+  preg_match("/Auth=([a-z0-9_\-]+)/i", $response, $matches);
+  $auth_token = $matches[1];
+
+  if (!$auth_token) {
+    watchdog('intstrux_apns', 'Google C2DM Server did not provide an authentication token.', NULL, WATCHDOG_ERROR);
+  }
+  else {
+    return $auth_token;
+  }
+}
+
+
+
+
+/**
+ * Send out push notifications through C2DM.
+ *
+ * @param $tokens
+ *   Array of iOS tokens
+ * @param $payload
+ *   Payload to send.
+ *
+ * @return
+ *   Array with the following keys:
+ *   - count_attempted (# of attempted messages sent)
+ *   - count_success   (# of successful sends)
+ *   - success         (# boolean)
+ *   - message         (Prepared result message)
+ */
+function intstrux_apns_c2dm_send_message($tokens, $payload) {
+  if (!is_array($tokens) || empty($payload) || (is_array($tokens) && empty($tokens))) {
+    return FALSE;
+  }
+
+  // Determine an updated authentication token.
+  // Google is very vague about how often this token changes,
+  // so we'll just get a new token every time.
+  $auth_token = intstrux_apns_c2dm_token();
+  if (!$auth_token) {
+    $result['message'] = t('Google C2DM Server did not provide an authentication token. Check your C2DM credentials.');
+    return $result;
+  }
+
+  // Define an array of result values.
+  $result = array(
+    'count_attempted' => 0,
+    'count_success' => 0,
+    'success' => 0,
+    'message' => '',
+  );
+
+  // Define the header.
+  $headers = array();
+  $headers[] = 'Authorization: GoogleLogin auth=' . $auth_token;
+
+  // Send a push notification to every recipient.
+  foreach ($tokens as $token) {
+    $result['count_attempted']++;
+
+    // Convert the payload into the correct format for C2DM payloads.
+    // Prefill an array with values from other modules first.
+    $data = array();
+    foreach ($payload as $key => $value) {
+      if ($key != 'alert') {
+        $data['data.' . $key] = $value;
+      }
+    }
+    // Fill the default values required for each payload.
+    $data['registration_id'] = $token;
+    $data['collapse_key'] = time();
+    $data['data.message'] = $payload['alert'];
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, intstrux_apns_C2DM_SERVER_POST_URL);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($curl, CURLOPT_POST, TRUE);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    $response = curl_exec($curl);
+    $info = curl_getinfo($curl);
+    curl_close($curl);
+
+    // If Google's server returns a reply, but that reply includes an error, log the error message.
+    if ($info['http_code'] == 200 && (isset($response) && preg_match('/Error/', $response))) {
+      watchdog('intstrux_apns', "Google's Server returned an error: " . $response, NULL, WATCHDOG_ERROR);
+
+      // If the device token is invalid or not registered (anymore because the user
+      // has uninstalled the application), remove this device token.
+      if (preg_match('/InvalidRegistration/', $response) || preg_match('/NotRegistered/', $response)) {
+        intstrux_apns_purge_token($token);
+        watchdog('daddyhunt_apns', 'C2DM token not valid anymore. Removing token ' . $token);
+      }
+    }
+
+    // Success if the http response status is 200 and the response
+    // data does not containt the word "Error".
+    if ($info['http_code'] == 200 && (isset($response) && !preg_match('/Error/', $response))) {
+      $result['count_success']++;
+    }
+  }
+
+  $result['message'] = t('Successfully sent !count_success Android push messages (attempted to send !count messages).', array('!count_success' => $result['count_success'], '!count' => $result['count_attempted']));
+  $result['success'] = TRUE;
+  return $result;
+}
+
+/**
+ * Send out push notifications through GCM.
+ *
+ * @link http://developer.android.com/guide/google/gcm/index.html
+ *
+ * @param $tokens
+ *   Array of gcm tokens
+ * @param $payload
+ *   Payload to send.
+ *
+ * @return
+ *   Array with the following keys:
+ *   - count_attempted (# of attempted messages sent)
+ *   - count_success   (# of successful sends)
+ *   - success         (# boolean)
+ *   - message         (Prepared result message)
+ */
+function intstrux_apns_gcm_send_message($tokens, $payload) {
+  if (!is_array($tokens) || empty($payload) || (is_array($tokens) && empty($tokens))) {
+    return FALSE;
+  }
+
+  // Define an array of result values.
+  $result = array(
+    'count_attempted' => 0,
+    'count_success' => 0,
+    'success' => 0,
+    'message' => '',
+  );
+
+  // Define the header.
+  $headers = array();
+  $headers[] = 'Content-Type:application/json';
+  $headers[] = 'Authorization:key=' . intstrux_apns_GCM_API_KEY;
+
+
+  // Check of many token bundles can be build.
+  $token_bundles = ceil(count($tokens) / 1000);
+  $result['count_attempted'] = count($tokens);
+
+  // Send a push notification to every recipient.
+  for ($i = 0; $i < $token_bundles; $i++) {
+    // Create a token bundle.
+    $bundle_tokens = array_slice($tokens, $i * 1000, 1000, FALSE);
+
+    // Convert the payload into the correct format for C2DM payloads.
+    // Prefill an array with values from other modules first.
+    $data = array();
+    foreach ($payload as $key => $value) {
+      if ($key != 'alert') {
+        $data['data'][$key] = $value;
+      }
+    }
+    // Fill the default values required for each payload.
+    $data['registration_ids'] = $bundle_tokens;
+    $data['collapse_key'] = (string) time();
+    $data['data']['message'] = $payload['alert'];
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, intstrux_apns_GCM_SERVER_POST_URL);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($curl, CURLOPT_POST, TRUE);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+    $response_raw = curl_exec($curl);
+    $info = curl_getinfo($curl);
+    curl_close($curl);
+
+    $response = FALSE;
+    if (isset($response_raw)) {
+      $response = json_decode($response_raw);
+    }
+
+    // If Google's server returns a reply, but that reply includes an error,
+    // log the error message.
+    if ($info['http_code'] == 200 && (!empty($response->failure))) {
+      watchdog('intstrux_apns', "Google's Server returned an error: " . $response_raw, NULL, WATCHDOG_ERROR);
+
+      // Analyze the failure.
+      foreach ($response->results as $token_index => $message_result) {
+        if (!empty($message_result->error)) {
+          // If the device token is invalid or not registered (anymore because the user
+          // has uninstalled the application), remove this device token.
+          if ($message_result->error == 'NotRegistered' || $message_result->error == 'InvalidRegistration') {
+            intstrux_apns_purge_token($bundle_tokens[$token_index]);
+            watchdog('intstrux_apns', 'GCM token not valid anymore. Removing token ' . $bundle_tokens[$token_index]);
+          }
+        }
+      }
+    }
+
+    // Count the successful sent push notifications if there are any.
+    if ($info['http_code'] == 200 && !empty($response->success)) {
+      $result['count_success'] += $response->success;
+    }
+  }
+
+  $result['message'] = t('Successfully sent !count_success Android push messages (attempted to send !count messages).', array('!count_success' => $result['count_success'], '!count' => $result['count_attempted']));
+  $result['success'] = TRUE;
+  return $result;
+}
+
+
+/**
+  * Determine all recipients from a specific device type.
+  *
+  * @param $type_id
+  *   Device Type ID.
+  * @param $language
+  *   Language code, optional.
+  * @param $raw
+  *   Boolean, set true to retrieve the raw query results.
+  *
+  * @return
+  *   Array of results, null if no entries.
+  */
+function intstrux_apns_get_tokens($type_id, $edition_array, $sections_array, $developer_array, $type = "default"){
+  
+
+  // Make sure this type_id is supported.
+  $valid_type_ids = array(intstrux_apns_TYPE_ID_IOS, intstrux_apns_TYPE_ID_ANDROID);
+  if (!in_array($type_id, $valid_type_ids)) {
+    return FALSE;
+  }
+
+  // Select all tokens for this type id.
+  $query = db_select('intstrux_apns_tokens', 'pnt');
+  $query->distinct();
+  $query->fields('pnt', array('token'));
+  
+  $query->condition('pnt.type', $type_id);
+
+  if (!empty($edition_array)) {
+
+     $query->condition('pnt.edition', $edition_array, "IN");
+  }
+
+  if (isset($developer_array)) {
+    if(empty($developer_array)){
+      $developer_array = array("AA");
+    }
+
+    $query->condition('pnt.token', $developer_array, "IN");
+  }
+
+  if (!empty($sections_array)) {
+    
+    $or = db_or();
+
+    foreach($sections_array as $value)
+      $or->condition('pnt.preferences', "%".$value."%", "LIKE");
+
+    $query->condition($or);
+  }
+
+  if($type == "count"){
+    
+    return $query->countQuery()->execute()->fetchField();
+
+  }
+  else{
+
+
+    $result = $query->execute();
+
+    // Return raw result, if needed.
+    if ($type == "raw") {
+      return $result;
+    }
+    // Otherwise, create an array of tokens.
+    else {
+      $tokens = array();
+      foreach ($result as $record) {
+        $tokens[] = $record->token;
+      }
+      return $tokens;
+    }
+  }
+}
+
+
+
+/**
+* Determine all tokens for a specfic user.
+*
+* @param @uid
+*   User ID.
+*
+* @return
+*   Nested array of tokens, with user id, push notification type
+*   and token.
+*/
+function push_notification_get_user_tokens($uid = '') {
+  if ($uid == '' || !is_numeric($uid)) {
+    return FALSE;
+  }
+
+  // Select all tokens for this user.
+  $query = db_select('intstrux_apns_tokens', 'pnt');
+  $query->fields('pnt', array('token', 'uid', 'type'));
+  $query->condition('pnt.uid', $uid);
+  $result = $query->execute();
+
+  $tokens = array();
+  foreach ($result as $record) {
+    $tokens[$record->token] = array(
+      'token' => $record->token,
+      'uid' => $record->uid,
+      'type' => $record->type,
+    );
+  }
+
+  return $tokens;
+}
+
+
+
+/**
+ * Determine any languages used in the push
+ * notifications table.
+ */
+function intstrux_apns_used_languages() {
+  $query = db_select('intstrux_apns_tokens', 'pnt');
+  $query->fields('pnt', array('language'));
+  $query->distinct();
+  $result = $query->execute();
+
+  // Convert the records into an array with
+  // full language code available.
+  include_once DRUPAL_ROOT . '/includes/iso.inc';
+  $languages = _locale_get_predefined_list();
+
+  $used_languages = array();
+  foreach ($result as $record) {
+    $used_languages[$record->language] = $languages[$record->language][0];
+  }
+
+  if (!empty($used_languages)) {
+    // Sort the languages alphabetically.
+    $used_langauges = asort($used_languages);
+    // Add an "All" option.
+    array_unshift($used_languages, 'All Recipients');
+  }
+
+  return $used_languages;
+}
+
+
+
+/**
+ * Delete a token.
+ *
+ * @param $token
+ */
+function intstrux_apns_purge_token($token = '') {
+  if ($token == '' || !is_string($token)) {
+    return FALSE;
+  }
+
+  $query = db_delete('intstrux_apns_tokens');
+  $query->condition('token', $token);
+  return $query->execute();
+}
+
+
+
+/**
+ * Connect to Apple's feedback server to remove unused device tokens.
+ * Connection modeled after daddyhunt_apns_send_notifications function.
+ *
+ * @see http://stackoverflow.com/questions/4774681/php-script-for-apple-push-notification-feedback-service-gets-timeout-every-time
+ * @see http://stackoverflow.com/questions/1278834/php-technique-to-query-the-apns-feedback-server/2298882#2298882
+ */
+function intstrux_apns_apns_feedback_service() {
+  // Create a Stream context and open an Internet socket connection.
+  $stream_context = stream_context_create();
+  $apns_cert = _intstrux_apns_get_apns_certificate();
+  stream_context_set_option($stream_context, 'ssl', 'local_cert', $apns_cert);
+  $apns = stream_socket_client('ssl://' . intstrux_apns_APNS_FEEDBACK_HOST . ':' . intstrux_apns_APNS_FEEDBACK_PORT, $error, $error_string, 2, STREAM_CLIENT_CONNECT, $stream_context);
+  if (!$apns) {
+    return;
+  }
+
+  // Gather expired tokens in an array
+  $tokens = array();
+    while (!feof($apns)) {
+    $data = fread($apns, 38);
+    if (strlen($data)) {
+      $tokens[] = unpack("N1timestamp/n1length/H*devtoken", $data);
+    }
+  }
+
+  // Close connection.
+  fclose($apns);
+
+  if (empty($tokens)) {
+    watchdog('intstrux_apns', 'Apple\'s feedback service returned no tokens to be removed.');
+    return;
+  }
+
+  // Remove all tokens that are not valid anymore.
+  $counter = 0;
+  foreach ($tokens as $token) {
+    intstrux_apns_purge_token($token['devtoken']);
+    $counter++;
+  }
+
+  // Give some feedback after the process finished.
+  watchdog('intstrux_apns', '!count were removed after pulling the Apple feedback service.', array('!count' => $counter));
+
+}
+
+/**
+ * Get the full path to the APNS certificate.
+ *
+ * @return string
+ *   The path to the certificate file on the server.
+ */
+function _intstrux_apns_get_apns_certificate() {
+  $path = variable_get('intstrux_apns_apns_certificate_folder', '');
+
+  if (empty($path)) {
+    $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'certificates' . DIRECTORY_SEPARATOR;
+  }
+
+  $path .= intstrux_apns_APNS_CERTIFICATE;
+
+  if (!file_exists($path)) {
+    watchdog('intstrux_apns', 'Cannot find apns certificate file at @path', array('@path' => $path), WATCHDOG_WARNING, l(t('settings'), 'admin/config/services/intstrux_apns/configure'));
+  }
+
+  return $path;
+}
+
+
+function intstrux_apns_apns_send($tokens, $payload, &$context){
+  if (!is_array($tokens) || empty($payload) || (is_array($tokens) && empty($tokens))) {
+    return FALSE;
+  }
+
+  if (empty($context['sandbox'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = count($tokens);
+  }
+
+  $limit = 5;
+  
+  $context['results'][] = intstrux_apns_apns_send_message(array_slice($tokens, $context['sandbox']['progress'], $limit), $payload);
+  
+  $context['message'] = $context['sandbox']['progress']. " of ".$context['sandbox']['max'];
+  
+  $context['sandbox']['progress'] += $limit;
+   
+
+  if ($context['sandbox']['progress'] < $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+  else{
+    $context['finished'] = 1;
+  }
+}
+
+
+function intstrux_apns_apns_send_complete($success, $results, $operations) {
+  // The 'success' parameter means no fatal PHP errors were detected. All
+  // other error management should be handled using 'results'.
+  if ($success) {
+    $message = 'APNS send successfully '.print_r($results, true);
+  }
+  else {
+    $message = t('Finished with an error.');
+  }
+
+  drupal_set_message($message);
+  
+}
+
+
+
+//----------
+function intstrux_apns_get_apns_url($node){
+  return $node->path;
+}
+
+function intstrux_apns_block_info() {    
+  $blocks['apns_url'] = array(
+    'info' => t('APNS URL'),
+  );
+
+  return $blocks;
+}
+
+function intstrux_apns_block_view($delta = '') {
+  $block = array();
+    switch ($delta) {
+     
+      case 'apns_url':
+          
+          $url = array();
+          if (arg(0) == "node" && (!arg(2) || arg(2) == 'view')) {
+            
+
+
+            $nid = arg(1);
+            $nid = !empty($nid) ? "".$nid: "";
+
+            if ($cache = cache_get('intstrux_apns_block_view_'.$delta.'_'.$nid, "cache")) {
+
+              $url = $cache->data;
+
+            }
+            else{
+
+              $node = node_load(arg(1));
+
+              $lang = LANGUAGE_NONE;
+
+              switch($node->type){
+                case "article": 
+
+                  $year =   $node->field_article_year_int['und'][0]['value'];
+                  $month =  $node->field_article_month['und'][0]['value'];
+
+                  $url[] = array("path"=>"view_articles/Journal/{$year}/{$month}/view_items_articles/Journal/{$year}/{$month}?page=node/".$node->nid, "desc"=>"");
+                  break;
+
+
+                break;
+                
+                case "challenging_case":
+
+                  foreach ($node->field_tax_edition['und'] as $key => $value) {
+                    
+                    $term = taxonomy_term_load($value[tid]);
+
+                    $url[] = array("path"=>"view_challengingcases/".$term->name."/view_items_challengingcases/".$term->name."?page=node/".$node->nid, "desc"=>"Link to the CC in the ".$term->name." edition"); 
+
+                    
+                  }
+
+                 
+                  break;
+
+                
+                case "page": $url[] = array("path"=>"view_page/".$node->nid, "desc"=>""); 
+                  break;
+                
+                
+                case "page_interactive_ad_alt": 
+
+
+                  foreach ($node->field_tax_edition['und'] as $key => $value) {
+                    
+                    $term = taxonomy_term_load($value[tid]);
+                    $url[] = array("path"=>"view_interactive_ad_alt/".$term->name."/view_items_interactive_ad_alt/".$term->name."?page=node/".$node->nid, "desc"=>"Link to the ad in the ".$term->name." edition");
+                  }
+                  break;
+
+                
+                case "page_html":
+
+                  if (!empty($node->field_tax_article[$lang][0]['tid'])) {
+                     $url[] = array("path"=>"view_pagehtml/".$node->field_tax_article[$lang][0]['tid']."/view_items_pagehtml/".$node->field_tax_article[$lang][0]['tid']."?page=node/".$node->nid, "desc"=>"");
+                  }
+
+                  break;
+
+                
+                case "perspective":
+
+                  foreach ($node->field_tax_edition['und'] as $key => $value) {
+                    
+                    $term = taxonomy_term_load($value[tid]);
+
+                    $url[] = array("path"=>"view_perspectives/".$value[tid]."/view_items_perspectives/".$value[tid]."?page=node/".$node->nid, "desc"=>"Link to the perspective in the ".$term->name." edition");
+
+                    
+                  }
+
+                 
+                break;
+                
+                
+                case "asset_video":
+
+                  foreach ($node->field_sections['und'] as $key => $value) {
+                    
+                    $term = taxonomy_term_load($value[tid]);
+
+                    $url[] = array("path"=>"view_videoasset_categories/".$value[tid]."/view_items_videoasset_categories/".$value[tid]."?page=node/".$node->nid, "desc"=>"Link to the video in the ".$term->name." category");
+
+                    
+                  }
+
+
+                  foreach ($node->taxonomy_vocabulary_5['und'] as $key => $value) {
+                    
+                    $term = taxonomy_term_load($value[tid]);
+
+                    $url[] = array("path"=>"view_videoasset_meetings/".$value[tid]."/view_items_videoasset_meetings/".$value[tid]."?page=node/".$node->nid, "desc"=>"Link to the video in the ".$term->name." meeting");
+
+                    
+                  }
+
+                break;
+
+
+              }
+
+              cache_set('intstrux_apns_block_view_'.$delta.'_'.$nid, $url, 'cache');
+
+            }
+
+          }
+          else if(substr(arg(0), 0, 5) == "view_"){
+            $url[] = array("path"=>current_path(), "desc"=>"");
+          }
+
+          
+            $block['subject'] = '';
+$block['content'] = array(
+                '#theme' => 'intstrux_apns_url_block',
+                '#url' => $url,
+                '#delta' => $delta
+            );
+          
+
+        break;
+    }
+    return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function intstrux_apns_theme() {
+  return array(
+    /**
+     * Shows a apns url in content related block
+     */
+    'intstrux_apns_url_block' => array(
+      'variables' => array('url' => NULL, 'delta' => NULL),
+    ),
+  );
+}
+
+function theme_intstrux_apns_url_block($vars) {
+  $url = $vars['url'];
+  
+  if(!empty($url)){
+    
+    $urls = "<ul>";
+    foreach ($url as $key => $value) {
+      $desc = !empty($value['desc']) ? "<br>[<i>".$value['desc']."</i>]" : "";
+      $urls .= '<li>'.$value['path'].$desc.'</li>';
+
+    }
+    $urls .= "</ul>";
+
+    return t("The APNS link(s) for this page: ".$urls);
+  }
+  else{
+    return "No apns url could be resolved";
+  }
+}

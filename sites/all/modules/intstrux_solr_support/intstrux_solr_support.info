@@ -1,0 +1,14 @@
+name = Intstrux SOLR support/migration module
+package = Intstrux
+project = intstrux_solr_support
+core = 7.x
+description = solr support module
+
+; Information added by drupal.org packaging script on 2011-04-17
+
+; Information added by drupal.org packaging script on 2011-07-05
+version = "7.x-1.0"
+core = "7.x"
+project = "intstrux_solr_support"
+datestamp = "1309860118"
+

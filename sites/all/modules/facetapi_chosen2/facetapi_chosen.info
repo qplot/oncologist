@@ -1,0 +1,10 @@
+name = Facet API Chosen
+description = Allows a 'Chosen' multi-select widget to be used as a facet.
+package = Search Toolkit
+core = 7.x
+
+dependencies[] = facetapi
+dependencies[] = chosen
+
+files[] = facetapi_chosen_widget.inc
+files[] = facetapi_chosen_filters.inc

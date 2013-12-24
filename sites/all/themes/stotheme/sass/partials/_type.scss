@@ -1,0 +1,159 @@
+/*
+@TYPOGRAPHY
+* SET DEFAULT TYPOGRAPHY
+
+// TABLE OF CONTENTS ---------------------
+
+  BODY TEXT
+  HEADINGS LAYOUT
+  LINKS
+
+//---------------------------------------- */
+
+/*------------------------------------*\
+			$BODY TEXT
+\*------------------------------------*/
+
+p, .field-content 
+{
+  margin: 0 0 $base-line-height / 2;
+  font-family: $body-font-family;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  color: $grayDark;
+  margin: 5px;
+	  
+	  small 
+	  {
+	    font-size: $base-font-size - 2;
+	    color: $grayLight;
+	  }
+}
+
+h1 
+{
+  font-size: 30px;
+  line-height: $base-line-height * 2;
+
+	  small 
+	  {
+	    font-size: 18px;
+	  }
+}
+
+h2 
+{
+ font-size: 14px;
+ color: $purple;
+ text-transform: uppercase;
+ font-family: 'Gentium Book Basic', serif;
+ @include single-text-shadow($white);
+ margin:0px;
+ margin-bottom: 10px;
+	  
+	  small 
+	  {
+	    font-size: 18px;
+	  }
+}
+
+h3 
+{
+  line-height: $base-line-height * 1.5;
+  font-size: 18px;
+  color: $white;
+  font-family: 'Gentium Book Basic', serif;
+  @include single-text-shadow($black);
+	  
+	  small 
+	  {
+	    font-size: 14px;
+	  }
+}
+
+h4, h5, h6 
+{
+	color: $grayDark;
+  	line-height: $base-line-height;
+    @include single-text-shadow($white);
+}
+
+h4 
+{
+  font-size: 14px;
+	  
+	  small 
+	  {
+	    font-size: 12px;
+	  }
+}
+
+h5 
+{
+  font-size: 12px;
+}
+
+h6 
+{
+  font-size: 14px;
+  color: $purple;
+  text-transform: uppercase;
+  font-family: 'Gentium Book Basic', serif;
+  @include single-text-shadow($white);
+}
+
+p 
+{
+	margin-bottom:0;
+	hyphenate: auto;
+	hyphenate-before:2;
+	hyphenate-after:3;
+	hyphenate-lines: 3;
+	orphans:4;
+}
+
+
+/*------------------------------------*\
+			$HEADINGS LAYOUT
+\*------------------------------------*/
+
+.landingBox h6
+{
+	margin:0;
+}
+
+
+/*------------------------------------*\
+			$LINKS
+\*------------------------------------*/
+
+
+  a 
+{
+color: $linkColor;
+text-decoration: none;
+}
+  a:hover 
+{
+ color: $linkColorHover;
+ text-decoration: underline;
+}
+
+
+ //@ARTICLES
+ 
+  .views-field-title 
+  { margin: 5px;
+	 a
+	 {
+		 font-weight: bold;
+		 font-size: 22px;
+		 color: $grayDark;
+		 
+		 -webkit-transition: all 0.3s ease-in-out;
+		 -moz-transition: all 0.3s ease-in-out;
+		 -o-transition: all 0.3s ease-in-out;
+		 transition: all 0.3s ease-in-out;
+		
+	 }
+  }

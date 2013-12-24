@@ -1,0 +1,29 @@
+body
+{
+	background-image: url("../images/bckg1.png");
+	background-repeat: repeat;
+}
+
+.front .panels-flexible-row,  .pager
+{
+	@include background-image (linear-gradient(top, #ffffff 0%,#e6e7e8 10%,#e6e7e8 100%)); /* W3C */
+	@include border-radius(2px);
+	@include box-shadow(0px 5px 0px 0px $grayLight);
+    border: 1px solid $grayLight;
+    padding: 10px;
+}
+
+
+
+.breadcrumb a, 
+.tabbox-tabs li,
+
+
+{
+	padding:2px 5px;
+	@include background-image(linear-gradient(top, $grayLighter 0%,$grayLighter 50%,$grayLight 51%,$grayLight 100%));
+	@include text-shadow(0px 1px 0px $white);
+	border: solid 1px #CCCCCC;	
+	cursor: pointer;
+}
+

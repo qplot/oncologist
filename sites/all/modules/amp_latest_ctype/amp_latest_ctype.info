@@ -1,0 +1,15 @@
+name = Latest Content Type
+description = AMP Latest RSS Content Type
+core = 7.x
+package = AMP
+version = 7.x-1.0
+project = amp_latest_ctype
+dependencies[] = features
+dependencies[] = text
+features[features_api][] = api:2
+features[field_base][] = field_latest_link
+features[field_base][] = field_latest_pdf_link
+features[field_instance][] = node-latest-body
+features[field_instance][] = node-latest-field_latest_link
+features[field_instance][] = node-latest-field_latest_pdf_link
+features[node][] = latest

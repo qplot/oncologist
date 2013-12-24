@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the intstrux-solr-feature feature.
+ */
+
+include_once 'intstrux_solr_feature.features.inc';

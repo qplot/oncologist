@@ -1,0 +1,74 @@
+<?php
+
+
+function intstrux_migration_push_notifications_schema_alter(&$schema) {
+  // Add field to existing schema.
+  $schema['push_notifications_tokens']['fields']['mail'] = array(
+    'type' => 'varchar',
+    'length' => '255',
+    'default' => '',
+    'not null' => TRUE,
+    'description' => 'User\'s e-mail address',
+  );
+  
+  $schema['push_notifications_tokens']['fields']['udid'] = array(
+    'type' => 'varchar',
+    'length' => '255',
+    'default' => '',
+    'not null' => TRUE,
+    'description' => 'Device UDID',
+  );
+  
+  $schema['push_notifications_tokens']['fields']['bundle'] = array(
+    'type' => 'varchar',
+    'length' => '255',
+    'default' => '',
+    'not null' => TRUE,
+    'description' => 'Bundle Identifier',
+  );
+  
+  $schema['push_notifications_tokens']['fields']['version'] = array(
+    'type' => 'varchar',
+    'length' => '25',
+    'default' => '',
+    'not null' => TRUE,
+    'description' => 'Device Version',
+  );
+  
+  $schema['push_notifications_tokens']['primary key'] = array('token', 'uid', 'timestamp');
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function intstrux_migration_push_notifications_install() { 
+  $table = 'push_notifications_tokens';
+  
+  $schema = drupal_get_schema($table);
+  
+  // Check if field already have this table
+  if (!db_field_exists($table, 'mail')) {
+    db_add_field($table, 'mail', $schema['fields']['mail']);
+  }
+    
+  // Check if field already have this table
+  if (!db_field_exists($table, 'udid')) {
+    db_add_field($table, 'udid', $schema['fields']['udid']);
+  }
+  
+  // Check if field already have this table
+  if (!db_field_exists($table, 'bundle')) {
+    db_add_field($table, 'bundle', $schema['fields']['bundle']);
+  }
+  
+  // Check if field already have this table
+  if (!db_field_exists($table, 'version')) {
+    db_add_field($table, 'version', $schema['fields']['version']);
+  }
+  
+  // Drop primary key.
+  db_drop_primary_key($table);
+  
+  // Reset primary key.
+  db_add_primary_key($table, array('token', 'uid', 'timestamp'));
+}

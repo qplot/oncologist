@@ -1,0 +1,178 @@
+ /* $Id: ie.css,v 1.2.2.1 2010/01/20 20:11:52 johnalbin Exp $ */
+
+/**
+ * @file
+ * CSS targeted specifically for Internet Explorer for Windows.
+ *
+ * Any CSS in this file will apply to all versions of IE. You can target
+ * specific versions of IE by using conditional comments. See your sub-theme's
+ * .info file for an easy way to use them.
+ *
+ * While building your theme, you should be aware that IE limits Drupal to 31
+ * stylesheets total. The work-around for the bug is to enable CSS aggregation
+ * under: admin / settings / performance.
+ */
+
+
+select.expand {
+    width: auto;
+}
+
+/*
+ * Tabs
+ */
+
+ul.primary li a,
+ul.primary li a .tab,
+ul.secondary li a,
+ul.secondary li a .tab {
+  cursor: pointer;
+}
+
+/*
+ * Drupal nodes
+ */
+
+.node-unpublished .node-inner>* {
+  position: relative; /* Otherwise these elements will appear below the "Unpublished" text. */
+}
+
+/*
+ * Drupal admin tables
+ */
+tr.even th,
+tr.even td,
+tr.odd th,
+tr.odd td {
+  border-bottom: 1px solid #ccc; /* IE doesn't display borders on table rows */
+}
+
+/*
+ * Markup free clearing
+ */
+.clearfix {
+  zoom: 1;
+}
+
+#header {
+    position:relative;
+}
+
+
+.default.royalSlider .royalWrapper {
+	height:270px;
+	width:630px;
+}
+
+/* Slider */
+
+.video_sidebar{
+float:left;
+
+}
+
+.view-content {
+
+float:left;
+
+}
+
+.form-submit, .form-submit:hover {
+	filter:none;
+	background-color:transparent;
+}
+
+#search-bar input {
+	border-style:none;
+	border:1px solid #7C5832;
+}
+
+#navcontainer {
+
+	height:58px;
+	width: 1036px;
+  display: block;
+  position: relative;
+  top: 76px;
+  left: -23px;
+  background-color: transparent;
+background-image: url(../images/menu.png);
+box-shadow:none;
+
+}
+
+#navcontainer-2 {
+
+display:none;
+}
+
+
+#search-bar input{
+border: none;
+border-color:transparent;
+outline:none;
+}
+
+
+.view-id-sto_podcasts .view-content, .view-id-sto_podcasts_most_viewed .view-content {
+	width:660px;
+	
+	}
+	
+	
+#podcasts-list{
+	width:660px;
+	
+
+}
+
+#title_bar {
+	width:641px;
+	
+}
+
+#cc_title, #contact_title 
+{
+	background-color: #F2F2F2;
+}
+
+#sto_content 
+{
+	border-top: #fff 2px solid;
+}
+
+
+.ep .views-row #btn-persp a
+{
+       
+      background-color: transparent;
+background-image: url('/sites/all/themes/stotheme/images/btn-ep-view.png');
+background-repeat:no-repeat;
+box-shadow:none;
+ height:30px;
+ display:block;
+
+}
+
+.ep .views-row #btn-persp 
+{
+   
+}
+
+.ep .ep-button a, .ep .eu_post_new a
+{
+    border:none;
+}
+
+
+.ep .views-row .ep-button a:hover, .ep .eu_post_new a:hover {
+    background-image: url('/sites/all/themes/stotheme/images/btn-ep-view-hover.png');
+    background-repeat:no-repeat;
+
+}
+
+
+.ep .views-row .ep-button a:active, .ep .eu_post_new a:active {
+  background-image: url('/sites/all/themes/stotheme/images/btn-ep-view-selected.png');
+    background-repeat:no-repeat;
+}

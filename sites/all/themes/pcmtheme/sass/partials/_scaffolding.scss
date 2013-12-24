@@ -1,0 +1,109 @@
+// Scaffolding
+// Basic and global styles for generating a grid system, structural layout, and page templates
+// -------------------------------------------------------------------------------------------
+
+
+/*------------------------------------*\
+          $STRUCTURAL LAYOUT
+\*------------------------------------*/
+
+.clearfix 
+{
+  @include clearfix();
+}
+
+
+/* @MAIN
+-----------------*/
+
+#page-wrapper
+{
+    margin: 0 auto;
+    width: 962px;
+    min-height: 560px;
+    border: 1px solid $purple;
+    background-color: $base-background;
+    @include box-shadow($gray 1px 1px 5px);
+
+    .panels-flexible-column-first
+    {
+      @include column(7);
+    }
+
+    .pcm-landing-right
+    {
+      @include column(5);
+    }
+}
+
+//@CONTENT
+
+ .view-id-pcm_featured_challenging_cases, .section-articles 
+ {
+   .views-row
+   {
+      @include column(7);
+   }
+  }
+
+//@MEDIA-LIBRARY
+.section-medialibrary #main
+{
+   @include column(9); 
+}
+
+
+/* @HEADER
+-----------------*/
+
+    
+    
+    #header 
+    {      
+  
+      background-color: $base-background;
+      width:100%;
+      height: 150px;
+      margin-bottom: 10px;
+      
+        #block-menu-menu-pcm-main-menu
+        {
+          margin-top: 100px;
+          height: 40px;          
+          background-color: $purpleDark;
+          margin-bottom: 20px;
+
+          .menu
+          {
+            height: 35px;
+            @include background-image(linear-gradient(top, $purpleLight 0%,$purpleLight 50%,$purple 51%,$purple 100%));
+          }
+
+        }
+    }
+
+
+/* @FOOTER
+-----------------*/
+    #footer
+    {
+      padding-top:20px;
+    }
+    
+    #pcm-footer
+    {  
+      
+      clear: both;
+      margin-top: 42px;
+      height:40px;
+      width: 960px;
+      bottom:0px;  
+      background-color:$purple;
+      border: 1px solid $purple;
+     }
+
+#page-wrapper
+{
+
+  margin-bottom: 40px;
+}

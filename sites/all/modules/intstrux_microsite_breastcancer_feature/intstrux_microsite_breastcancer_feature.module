@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Intstrux Microsite Breast Cancer Feature feature.
+ */
+
+include_once 'intstrux_microsite_breastcancer_feature.features.inc';

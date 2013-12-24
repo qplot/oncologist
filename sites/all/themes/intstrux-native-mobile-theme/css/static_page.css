@@ -1,0 +1,94 @@
+/*=======================================
+=            Asset Image                =
+=======================================*/
+
+.node-type-asset-image .item{
+	padding:0px;  /* oct 5 was 0px 60px for page: https://onchd.alpha.intstrux.com/image/ke-zuo-ti-ni-yong-yu-zhi-liao-alkzhong-pai-fei-xiao-xi-bao-fei-yan-ying-lai-zhong-liu-fen-zi */
+}
+
+/*=======================================
+=            Static Page                =
+=======================================*/
+
+.page-view-page{
+	background-color:white;
+}
+
+.page-view-page .staticpage_main{
+	width:540px;
+	margin:30px 40px;
+}
+
+.page-view-page .cancerportal_main{
+	margin:15px 0 0 15px;
+}
+
+/*=======================================
+=            Editorial Board            =
+=======================================*/
+
+
+.page-view-page .content-block{
+       background-color: white;
+       font-size:15px !important;
+       margin-left: -20px !important;
+      margin-right: 0px !important;
+font-family:calibri, sans-serif;
+}
+
+.page-view-page h2{
+	text-transform:uppercase;
+	color:#986EA0;
+}
+.page-view-page  .endSection{
+	clear:both;
+	margin-bottom:40px;
+}
+.page-view-page  .ecPhoto{
+	float:left;
+	margin-right: 20px;
+}
+.page-view-page .withphoto{
+	float:left;
+	padding-top:60px;
+	width: 300px !important;
+}
+.page-view-page .fleft{
+	float:left;
+	margin-right:20px;
+}
+.page-view-page .fleft3{
+	float:left;
+	margin-right:10px;
+	width: 170px !important;
+}
+.cn-board .person {
+	margin-bottom: 5px !important;
+}
+.page-view-page .person{
+	margin-bottom:20px;
+	width: 260px;
+}
+.page-view-page .biz{
+	width: 370px !important;
+}
+.page-view-page .name{
+	font-weight:bold;
+}
+.page-view-page .location{
+	font-style:italic;
+}
+
+.page-view-page .section {
+	font-weight:bold;
+	text-transform:uppercase;
+	color:#986EA0;
+	font-size:.75em;
+}
+
+.page-view-page #standouts {
+	background:#e2e2e2;
+	padding:10px;
+	border-radius:10px;
+	border:solid 1px #ccc;
+}

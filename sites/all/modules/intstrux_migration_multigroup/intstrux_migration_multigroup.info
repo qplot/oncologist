@@ -1,0 +1,5 @@
+name = Intstrux Multigroup Migration
+package = Intstrux
+description = CCK Content Multigroup to Coll Field Collection 
+core = 7.x
+version = "7.x-1.0"

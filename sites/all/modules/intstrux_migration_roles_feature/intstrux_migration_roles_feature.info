@@ -1,0 +1,12 @@
+name = Intstrux Migration Roles Feature
+description = User roles feature
+core = 7.x
+package = Intstrux
+version = 7.x-1.0
+project = intstrux_migration_roles_feature
+dependencies[] = features
+features[features_api][] = api:1
+features[user_role][] = ad analyst
+features[user_role][] = ad creator
+features[user_role][] = ad reviewer
+features[user_role][] = content admin

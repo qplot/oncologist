@@ -1,0 +1,8 @@
+name = Intstrux Migration Push Notifications
+description = Extends Push Notifications module to fit AMPx requirements.
+core = 7.x
+package = Intstrux
+version = 7.x-1.0
+
+dependencies[] = push_notifications
+dependencies[] = services

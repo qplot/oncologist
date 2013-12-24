@@ -1,0 +1,15 @@
+name = AMP General
+description = General placeholder for changes
+core = 7.x
+package = AlphaMedPress
+php = 5.2.4
+version = 7.x-1.0-beta1
+project = amp_general
+dependencies[] = ctools
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = amp_cancerportal_currentissue
+features[views_view][] = amp_cancerportal_express
+features[views_view][] = amp_challenging_cases
+features[views_view][] = amp_conference_perspective
+features_exclude[dependencies][views] = views

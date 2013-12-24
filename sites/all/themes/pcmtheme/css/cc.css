@@ -1,0 +1,58 @@
+	/* Challenging Case */
+
+.node-type-challenging-case .challenging_case{
+		width:600px;
+		height:100%;
+		display:inline-block;
+		margin-left: 30px;
+		background: #ffffff;
+		padding-top: 20px;
+		float:left;
+	}
+
+	.cc_tabs {
+	color:#fff;
+	font: bold 12px/20px Verdana, Geneva, sans-serif;
+	height:50px;
+	margin-top:10px;
+	width:100%;
+	}
+
+	.cc_tab {
+	float:left;
+	height:30px;
+	padding-top:17px;
+	text-align:center;
+	width:149px;
+	}
+
+	.cc_tab_with_image {
+	float:left;
+	height:40px;
+	padding-top:0;
+	text-align:center;
+	width:151px;
+	}
+
+	.cc_tab_active {
+	color:#fff;
+	cursor:default;
+	}
+
+	.cc_tab_inactive {
+	cursor:pointer;
+	height:27px;
+	padding-top:13px;
+	}
+
+	.cc_tab_inactive_with_image {
+	cursor:pointer;
+	}
+	
+	.node-type-perspective .cc_tab {
+		float: left;
+		height: 30px;
+		padding-top: 17px;
+		text-align: center;
+		width: 50%;
+	}

@@ -1,0 +1,589 @@
+<?php
+
+/**
+ * init hook
+ */
+function intstrux_snapshot_init() {
+}
+
+
+/*
+ * Implementation of hook_permission().
+ */
+function intstrux_snapshot_permission() {
+  return array(
+  	
+  	'intstrux_snapshot_admin' => array(
+      'title' => t('intstrux snapshot'),
+    ),
+    
+  );
+}
+
+/*
+ * Implementation of hook_menu().
+ */
+function intstrux_snapshot_menu() {
+  $items = array();
+  
+  $items['admin/genarte/snapshots'] = array(
+    'title' => 'Geneate Snapshots', 
+    'page callback' => 'drupal_get_form',
+    'page arguments' =>  array('intstrux_snapshot_form'), 
+    'access arguments' => array('intstrux_snapshot'), 
+    'weight' => 10, 
+  );
+  
+  return $items;
+}
+
+function intstrux_snapshot_node_presave($node) {
+
+	//Update?
+	if ($node->nid){
+
+		//Limit to supported node types only
+		if(in_array($node->type, _intstrux_snapshot_node_types())){
+			$queue = variable_get('intstrux_snapshot_update_queue', '');
+
+			if($queue == ""){
+				$queue .= $node->nid;
+			}
+			else{
+				$queue .= ",".$node->nid;
+			}
+
+			variable_set('intstrux_snapshot_update_queue', $queue);
+		}
+	}
+
+	/*
+	if($node->type == "page_html" || $node->type == "asset_video" || $node->type == "asset_image" || $node->type == "page" || $node->type == "perspective" || $node->type == "challenging_case"){
+
+			$url = "http://onchd.alpha.intstrux.com/node/".$node->nid;
+			$filename = "node_".$node->nid.".jpg";
+		
+		_intstrux_snapshot_create_sanpshot($url, $filename);
+	}
+	*/
+}
+
+function _intstrux_snapshot_create_sanpshot($url, $filename){
+
+	//Make sure we have a directory to work with
+	$directory = 'sites/default/files/autosnapshots';
+	file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
+	$directory_orig = 'sites/default/files/autosnapshot_orig';
+	file_prepare_directory($directory_orig, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
+	
+	//Create the snapshot
+	exec('xvfb-run --server-args="-screen 0, 768x980x24" cutycapt --url='.$url.' --out-format=jpeg --plugins=on --delay=0 --user-style-string="BODY{overflow:hidden;} #page{overflow:hidden;width:768px;height:980px;}" --out=sites/default/files/autosnapshot_orig/'.$filename);
+			
+	$filepath = drupal_realpath('sites/default/files/autosnapshot_orig/'.$filename);
+	
+	//check if the snapshot exits		
+	if(file_exists($filepath)){
+			
+		// Create managed File object and associate with Image field.
+	  	$file = (object) array(
+	    	'uid' => 1,
+	    	'uri' => $filepath,
+	    	'filemime' => file_get_mimetype($filepath),
+	    	'status' => 1,
+	  	);
+	
+		// We save the file to the root of the files directory.
+	 	$file = file_copy($file, 'public://autosnapshots/'.$filename, FILE_EXISTS_REPLACE);
+		
+	 	drupal_chmod('public://autosnapshots/'.$filename, 0777);
+
+		//Delete the old image
+		unlink($filepath);
+		
+		//create the image style right away
+		drupal_http_request(image_style_url("app_page_preview", $file->uri), array("method"=>"HEAD"));
+		
+	 	$result = db_select('snapshot_data', 's')
+	    	->fields('s')
+	    	->condition('url', $url)
+	    	->execute()
+	    	->fetchAssoc();
+	
+		if($result){
+	
+			db_update('snapshot_data')
+		    ->fields(array('image_uri'=> $file->uri))
+		    ->condition('url', $url)
+		    ->execute();
+	
+			drupal_set_message("Snapshot updated:  ".l("view image", file_create_url($file->uri))." ".l("view cached image", image_style_url("app_page_preview", $file->uri)));
+	
+		}
+		else{
+			db_insert('snapshot_data')
+			->fields(array(
+			  'url' => $url,
+			  'image_uri' => $file->uri,
+			))->execute();
+	
+			drupal_set_message("Snapshot created: ".l("view original image", file_create_url($file->uri))." ".l("view cached image", image_style_url("app_page_preview", $file->uri)));
+	
+		}
+		//'created' => REQUEST_TIME,
+		
+		
+		
+	
+	}
+	else{
+		drupal_set_message("Snapshot could not be created. Is the link accessible? ".$url);		
+	}
+	
+}
+
+function intstrux_snapshot_getURL($url){
+	
+	$result = db_select('snapshot_data', 's')
+	    	->fields('s', array("image_uri"))
+	    	->condition('url', $url)
+	    	->execute()
+	    	->fetchAssoc();
+	
+	if($result){
+		return file_create_url($result['image_uri']);
+	}
+	
+	return "sites/default/files/placeholder.png";
+}
+
+function intstrux_snapshot_getURI($url){
+	
+	$result = db_select('snapshot_data', 's')
+	    	->fields('s', array("image_uri"))
+	    	->condition('url', $url)
+	    	->execute()
+	    	->fetchAssoc();
+	
+	if($result){
+		return $result['image_uri'];
+	}
+	
+	return "";
+}
+
+
+function intstrux_snapshot_form() {
+  $form = array();
+  
+  $form['description'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p>' . t('Create Snapshots') . '</p>',
+  );
+
+  $form['actions'] = array(
+    '#type' => 'actions'
+  );
+  
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Start'),
+  );
+  
+  return $form;
+}
+
+
+function intstrux_snapshot_form_submit($form, &$form_state) {
+  	
+
+
+  $batch = array(
+    'title' => t('Processing Snapshot Images'),
+    'operations' => array(
+      array('intstrux_snapshot_views_batch_start', array()),
+      array('intstrux_snapshot_nodes_batch_start', array()),
+    ),
+    'finished' => 'intstrux_snapshot_batch_finish',
+    'init_message' => t('snapshot generation is starting.'),
+    'error_message' => t('snapshot generation has encountered an error.'),
+    'progress_message' => t('Percentage: @percentage% | Estimate: @estimate | Elapsed: @elapsed')
+  );
+
+  batch_set($batch);
+}
+
+
+function _intstrux_snapshot_parse_menu($menu, $parentlink) {
+
+  $result = array();
+
+  foreach ($menu as $item_key => $item_value) {
+    	
+	if(!empty($item_value['link']['options']['menu_views']['view']['name'])){
+		
+		$viewdata = $item_value['link']['options']['menu_views']['view'];
+		
+		$view = views_get_view($viewdata['name']);
+		$view->set_arguments(explode("/",$viewdata['arguments']));
+		$view->pager["use_pager"] = false;
+		$view->pager["items_per_page"] = 0;
+		$view->build();
+		$view->execute();
+		$view_results = $view->result;
+		
+		foreach ($view_results as $key => $viewitem) {
+					
+			if(isset($viewitem->tid)){
+				
+				if(strpos($parentlink, "view_") !== FALSE)
+					$result[] = $parentlink."/".$viewitem->tid;
+				else
+					$result[] = "taxonomy/term/".$viewitem->tid;
+				
+			}
+			else{
+				$result[] = "node/".$viewitem->nid;
+			}
+	    	
+		}
+		
+		
+	}	
+	else{
+	    	
+		$below = array();	
+	    if (isset($item_value['below']))
+	      $below = _intstrux_snapshot_parse_menu($item_value['below'], $item_value['link']['link_path']);
+		
+		if(count($below) > 0)
+			$result = $result + $below;
+		else
+			$result[] = $item_value['link']['link_path'];
+	 
+	  }
+  }
+
+  return $result;
+}
+
+
+function intstrux_snapshot_views_batch_start(&$context){
+	
+	global $base_url;
+
+	if (empty($context['sandbox'])) {
+    	$context['sandbox'] = array();
+    	$context['sandbox']['progress'] = 0;
+    	$context['sandbox']['current_pos'] = 0;
+    	
+		$menus = array("menu-app-com-intstrux-onchd-us");
+		
+		$urls = array();
+		
+		foreach ($menus as $key => $menu_name) {
+			$menu = (object) menu_build_tree($menu_name);
+			
+			$menu_urls = _intstrux_snapshot_parse_menu($menu, "");
+			
+			foreach ($menu_urls as $key => $url) {
+				
+				//Find the views
+				if(strpos($url, "view_") !== FALSE){
+					
+					
+					//Load the views with arguments
+					$url_array = explode("/",$url);
+					
+					$view = views_get_view($url_array[0]);
+					
+					$url_array = array_slice($url_array, 1);
+					
+					$view->set_arguments($url_array);
+					//$view->pager["use_pager"] = false;
+					//$view->pager["items_per_page"] = 0;
+					$view->build();
+					$view->execute();
+					
+		
+					for($i=0; $i < ceil($view->total_rows/$view->query->pager->options['items_per_page']); $i++){
+			
+						$urls[] = $url."/?page=".$i;
+					}	
+					
+				}
+				
+				else{
+					
+					$urls[] = $url;
+				}
+				
+			}
+				
+		}
+		
+		//drupal_set_message(print_r($urls, 1));
+		
+		$context['sandbox']['urls'] = $urls;
+		
+		$context['sandbox']['max'] = count($urls);
+		
+  	}
+	
+	$context['message'] = "Now processing: ".$context['sandbox']['urls'][$context['sandbox']['progress']];
+	
+	
+	$url = $base_url."/".$context['sandbox']['urls'][$context['sandbox']['progress']];
+	$filename = strtr ($context['sandbox']['urls'][$context['sandbox']['progress']], array ('/' => '_', '?' => '_', '=' => '_')).".jpg";
+	
+	_intstrux_snapshot_create_sanpshot($url, $filename);
+		
+		
+	
+	
+	$context['sandbox']['current_pos']++;
+	$context['sandbox']['progress']++;
+	
+  
+	// Inform the batch engine that we are not finished,
+  	// and provide an estimation of the completion level we reached.
+  	if ($context['sandbox']['progress'] < $context['sandbox']['max']) {
+    	$context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  	}
+	
+}
+
+
+function intstrux_snapshot_nodes_batch_start(&$context){
+	
+	global $base_url;
+
+	if (empty($context['sandbox'])) {
+    	$context['sandbox'] = array();
+    	$context['sandbox']['progress'] = 0;
+    	$context['sandbox']['current_pos'] = 0;
+    	
+    	$context['sandbox']['max'] = db_select('node')
+		->fields('nid')
+		->condition('type', array('page_html', 'asset_video', 'asset_image', 'challenging_case', 'express', 'page_interactive_ad', 'perspective', 'portal'), 'IN')
+		->orderBy('nid', 'ASC')
+		->countQuery()->execute()->fetchField();
+		
+  	}
+	
+	$results = db_select('node', 'n')
+		->fields('n', array("nid", "type"))
+		->condition('n.type', array('page_html', 'asset_video', 'asset_image', 'challenging_case', 'express', 'page_interactive_ad', 'perspective', 'portal'), 'IN')
+		->orderBy('n.nid', 'ASC')
+		->range($context['sandbox']['current_pos'] , 1)
+		->execute();
+	
+	while ($result = $results->fetchAssoc()) {
+		$context['message'] = "Now processing: ".check_plain($result['nid']);
+		$context['sandbox']['progress']++;
+		
+		$node = new stdClass();
+		$node->nid = $result['nid'];
+		$node->type = $result['type'];
+		
+		//$url = $base_url."/node/".$node->nid;
+		
+		//$uri = intstrux_snapshot_getURI($url);
+		//if(empty($uri))
+		intstrux_snapshot_node_presave($node);
+		
+		$context['results'][] = "node/".$node->nid." --> " .l("view image", intstrux_snapshot_getURL($base_url."/node/".$node->nid));
+	}
+	
+	
+	
+	$context['sandbox']['current_pos'] += 1;
+	
+  
+	// Inform the batch engine that we are not finished,
+  	// and provide an estimation of the completion level we reached.
+  	if ($context['sandbox']['progress'] < $context['sandbox']['max']) {
+    	$context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  	}
+
+}
+
+function  intstrux_snapshot_batch_finish($success, $results, $operations) {
+	  if ($success) {
+	  	
+		image_style_flush("app_page_preview");
+		
+	    drupal_set_message(t('Created these snapshots: !updated', array('!updated' => print_r ($results, true))));
+	  } else {
+	    $error_operation = reset($operations);
+	    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
+	  }
+}
+
+function _intstrux_snapshot_node_types(){
+	return array("asset_video", "page_html", "page_interactive_ad_alt", "article", "article_express", "asset_audio", "asset_image", "challenging_cas", "page", "perspective", "portal");
+}
+
+function intstrux_snapshot_cron(){
+
+	$interval = variable_get('intstrux_snapshot_cron_interval', 3 * 60 * 60);
+  	// We usually don't want to act every time cron runs (which could be every
+  	// minute) so keep a time for the next run in a variable.
+
+  	if (time() >= variable_get('intstrux_snapshot_cron_next_execution', 0)) {
+    	
+  		//Process all the dynamic content to re-create the images
+
+  		$menus = array("menu-app-com-intstrux-onchd-us", "menu-app-com-intstrux-onchd-zh", "menu-app-com-intstrux-onchd-eu");
+		
+		$urls = array();
+		
+		foreach ($menus as $key => $menu_name) {
+			$menu = (object) menu_build_tree($menu_name);
+			
+			$menu_urls = _intstrux_snapshot_parse_menu($menu, "");
+			
+			foreach ($menu_urls as $key => $url) {
+				
+				//Find the views
+				if(strpos($url, "view_") !== FALSE){
+					
+					
+					//Load the views with arguments
+					$url_array = explode("/",$url);
+					
+					$view = views_get_view($url_array[0]);
+					
+					
+					
+					if(is_object($view)){
+
+						$url_array = array_slice($url_array, 1);
+						$view->set_arguments($url_array);
+						//$view->pager["use_pager"] = false;
+						//$view->pager["items_per_page"] = 0;
+						$view->build();
+						$view->execute();
+						
+			
+						for($i=0; $i < ceil($view->total_rows/$view->query->pager->options['items_per_page']); $i++){
+				
+							$queue = DrupalQueue::get("intstrux_snapshot_view_queue");
+	  					    $item = new stdClass();
+	    					$item->created = time();
+	    					$item->url = $url."/?page=".$i;
+	    					$queue->createItem($item);
+	  					}
+  					}
+  					else{
+  						watchdog('intstrux_snapshot', 'WARNING: view not found: '.$url_array[0]);
+  					}	
+
+						
+					
+				}
+				
+				else{
+					
+					$urls[] = $url;
+					$queue = DrupalQueue::get("intstrux_snapshot_view_queue");
+  					$item = new stdClass();
+    				$item->created = time();
+    				$item->url = $url;
+
+    				//Add item to the queue
+    				$queue->createItem($item);
+				}
+				
+			}
+				
+		}
+
+
+    	watchdog('intstrux_snapshot', 'intstrux_snapshot_cron_interval executed');
+      	drupal_set_message(t('intstrux_snapshot_cron_interval executed at %time', array('%time' => date_iso8601(time(0)))));
+    	
+    	variable_set('intstrux_snapshot_cron_next_execution', time() + $interval);
+  	}
+
+
+  	//Look for new nodes
+  	$pos = variable_get('intstrux_snapshot_nodepos', 0);
+
+
+  	$result = db_select('node', 'n')
+	    	->fields('n', array("nid", "type"))
+	    	->condition('n.nid', $pos, ">")
+	    	->condition('n.type', _intstrux_snapshot_node_types(), "IN")
+	    	->orderBy('n.nid', 'ASC')
+	    	->execute();
+
+	 while ($record = $result->fetchAssoc()) { 
+
+	 	variable_set('intstrux_snapshot_nodepos', $record['nid']);
+
+	 	$queue = DrupalQueue::get("intstrux_snapshot_node_queue");
+  		$item = new stdClass();
+    	$item->created = time();
+    	$item->url = "node/".$record['nid'];
+
+    	//Add item to the queue
+    	$queue->createItem($item);
+	 }
+
+
+  	//Look for updated nodes
+  	$queue = variable_get('intstrux_snapshot_update_queue', '');
+  	variable_set('intstrux_snapshot_update_queue', '');
+  	$queue_array = explode(",",$queue);
+
+  	foreach ($queue_array as $key => $value) {
+  		$queue = DrupalQueue::get("intstrux_snapshot_node_queue");
+  		$item = new stdClass();
+    	$item->created = time();
+    	$item->url = "node/".$value;
+
+    	//Add item to the queue
+    	$queue->createItem($item);
+  	}
+
+}
+
+function intstrux_snapshot_cron_queue_info() {
+  $queues['intstrux_snapshot_view_queue'] = array(
+    'worker callback' => 'intstrux_snapshot_view_worker',
+    'time' => 5 * 60, // 5 minute max runtime per cron run.
+  );
+
+  $queues['intstrux_snapshot_node_queue'] = array(
+    'worker callback' => 'intstrux_snapshot_node_worker',
+    'time' => 5 * 60, // 5 minute max runtime per cron run.
+  );
+  return $queues;
+}
+
+function intstrux_snapshot_view_worker($item) {
+	
+	$base_url = "https://onchd.alpha.intstrux.com/";
+
+	$url = $base_url.$item->url;
+	$filename = strtr ($item->url, array ('/' => '_', '?' => '_', '=' => '_')).".jpg";
+
+	_intstrux_snapshot_create_sanpshot($url, $filename);
+
+	watchdog('intstrux_snapshot', 'intstrux_snapshot_view_worker executed for URL: '.$url.' Image: '. l($base_url."/sites/default/files/autosnapshots/".$filename, $base_url."/sites/default/files/autosnapshots/".$filename));
+}
+
+
+
+function intstrux_snapshot_node_worker($item) {
+	
+	$base_url = "https://onchd.alpha.intstrux.com/";
+
+	$url = $base_url.$item->url;
+	$filename = strtr ($item->url, array ('/' => '_', '?' => '_', '=' => '_')).".jpg";
+
+	_intstrux_snapshot_create_sanpshot($url, $filename);
+
+	watchdog('intstrux_snapshot', 'intstrux_snapshot_node_worker executed for URL: '.$url.' Image: '. l($base_url."/sites/default/files/autosnapshots/".$filename, $base_url."/sites/default/files/autosnapshots/".$filename));
+}
+

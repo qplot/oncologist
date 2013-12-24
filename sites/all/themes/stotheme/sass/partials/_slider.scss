@@ -1,0 +1,66 @@
+#mySlider
+{
+	width: 529px;
+	height:400px;
+	margin-left:10px;
+}
+
+li .royalCaption
+{
+	width: 100%;
+	height: 115px;
+	background-color: #333;
+	opacity:0.9;
+	filter:alpha(opacity=90); /* For IE8 and earlier */
+
+	margin-top: 285px;
+}
+
+.royalCaptionItem h3, .royalCaptionItem p
+{
+  display:block;
+  padding-left: 20px;
+  float:left;
+}
+
+.royalCaptionItem h3
+{
+  line-height: 18px;
+}
+
+.royalCaption .royalCaptionItem p
+{
+  float:left;
+  height: 50px;
+  padding-top: 60px;
+  color:white;
+  margin-left: 20px;
+}
+
+.royalControlNavCenterer
+{
+	margin-top:30px;
+
+}
+
+div.royalSlider .royalControlNavCenterer
+{
+	border-radius: 0px;
+	@include background-image (linear-gradient(top, #ffffff 0%,#e6e7e8 10%,#e6e7e8 100%)); /* W3C */
+	@include border-radius(2px);
+	@include box-shadow(0px 5px 0px 0px $grayLight);
+    border:1px solid $grayLight;
+    margin-bottom: 20px;
+
+}
+
+.royalWrapper
+{
+  border: 5px solid $white;
+    @include box-shadow(0px 2px 2px 2px $grayLight); 
+}
+
+
+
+
+

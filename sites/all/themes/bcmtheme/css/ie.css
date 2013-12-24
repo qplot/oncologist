@@ -1,0 +1,50 @@
+/* Welcome to Compass. Use this file to write IE specific override styles.
+ * Import this file using the following HTML or equivalent:
+ * <!--[if IE]>
+ *   <link href="/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+ * <![endif]--> */
+/* line 10, ../sass/ie.scss */
+#block-menu-menu-pcm-main-menu a:hover {
+  background-image: url("../images/menu-background-hover.jpg");
+  background-repeat: repeat-x;
+}
+
+/* line 18, ../sass/ie.scss */
+#header #block-menu-menu-pcm-main-menu .menu {
+  background-image: url("../images/menu-background.jpg");
+}
+
+/* line 28, ../sass/ie.scss */
+#block-menu-menu-pcm-main-menu li {
+  float: left;
+  display: block;
+  width: 185px;
+  list-style-image: none;
+  text-align: center;
+}
+
+/* line 37, ../sass/ie.scss */
+.btn-learnMore a {
+  background: #e6e7e8;
+  background-image: url("../images/btn-ie-bckg.png");
+  background-repeat: repeat-x;
+  height: 15px;
+}
+
+/* line 45, ../sass/ie.scss */
+.front .panels-flexible-row {
+  background-image: url("../images/header-ie-bckg.gif");
+  background-repeat: repeat-x;
+  background-color: #E1E1E1;
+}
+
+/* line 52, ../sass/ie.scss */
+.royalWrapper {
+  border: 5px solid #E1E1E1;
+}
+
+
+.section-pcmmedialibrary .views-row .podcast_info
+{
+  display:inline;
+}
