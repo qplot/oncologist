@@ -15,9 +15,6 @@ $page =  isset($_GET['page']) ? strtolower($_GET['page']) : "perspective";
 $searchArray = array("'",'"');
 $replaceArray = array("&#39;","&#34;");
 $title = str_replace($searchArray, $replaceArray,$title);
-
-$abstract = preg_replace_callback('@(<a[^>]*>)([^<]*)(</a>)@i', 'intstrux_native_mobile_theme_shorten_a_text', $abstract);
-
 $description = str_replace($searchArray, $replaceArray, $abstract);
 $data = array("nid"=> $nid, "title"=>truncate_utf8($title,100,TRUE,TRUE,2), "description"=>truncate_utf8($description,300,TRUE,TRUE,2), "type" => "Perspective");
 
@@ -128,7 +125,7 @@ $file_article = file_get_contents($article);
 	print '<div class="assetvideo_article" >';
 	//print str_replace("SRC=\"", 'SRC="/sites/default/files/uploads/perspective/'.$node->nid.'/', str_replace("src=\"", 'src="/sites/default/files/uploads/perspective/'.$node->nid.'/', $file_article));
 	//Hotfix for perspective image issue
-	print preg_replace_callback('@(<a[^>]*>)([^<]*)(</a>)@i', 'intstrux_native_mobile_theme_shorten_a_text', str_replace("SRC=\"", 'SRC="/sites/default/files/', str_replace("src=\"", 'src="/sites/default/files/', $file_article)));
+	print str_replace("SRC=\"", 'SRC="/sites/default/files/', str_replace("src=\"", 'src="/sites/default/files/', $file_article));
 	
 	print '</div>';
 	print '</div>';

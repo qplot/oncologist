@@ -35,7 +35,6 @@
 		}
 	}
 
-
 	//DATE 
 	//Date needs to be loaded from the associated taxonmy term of a journal, currently there is no fallback if that is missing
 	$date = "";
@@ -94,17 +93,11 @@ if ($view_mode == "teaser" || $view_mode == "featured"):
 	<div class="date">
 		<?php print $date;?>
 	</div>
-
-	<div class="section-top">
-		<?php echo $section; ?>
-	</div>
 	
 	<div class="title">
-		
 		<?php 
 			print $title;
 		?>
-
 	</div>
 	
 	<div class="author">
@@ -132,7 +125,7 @@ if ($view_mode == "teaser" || $view_mode == "featured"):
 	</div>
 
 	<div class="section">
-		<?php // print $section;?>
+		<?php print $section;?>
 	</div>
 	
 </div>
@@ -153,8 +146,6 @@ else:
 	</script>
 
 <?php
-		/* Enable for Keyword debugging
-
 		$keywords = "<ol class='keywords'>";
 		foreach ($node->field_keywords[$node->language] as $key => $value) {
 			$value = taxonomy_term_load($value['tid']);
@@ -163,8 +154,6 @@ else:
 		$keywords .= "</ol>";
 
 		print $keywords;
-
-		*/
 ?>	
 	
 	<div class="format-cadmus format-highwire">
@@ -243,6 +232,12 @@ else:
                 <?php
                 //End of fallback
 				
+<<<<<<< HEAD
+=======
+				<h2>A<span class="sc">bstract</span>:</h2>
+				<?php print preg_replace_callback('@(<a[^>]v*>)([^<]*)(</a>)@i', 'intstrux_native_mobile_theme_shorten_a_text', $abstract);?>
+			</div>
+>>>>>>> origin/fangPortal
 
 		endif;
 
@@ -278,7 +273,7 @@ else:
 					$height = 0;
 
 	        	    //Find out if the file exists
-	        	    $uri = DRUPAL_ROOT.$img;
+	        	    $uri = DRUPAL_ROOT.'/sites/default/files/'.basename($img);
 					if (file_exists($uri)) {
   						// Do something
 						//print('<span fileexists '. $uri.'></span>');
@@ -286,7 +281,7 @@ else:
   						list($width, $height) = getimagesize($uri);
 					}
 					else{
-						$uri = DRUPAL_ROOT.'/sites/default/files/styles/article/public/'.str_replace("/sites/default/files/", "", $img);
+						$uri = DRUPAL_ROOT.'/sites/default/files/styles/article/public/'.basename($img);
 
 
 						if (file_exists($uri)) {
@@ -308,9 +303,9 @@ else:
 						
 						$image_ratio = $width/$height;
 
-	        	    	if($image_ratio < 0.80){
+	        	    	if($image_ratio < 0.70){
 
-	        	    		$imagecached = str_replace($value, '/sites/default/files/styles/portrait_image'.str_replace("/sites/default/files/", "/public/", $img), $imagecached);
+	        	    		$imagecached = str_replace($value, '/sites/default/files/styles/portrait_image/public/'.basename($img), $imagecached);
 	        	    	}
 	        		}
 	        

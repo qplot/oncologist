@@ -88,10 +88,10 @@
 					
 					if(data[0]["function"] == "average"){
 						//console.log(data[0]["value"]);
-						renderVotingResults(data[0]["value"], data[1]["value"]);
+						renderVotingResults(data[0]["value"]);
 					}else if(data[0]["function"] == "count"){
 						//console.log(data[1]["value"]);
-						renderVotingResults(data[1]["value"], data[0]["value"]);
+						renderVotingResults(data[1]["value"]);
 					}
 				}
 			});
@@ -214,14 +214,14 @@
 
 	}
 
-	function renderVotingResults(average, count){
+	function renderVotingResults(result){
 
-		pro_percent = average;
-		con_percent = 1-average;
+		pro_percent = result;
+		con_percent = 1-result;
 
 		html =  '<div class="cc_kol_voting" >'+
 				'<div class="cc_row_voting_main" >'+
-			    '<div class="cc_row_currentvotes">Current Votes <span class="total">['+count+']</span></div>'+
+			    '<div class="cc_row_currentvotes">Current Votes</div>'+
 			    '<div class="cc_row_voting_chart" >'+
 				'<div class="cc_row_voting_chart_inner" >'+
 				'<div style="height:'+Math.round(pro_percent*100)+'%" class="cc_row_bar_pro"></div>'+

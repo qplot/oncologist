@@ -106,8 +106,6 @@ function intstrux_highwire_request($args = array(), $options = array()) {
   // full url
   $url = url($args['url'], $options + array('query' => array('key' => $args['key']) + $args['params'])); 
   
-  //drush_print($url);
-
   // HTTP request.
   $request = drupal_http_request($url);
   
@@ -833,24 +831,22 @@ function intstrux_highwire_taxonomy_delete($term_name, $vocabulary_machine_name)
 /**
  * Load HighWire Article by atom_id
  *
- * @bvoss: changed this module 12/05/13 due to the need to load nid from atom id which we already know which maded the return value uneeded 
- *
  * @param $atom_id
  *   String value
  * @return
- *   String value of node id if exist otherwise return false.
+ *   String value of atom id if exist otherwise return false.
  */
 function intstrux_highwire_atom_load($atom_id, $type = 'article') {
   if(!empty($atom_id)) {
-    $nid = db_select('highwire_migrate', 'hwm')
-      ->fields('hwm', array('nid'))
+    $atom_id = db_select('highwire_migrate', 'hwm')
+      ->fields('hwm', array('atom_id'))
       ->condition('hwm.atom_id', $atom_id)
       ->condition('hwm.type', $type)  
       ->execute()
       ->fetchField();
     
-    if($nid) {
-      return $nid;
+    if($atom_id) {
+      return $atom_id;
     }       
   }
   
@@ -890,21 +886,12 @@ function _intstrux_highwire_image($entry, $figure_id, $ext, $figure_node, &$nfig
     if(!empty($figure_img_url) && ($figure_img_data = intstrux_highwire_request(array('url' => $figure_img_url)))) {
 
       if($figure_name = _intstrux_highwire_file_name($figure_img_url)) {
-        
-        $doi = intstrux_highwire_parse_doi($entry);
 
-        $path_raw = str_replace("10.1634/", "", "hw/".$doi);
-        
-        $path_destination = file_build_uri($path_raw);  
-
-        file_prepare_directory($path_destination, FILE_CREATE_DIRECTORY);
-
-        $figure_destination = file_build_uri($path_raw."/".$figure_name);
-
-        watchdog('intstrux_highwire_import', 'Saving file @title', array('@title' => $figure_destination));
-
+        $figure_destination = file_build_uri($figure_name);  
 
         if($file = file_save_data($figure_img_data, $figure_destination, FILE_EXISTS_REPLACE)) {
+
+           drush_print(t('-->SAVED IMAGE'));
 
           $nfigures[$file->fid] = $figure_node;  
 

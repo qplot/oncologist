@@ -99,12 +99,7 @@ class StemcellLatestMigration extends XMLMigration {
     $link = (string)$res[0]->attributes()->href;
 
     // version API link
-    // $link = $link . '?key=' . $key;
-    $link = str_replace(
-      'http://api.highwire.org/content/theoncologist/early/',
-      'http://theoncologist.alphamedpress.org/content/early/',
-      $link
-    );
+    $link = $link . '?key=' . $key;
 
     // into link
     // http://theoncologist.alphamedpress.org/content/early/2013/11/25/theoncologist.2013-0297.full.pdf

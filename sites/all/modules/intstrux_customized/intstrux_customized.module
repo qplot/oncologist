@@ -70,15 +70,9 @@ function intstrux_customized_search($edition, $user, $page=0, $rows=5){
 	
 	$customized = apachesolr_drupal_query("customized", array("rows"=>$rows, "q"=>$searchterm, "fq"=> "im_vid_16:(".$editionsterm->tid.") AND bundle:(article* OR page_html* OR asset_video* OR challenging_case* OR perspective*)", "fl"=>"entity_id,entity_type,im_vid_22,tm_vid_22_names,bundle_name"), "is_unified_sorting_date desc");
 	
-	watchdog("intstrux_customized", print_r(array("rows"=>$rows, "q"=>$searchterm, "fq"=> "im_vid_16:(".$editionsterm->tid.") AND bundle:(article* OR page_html* OR asset_video* OR challenging_case* OR perspective*)", "fl"=>"entity_id,entity_type,im_vid_22,tm_vid_22_names,bundle_name"), true));
-
 	$customized->page=$page;
 	
-	$result = apachesolr_do_query($customized);
-
-	watchdog("intstrux_customized", print_r($result, true));
-
-	return $result;
+	return apachesolr_do_query($customized);
 }
 
 function _intstrux_customized_callback_view($edition = ""){

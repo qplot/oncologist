@@ -257,12 +257,6 @@ function intstrux_apns_mass_push_form($form_state) {
 
   $form = array();
 
-  $form['info'] = array(
-    '#type' => 'item',
-    '#title' => t('Info'),
-    '#markup' => t('Please read the documentation first before using this feature: ').l("Documentation", "https://docs.google.com/a/intstrux.com/document/d/1GxrHlVOQVKrmLJVlxKIjucz2jixZY0F3YRQgmx7lqjs/pub", array('attributes' => array('target'=>'_blank'))),
-  );
-
   $form['step1'] = array(
     '#type' => 'fieldset',
     '#title' => t('Step 1: Mode'),

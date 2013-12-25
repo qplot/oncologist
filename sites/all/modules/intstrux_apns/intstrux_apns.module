@@ -365,17 +365,10 @@ function intstrux_apns_store_token($token, $type_id, $iosVersion="", $app="", $a
   
   $record->timestamp = time();
   
-  //Cleanup work... before we stored tokens user specific, which results in old records
-  db_delete($table)
-  ->condition('token', $token)
-  ->condition('uid', $uid, "<>")
-  ->execute();
-
-
-  // Determine if this token is already registered INDEPENDENT OF USER
-  if (intstrux_apns_find_token($token, '', true)) {
+  // Determine if this token is already registered with the current user.
+  if (intstrux_apns_find_token($token, $uid)) {
     //update
-    return drupal_write_record($table, $record, array('token'));
+    return drupal_write_record($table, $record, array('token', 'uid'));
 
   }
   else{
@@ -1216,116 +1209,99 @@ function intstrux_apns_block_view($delta = '') {
           
           $url = array();
           if (arg(0) == "node" && (!arg(2) || arg(2) == 'view')) {
-            
+            $node = node_load(arg(1));
 
+            $lang = LANGUAGE_NONE;
 
-            $nid = arg(1);
-            $nid = !empty($nid) ? "".$nid: "";
+            switch($node->type){
+              case "article": 
 
-            if ($cache = cache_get('intstrux_apns_block_view_'.$delta.'_'.$nid, "cache")) {
+                $year =   $node->field_article_year_int['und'][0]['value'];
+                $month =  $node->field_article_month['und'][0]['value'];
 
-              $url = $cache->data;
-
-            }
-            else{
-
-              $node = node_load(arg(1));
-
-              $lang = LANGUAGE_NONE;
-
-              switch($node->type){
-                case "article": 
-
-                  $year =   $node->field_article_year_int['und'][0]['value'];
-                  $month =  $node->field_article_month['und'][0]['value'];
-
-                  $url[] = array("path"=>"view_articles/Journal/{$year}/{$month}/view_items_articles/Journal/{$year}/{$month}?page=node/".$node->nid, "desc"=>"");
-                  break;
-
-
-                break;
-                
-                case "challenging_case":
-
-                  foreach ($node->field_tax_edition['und'] as $key => $value) {
-                    
-                    $term = taxonomy_term_load($value[tid]);
-
-                    $url[] = array("path"=>"view_challengingcases/".$term->name."/view_items_challengingcases/".$term->name."?page=node/".$node->nid, "desc"=>"Link to the CC in the ".$term->name." edition"); 
-
-                    
-                  }
-
-                 
-                  break;
-
-                
-                case "page": $url[] = array("path"=>"view_page/".$node->nid, "desc"=>""); 
-                  break;
-                
-                
-                case "page_interactive_ad_alt": 
-
-
-                  foreach ($node->field_tax_edition['und'] as $key => $value) {
-                    
-                    $term = taxonomy_term_load($value[tid]);
-                    $url[] = array("path"=>"view_interactive_ad_alt/".$term->name."/view_items_interactive_ad_alt/".$term->name."?page=node/".$node->nid, "desc"=>"Link to the ad in the ".$term->name." edition");
-                  }
-                  break;
-
-                
-                case "page_html":
-
-                  if (!empty($node->field_tax_article[$lang][0]['tid'])) {
-                     $url[] = array("path"=>"view_pagehtml/".$node->field_tax_article[$lang][0]['tid']."/view_items_pagehtml/".$node->field_tax_article[$lang][0]['tid']."?page=node/".$node->nid, "desc"=>"");
-                  }
-
-                  break;
-
-                
-                case "perspective":
-
-                  foreach ($node->field_tax_edition['und'] as $key => $value) {
-                    
-                    $term = taxonomy_term_load($value[tid]);
-
-                    $url[] = array("path"=>"view_perspectives/".$value[tid]."/view_items_perspectives/".$value[tid]."?page=node/".$node->nid, "desc"=>"Link to the perspective in the ".$term->name." edition");
-
-                    
-                  }
-
-                 
-                break;
-                
-                
-                case "asset_video":
-
-                  foreach ($node->field_sections['und'] as $key => $value) {
-                    
-                    $term = taxonomy_term_load($value[tid]);
-
-                    $url[] = array("path"=>"view_videoasset_categories/".$value[tid]."/view_items_videoasset_categories/".$value[tid]."?page=node/".$node->nid, "desc"=>"Link to the video in the ".$term->name." category");
-
-                    
-                  }
-
-
-                  foreach ($node->taxonomy_vocabulary_5['und'] as $key => $value) {
-                    
-                    $term = taxonomy_term_load($value[tid]);
-
-                    $url[] = array("path"=>"view_videoasset_meetings/".$value[tid]."/view_items_videoasset_meetings/".$value[tid]."?page=node/".$node->nid, "desc"=>"Link to the video in the ".$term->name." meeting");
-
-                    
-                  }
-
+                $url[] = array("path"=>"view_articles/Journal/{$year}/{$month}/view_items_articles/Journal/{$year}/{$month}?page=node/".$node->nid, "desc"=>"");
                 break;
 
 
-              }
+              break;
+              
+              case "challenging_case":
 
-              cache_set('intstrux_apns_block_view_'.$delta.'_'.$nid, $url, 'cache');
+                foreach ($node->field_tax_edition['und'] as $key => $value) {
+                  
+                  $term = taxonomy_term_load($value[tid]);
+
+                  $url[] = array("path"=>"view_challengingcases/".$term->name."/view_items_challengingcases/".$term->name."?page=node/".$node->nid, "desc"=>"Link to the CC in the ".$term->name." edition"); 
+
+                  
+                }
+
+               
+                break;
+
+              
+              case "page": $url[] = array("path"=>"view_page/".$node->nid, "desc"=>""); 
+                break;
+              
+              
+              case "page_interactive_ad_alt": 
+
+
+                foreach ($node->field_tax_edition['und'] as $key => $value) {
+                  
+                  $term = taxonomy_term_load($value[tid]);
+                  $url[] = array("path"=>"view_interactive_ad_alt/".$term->name."/view_items_interactive_ad_alt/".$term->name."?page=node/".$node->nid, "desc"=>"Link to the ad in the ".$term->name." edition");
+                }
+                break;
+
+              
+              case "page_html":
+
+                if (!empty($node->field_tax_article[$lang][0]['tid'])) {
+                   $url[] = array("path"=>"view_pagehtml/".$node->field_tax_article[$lang][0]['tid']."/view_items_pagehtml/".$node->field_tax_article[$lang][0]['tid']."?page=node/".$node->nid, "desc"=>"");
+                }
+
+                break;
+
+              
+              case "perspective":
+
+                foreach ($node->field_tax_edition['und'] as $key => $value) {
+                  
+                  $term = taxonomy_term_load($value[tid]);
+
+                  $url[] = array("path"=>"view_perspectives/".$value[tid]."/view_items_perspectives/".$value[tid]."?page=node/".$node->nid, "desc"=>"Link to the perspective in the ".$term->name." edition");
+
+                  
+                }
+
+               
+              break;
+              
+              
+              case "asset_video":
+
+                foreach ($node->field_sections['und'] as $key => $value) {
+                  
+                  $term = taxonomy_term_load($value[tid]);
+
+                  $url[] = array("path"=>"view_videoasset_categories/".$value[tid]."/view_items_videoasset_categories/".$value[tid]."?page=node/".$node->nid, "desc"=>"Link to the video in the ".$term->name." category");
+
+                  
+                }
+
+
+                foreach ($node->taxonomy_vocabulary_5['und'] as $key => $value) {
+                  
+                  $term = taxonomy_term_load($value[tid]);
+
+                  $url[] = array("path"=>"view_videoasset_meetings/".$value[tid]."/view_items_videoasset_meetings/".$value[tid]."?page=node/".$node->nid, "desc"=>"Link to the video in the ".$term->name." meeting");
+
+                  
+                }
+
+              break;
+
 
             }
 

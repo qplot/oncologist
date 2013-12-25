@@ -116,6 +116,7 @@
 {
     width: 50px;
     position: absolute;
+    padding-top:15% !important;
     bottom: 0;
     background: #d9c6dd;
     right: 10%;
@@ -127,13 +128,6 @@
     -ms-transition: all 1s;
     -o-transition: all 1s;
     transition: all 1s;
-}
-
-.cc_row_voting_changevote{
-    background-color: #cecece;
-    padding: 5px;
-    border-radius: 5px;
-    text-align: center;
 }
 
 .cc_row_bar_pro
@@ -203,14 +197,14 @@ h1.title,
 {
 	color: #444;
     font-family: Palatino-Bold, Cambria, Georgia, serif;
-    font-size: 1.3em;
+    font-size: 1.2em;
     font-variant: small-caps;
 }
 
 h2
 {
     font-family: Palatino-Bold, Cambria, Georgia, serif;
-    font-size: 1.3em;
+    font-size: 1.2em;
     /*font-variant: small-caps;*/
 	text-transform: uppercase;
 	margin-bottom: -10px;
@@ -480,7 +474,11 @@ affiliation-list sup
     padding: 0;
 	text-align:center;
 }
-
+.kwd-group:after {  /* clear after keywords so next header does not overlap */
+	clear: both;
+	display: block;
+	content: " ";
+}
     .kwd-group li:first-child:before
     {
         content: "Key Words: "

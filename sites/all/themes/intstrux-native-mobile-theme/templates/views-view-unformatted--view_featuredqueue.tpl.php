@@ -68,7 +68,8 @@ $page 	= isset($_GET['page']) ? $_GET['page'] : 0;
 						break;
 				}
 
-  				print l(theme('image', $variables), 'app://navigateTo/{"path":"'.$latest_issue.'"}',  array("html"=>true, 'attributes' => array('onclick' => 'nativeFunction(\'app://navigateTo/{"path":"'.$latest_issue.'"}\'); return false;')));
+  				// print l(theme('image', $variables), 'app://navigateTo/{"path":"'.$latest_issue.'"}',  array("html"=>true, 'attributes' => array('onclick' => 'nativeFunction(\'app://navigateTo/{"path":"'.$latest_issue.'"}\'); return false;')));
+  				print theme('image', $variables);
 
 			?>
 

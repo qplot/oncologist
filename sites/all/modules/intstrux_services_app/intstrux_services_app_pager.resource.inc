@@ -17,12 +17,9 @@
  */
 function _intstrux_services_app_pager_retrieve($view_id, $args = "") {
    	
-	global $user;
-
 	$result = array();
 
-	//no caching for the interactive ads due to different user access rights
-	if (!( $view_id == "view_customized" || $view_id == "view_itmes_customized" || $view_id == "view_items_interactive_ad_alt" || $view_id == "view_interactive_ad_alt" ) && $cache = cache_get('_intstrux_services_app_pager_retrieve_'.$view_id.'_'.$args)) {
+	if (!($view_id == "view_items_interactive_ad_alt" && empty($args)) && $cache = cache_get('_intstrux_services_app_pager_retrieve_'.$view_id.'_'.$args)) {
 
 		$result = $cache->data;
 
@@ -40,12 +37,9 @@ function _intstrux_services_app_pager_retrieve($view_id, $args = "") {
 	   			
 	   			$edition = $args;
 
-	   			if(empty($_GET['user'])){
-					$result[] = array(	"path"=>"missingcustimization", 
-									"preview"=>"");
+	   			if(empty($_GET['user']))
 					return $result; //"No customization information provided";
-				}
-
+		
 				$user = $_GET['user'];
 		
 				if($user[strlen($user)-1] == "?")
@@ -66,10 +60,9 @@ function _intstrux_services_app_pager_retrieve($view_id, $args = "") {
 									"preview"=>"");
 					
 				}
-
-				//if(count($result) == 0)
-				//	$result[] = array(	"path"=>"emptycustomizedsearch", "preview"=>"");
 		
+				//1h
+				cache_set('_intstrux_services_app_pager_retrieve_'.$view_id.'_'.$args, $result, 'cache', 60*60*1);
 				return $result;
 				
 	   		}
@@ -166,6 +159,8 @@ function _intstrux_services_app_pager_retrieve($view_id, $args = "") {
 					//** end of hotfix
 				}
 		
+				//1h
+				cache_set('_intstrux_services_app_pager_retrieve_'.$view_id.'_'.$args, $result, 'cache', 60*60*1);
 				return $result;
 				
 			}
@@ -275,87 +270,32 @@ function _intstrux_services_app_pager_retrieve($view_id, $args = "") {
 				
 				if($view_id == "view_items_interactive_ad_alt"){
 					
-
-					//GEOTAGGING HERE
-					$skip = FALSE;
-
-					//1st check if tagging is enabled e.g. mode >-1
-					if(!empty($viewitem->field_field_geotagging_mode[0]["raw"]["value"]) && $viewitem->field_field_geotagging_mode[0]["raw"]["value"] >= 0 ){
+					$size = $viewitem->field_field_ad_size[0]["raw"]["value"];
+					$uri = $viewitem->field_field_cover_image[0]["raw"]["uri"];
 					
-						if(!isset($_GET['user'])){
-							$skip = TRUE;
-						}
-						else{
+					$priority = isset($viewitem->field_field_ad_priority[0]["raw"]["value"]) ? $viewitem->field_field_ad_priority[0]["raw"]["value"] : "3";
+					$group = isset($viewitem->field_field_ad_group[0]["raw"]["taxonomy_term"]->name) ? $viewitem->field_field_ad_group[0]["raw"]["taxonomy_term"]->name : "";
 
-							$user = $_GET['user'];
-				
-							if($user[strlen($user)-1] == "?")
-								$user = substr($user,0, -1);
-				
-				
-							$user = json_decode(urldecode($user));
+					$state = $viewitem->node_status;
 
-							if(empty($user->c)){
-								$skip = TRUE;
-							}
-							else{
+					if(empty($size))
+							$size = 10000000;
 
-								// whitelist or blacklist --> 0 white, 1 black
-								$mode = $viewitem->field_field_geotagging_mode[0]["raw"]["value"];
-
-								//3nd check if user is in the list $user->c no country skips if geotagging is enabled
-								$locations = array();
-
-								foreach($viewitem->field_field_location as $pos => $location){
-
-									$locations[] = $location["raw"]["value"];
-								}
-
-								//4th skip accordingly black in list,  white not in list skip, fallback for empty locations when whitelisted
-								if(!in_array($user->c, $locations) && $mode == 0 && !empty($locations)){
-									$skip = TRUE;
-									watchdog('intstrux_services_app_pager', "Whitelisted Ad removed", array(), WATCHDOG_INFO);
-								}
-								else if(in_array($user->c, $locations) && $mode == 1){
-									$skip = TRUE;
-									watchdog('intstrux_services_app_pager', "Blacklisted Ad removed", array(), WATCHDOG_INFO);
-								}
-							}
-						}
-
-					}
-
-					if(!$skip){
-
-						$size = $viewitem->field_field_ad_size[0]["raw"]["value"];
-						$uri = $viewitem->field_field_cover_image[0]["raw"]["uri"];
+					//8MB max for 3G connections
+					$adConnectionType = $size<8000000 ? "3G" : "WIFI";
+					$adSized = $size;
+					
+					
+					if(!empty($uri)){
 						
-						$priority = isset($viewitem->field_field_ad_priority[0]["raw"]["value"]) ? $viewitem->field_field_ad_priority[0]["raw"]["value"] : "3";
-						$group = isset($viewitem->field_field_ad_group[0]["raw"]["taxonomy_term"]->name) ? $viewitem->field_field_ad_group[0]["raw"]["taxonomy_term"]->name : "";
-
-						$state = $viewitem->node_status;
-
-						if(empty($size))
-								$size = 10000000;
-
-						//8MB max for 3G connections
-						$adConnectionType = $size<8000000 ? "3G" : "WIFI";
-						$adSized = $size;
-						
-						
-						if(!empty($uri)){
-							
-							$url = image_style_url("app_page_preview", $uri);
-							$result[] = array("path"=>"node/".$viewitem->nid, "preview"=>$url, "connectionType"=>$adConnectionType, "size"=>$adSized, "priority"=> $priority, "group"=>$group, "state"=> $state);
-						}
-						else{
-							$result[] = array("path"=>"node/".$viewitem->nid, "preview"=>"", "connectionType"=>$adConnectionType, "size"=>$adSized, "priority"=> $priority, "group"=>$group, "state"=> $state);
-						}
-
+						$url = image_style_url("app_page_preview", $uri);
+						$result[] = array("path"=>"node/".$viewitem->nid, "preview"=>$url, "connectionType"=>$adConnectionType, "size"=>$adSized, "priority"=> $priority, "group"=>$group, "state"=> $state);
 					}
 					else{
-						watchdog('intstrux_services_app_pager', "Ad skipped", array(), WATCHDOG_INFO);
+						$result[] = array("path"=>"node/".$viewitem->nid, "preview"=>"", "connectionType"=>$adConnectionType, "size"=>$adSized, "priority"=> $priority, "group"=>$group, "state"=> $state);
 					}
+
+
 
 
 				}
@@ -387,8 +327,7 @@ function _intstrux_services_app_pager_retrieve($view_id, $args = "") {
 			
 		}
 		//12h
-		if (!( $view_id == "view_customized" || $view_id == "view_itmes_customized" || $view_id == "view_items_interactive_ad_alt" || $view_id == "view_interactive_ad_alt" ))
-			cache_set('_intstrux_services_app_pager_retrieve_'.$view_id.'_'.$args, $result, 'cache', 60*60*1);
+		cache_set('_intstrux_services_app_pager_retrieve_'.$view_id.'_'.$args, $result, 'cache', 60*60*1);
 	}
 
 	

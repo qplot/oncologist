@@ -40,16 +40,9 @@ $section_old = taxonomy_term_load($node->taxonomy_vocabulary_4[$lang][0]["tid"])
 	}
 
 	//DATE 
-	//default date 
+	//Date needs to be loaded from the associated taxonmy term of a journal, currently there is no fallback if that is missing
 	$date = date("F Y", $node->created);
 
-	if (!empty($node->field_published[$lang][0]['value'])) {
-
-		//Note: the publlished date is stored in ISO format
-		$date = date("F Y", strtotime($node->field_published[$lang][0]['value']));
-	}
-
-	/* Removed in favour of the published date above
 	//check for tid
 	if (!empty($node->field_tax_article[$lang][0]['tid'])) {
 
@@ -65,7 +58,6 @@ $section_old = taxonomy_term_load($node->taxonomy_vocabulary_4[$lang][0]["tid"])
 			}
 		}
 	}
-	*/
 
 if ($view_mode == "teaser" || $view_mode == "featured"):
 ?>

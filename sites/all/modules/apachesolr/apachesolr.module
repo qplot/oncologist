@@ -1466,8 +1466,6 @@ function apachesolr_server_status($url, $class = NULL) {
  * @throws Exception
  */
 function apachesolr_do_query(DrupalSolrQueryInterface $current_query) {
-  
- watchdog("apachesolr_do_query", "start ". $query->abort_search);
   if (!is_object($current_query)) {
     throw new Exception(t('NULL query object in function apachesolr_do_query()'));
   }
@@ -1501,7 +1499,6 @@ function apachesolr_do_query(DrupalSolrQueryInterface $current_query) {
   }
 
   $query = apachesolr_current_query($env_id, $current_query);
-  watchdog("apachesolr_do_query", "prep ".$query->abort_search);
 
   // Verify if this query was already executed in the same page load
   if ($response = apachesolr_static_response_cache($searcher)) {
@@ -1513,13 +1510,9 @@ function apachesolr_do_query(DrupalSolrQueryInterface $current_query) {
   // This hook allows modules to modify the query and params objects.
   drupal_alter('apachesolr_query', $query);
 
-   watchdog("apachesolr_do_query", "after alter ".$query->abort_search);
-
   if ($query->abort_search) {
     // A module implementing HOOK_apachesolr_query_alter() aborted the search.
-    watchdog("apachesolr_do_query", "abort");
-    //return array(NULL, array());
-    $query->abort_search = 0;
+    return array(NULL, array());
   }
 
   $keys = $query->getParam('q');
@@ -1545,9 +1538,6 @@ function apachesolr_do_query(DrupalSolrQueryInterface $current_query) {
   // phrase queries.
   $keys = htmlspecialchars($keys, ENT_NOQUOTES, 'UTF-8');
   $keys = str_replace("'", '&#039;', $keys);
-
-  watchdog("apachesolr_do_query", $keys." ".$query->abort_search );
-
   $response = $query->search($keys);
   // The response is cached so that it is accessible to the blocks and anything
   // else that needs it beyond the initial search.

@@ -1,4 +1,5 @@
 <?php
+echo '12'; die;
 $link =  "/".$_GET[q]."/view_items_sections/";
 foreach ($view->args as $key => $value) {
 	
